@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 22/7/19 8:17 PM.
  */
 
 package com.codebot.axel.nano.about
@@ -38,7 +38,7 @@ class AboutActivity : AppCompatActivity() {
         about_text.text = "App version: ${packageManager.getPackageInfo(packageName, 0).versionName}"
 
         about_dialog_telegram.setOnClickListener {
-            val telegramIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/AxelBlaz3"))
+            val telegramIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/Nano_Releases"))
             startActivity(telegramIntent)
         }
 
