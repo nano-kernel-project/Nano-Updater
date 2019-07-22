@@ -143,10 +143,10 @@ class DownloadUtils {
                     Utils().performManualFlash(context, installPackage)
                 }
                 context.autoFlasherImage.setOnClickListener {
-                    Utils().performAutoFlash(context, installPackage)
+                    Utils().performAutoFlash(installPackage)
                 }
                 context.expanded_autoFlasherImage.setOnClickListener {
-                    Utils().performAutoFlash(context, installPackage)
+                    Utils().performAutoFlash(installPackage)
                 }
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()

@@ -166,8 +166,8 @@ class Utils {
      *  @param context Receives the context from calling Activity
      *  @param installPackage The package file to be flashed
      */
-    fun performAutoFlash(context: Context, installPackage: File) {
-        FlashKernel().flashPackage(context, installPackage.name)
+    fun performAutoFlash(installPackage: File) {
+        FlashKernel().flashPackage(installPackage.name)
     }
 
     /**
@@ -236,10 +236,10 @@ class Utils {
             performManualFlash(context, installPackage)
         }
         context.expanded_autoFlasherImage.setOnClickListener {
-            performAutoFlash(context, installPackage)
+            performAutoFlash(installPackage)
         }
         context.autoFlasherImage.setOnClickListener {
-            performAutoFlash(context, installPackage)
+            performAutoFlash(installPackage)
         }
     }
 

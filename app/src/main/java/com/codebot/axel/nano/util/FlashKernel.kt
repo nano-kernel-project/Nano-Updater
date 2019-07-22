@@ -39,7 +39,7 @@ class FlashKernel {
      *  Helper method to auto flash kernel package. Reboots the device to recovery mode to flash kernel.
      *  @param packageName The package name to be flashed
      */
-    fun flashPackage(context: Context, packageName: String) {
+    fun flashPackage(packageName: String) {
 
         val installPackage = File(Environment.getExternalStorageDirectory().toString() + "/Nano/$packageName")
         try {

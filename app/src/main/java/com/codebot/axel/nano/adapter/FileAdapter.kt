@@ -55,11 +55,11 @@ class FileAdapter(private val packageList: ArrayList<Package>, private val conte
         }
 
         holder.view.autoFlasherImage.setOnClickListener {
-            FlashKernel().flashPackage(context, packageList[position].absolutePath)
+            FlashKernel().flashPackage(packageList[position].absolutePath)
         }
 
         holder.view.expanded_autoFlasherImage.setOnClickListener {
-            FlashKernel().flashPackage(context, packageList[position].absolutePath)
+            FlashKernel().flashPackage(packageList[position].absolutePath)
         }
 
         holder.view.flasherImage.setOnClickListener {
