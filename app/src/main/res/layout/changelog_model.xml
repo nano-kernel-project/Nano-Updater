@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. The Nano Kernel Project.  All rights reserved.
+  ~ Developed by Axel <karthikgaddam4@gmail.com>.
+  ~
+  ~ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  ~
+  ~ This code is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU General Public License version 3 only, as
+  ~ published by the Free Software Foundation.
+  ~
+  ~ This code is distributed in the hope that it will be useful, but WITHOUT
+  ~ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  ~ version 3 for more details (a copy is included in the LICENSE file that
+  ~ accompanied this code).
+  ~
+  ~ You should have received a copy of the GNU General Public License version 3
+  ~ along with this work.
+  ~
+  ~ Last modified 22/7/19 7:33 PM.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="•"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/changelogTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Something is changed..."
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+</LinearLayout>

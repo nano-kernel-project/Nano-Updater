@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. The Nano Kernel Project.  All rights reserved.
+  ~ Developed by Axel <karthikgaddam4@gmail.com>.
+  ~
+  ~ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  ~
+  ~ This code is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU General Public License version 3 only, as
+  ~ published by the Free Software Foundation.
+  ~
+  ~ This code is distributed in the hope that it will be useful, but WITHOUT
+  ~ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  ~ version 3 for more details (a copy is included in the LICENSE file that
+  ~ accompanied this code).
+  ~
+  ~ You should have received a copy of the GNU General Public License version 3
+  ~ along with this work.
+  ~
+  ~ Last modified 22/7/19 7:33 PM.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="bottom_sheet">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_flasher"
+            android:icon="@drawable/ic_flash"
+            android:title="@string/flash" />
+        <item
+            android:id="@+id/nav_changelog"
+            android:icon="@drawable/ic_changelog"
+            android:title="Changelog" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info"
+            android:title="@string/about" />
+    </group>
+</menu>

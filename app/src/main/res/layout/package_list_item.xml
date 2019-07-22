@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. The Nano Kernel Project.  All rights reserved.
+  ~ Developed by Axel <karthikgaddam4@gmail.com>.
+  ~
+  ~ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  ~
+  ~ This code is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU General Public License version 3 only, as
+  ~ published by the Free Software Foundation.
+  ~
+  ~ This code is distributed in the hope that it will be useful, but WITHOUT
+  ~ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  ~ version 3 for more details (a copy is included in the LICENSE file that
+  ~ accompanied this code).
+  ~
+  ~ You should have received a copy of the GNU General Public License version 3
+  ~ along with this work.
+  ~
+  ~ Last modified 22/7/19 7:33 PM.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/package_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/packageInfoCompact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/changelog_background"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/fileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/fileDate"
+            app:layout_constraintEnd_toStartOf="@+id/autoFlasherImage"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nano Kernel r1" />
+
+        <ImageView
+            android:id="@+id/flasherImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/image_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:tint="@color/accentTitleColor"
+            app:layout_constraintBottom_toBottomOf="@+id/fileSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fileName"
+            app:srcCompat="@drawable/ic_flash" />
+
+        <TextView
+            android:id="@+id/fileDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            app:layout_constraintBottom_toTopOf="@+id/fileSize"
+            app:layout_constraintEnd_toEndOf="@+id/fileName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/fileName"
+            app:layout_constraintTop_toBottomOf="@+id/fileName"
+            tools:text="July 4, 2019" />
+
+        <TextView
+            android:id="@+id/fileSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fileDate"
+            app:layout_constraintStart_toStartOf="@+id/fileDate"
+            app:layout_constraintTop_toBottomOf="@+id/fileDate"
+            tools:text="18.65 MB" />
+
+        <ImageView
+            android:id="@+id/autoFlasherImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:tint="@color/accentTitleColor"
+            app:layout_constraintBottom_toBottomOf="@+id/flasherImage"
+            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/flasherImage"
+            app:srcCompat="@drawable/ic_flash_auto" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/strokeColor"
+            app:layout_constraintBottom_toBottomOf="@+id/flasherImage"
+            app:layout_constraintEnd_toStartOf="@+id/flasherImage"
+            app:layout_constraintTop_toTopOf="@+id/flasherImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/layout_flash_expanded" />
+
+</LinearLayout>

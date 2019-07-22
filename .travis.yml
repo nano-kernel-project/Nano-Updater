@@ -1,0 +1,37 @@
+language: android
+
+android:
+  components:
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - platform-tools
+    - tools
+    - build-tools-27.0.3
+    - android-27
+
+# whitelist
+branches:
+  only:
+    - master
+
+jdk:
+  - oraclejdk8
+
+notifications:
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+
+before_install:
+  - yes | sdkmanager "platforms;android-28"
+  - chmod +x gradlew
+
+script: ./gradlew build
+
+before_deploy:
+  - cp app/build/outputs/apk/debug/app-debug.apk Nano_Updater-$TRAVIS_BUILD_NUMBER.apk
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: "sh deploy-telegram.sh"
+    on:
+      branch: master

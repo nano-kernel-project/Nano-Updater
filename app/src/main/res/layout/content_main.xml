@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2019. The Nano Kernel Project.  All rights reserved.
+  ~ Developed by Axel <karthikgaddam4@gmail.com>.
+  ~
+  ~ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  ~
+  ~ This code is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU General Public License version 3 only, as
+  ~ published by the Free Software Foundation.
+  ~
+  ~ This code is distributed in the hope that it will be useful, but WITHOUT
+  ~ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  ~ version 3 for more details (a copy is included in the LICENSE file that
+  ~ accompanied this code).
+  ~
+  ~ You should have received a copy of the GNU General Public License version 3
+  ~ along with this work.
+  ~
+  ~ Last modified 22/7/19 7:33 PM.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        tools:context="com.codebot.axel.nano.MainActivity">
+
+        <TextView
+            android:id="@+id/nano_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/installed_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Installed"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="87dp" />
+
+        <TextView
+            android:id="@+id/current_version_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/version_info_background"
+            android:fontFamily="@font/open_sans"
+            android:text="-"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/installed_textView"
+            app:layout_constraintTop_toBottomOf="@+id/installed_textView" />
+
+        <TextView
+            android:id="@+id/latest_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Latest"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/current_version_textView"
+            app:layout_constraintTop_toBottomOf="@+id/current_version_textView" />
+
+        <TextView
+            android:id="@+id/latest_version_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/version_info_background"
+            android:text="-"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/latest_textView"
+            app:layout_constraintTop_toBottomOf="@+id/latest_textView"
+            tools:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/updates_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Updates"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/current_version_textView"
+            app:layout_constraintTop_toBottomOf="@+id/current_version_textView" />
+
+        <TextView
+            android:id="@+id/update_notify_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/version_info_background"
+            android:drawableStart="@drawable/ic_info"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:text="Couldn't load data from remote"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/latest_version_textView"
+            app:layout_constraintTop_toBottomOf="@+id/latest_version_textView"
+            tools:textStyle="bold" />
+
+        <include layout="@layout/layout_update_card" />
+
+        <include layout="@layout/package_list_item" />
+
+        <include layout="@layout/update_info_layout" />
+    </LinearLayout>
+
+</ScrollView>
