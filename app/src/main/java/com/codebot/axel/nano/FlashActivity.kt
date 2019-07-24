@@ -57,7 +57,7 @@ class FlashActivity : AppCompatActivity() {
             FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
         }
 
-        val nanoDirectory = File("${Environment.getExternalStorageDirectory().path}/Nano/")
+        val nanoDirectory = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
         if (nanoDirectory.exists()) {
             val files = nanoDirectory.listFiles()
             noOfPackagesOnStorage.text = "Packages ready to be flashed: ${files.size}"

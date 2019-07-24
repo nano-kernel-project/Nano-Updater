@@ -109,7 +109,7 @@ class Utils {
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.ic_info), null, null, null)
-                val packagesDir = File("${Environment.getExternalStorageDirectory().path}/Nano/")
+                val packagesDir = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
                 if (packagesDir.exists()) {
                     try {
                         if (packagesDir.listFiles().isNotEmpty()) {

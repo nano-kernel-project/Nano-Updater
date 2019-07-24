@@ -113,7 +113,7 @@ class DownloadUtils {
         else
             nanoData!!.AOSP[0].url
         val downloadFileName = downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1, downloadUrl.length)
-        val downloadPath = Environment.getExternalStorageDirectory().toString() + "/Nano/"
+        val downloadPath = Environment.getExternalStorageDirectory().toString() + "/kernel.updater/builds/"
 
         if (!File(downloadPath).exists())
             File(downloadPath).mkdirs()
@@ -132,7 +132,7 @@ class DownloadUtils {
 
             val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
                     .setTitle(downloadFileName)
-                    .setDestinationInExternalPublicDir("/Nano/", downloadFileName)
+                    .setDestinationInExternalPublicDir("/kernel.updater/builds/", downloadFileName)
 
             downloadId = downloadManager.enqueue(downloadRequest)
             if (isWhichAcitivty != "DownloadActivity") {

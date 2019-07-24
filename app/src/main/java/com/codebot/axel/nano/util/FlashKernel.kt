@@ -91,16 +91,16 @@ class FlashKernel {
             if (!checkUnZipUtility()) {
                 copyAssets(context!!)
                 dos.writeBytes("mount -o rw,remount /system\n")
-                dos.writeBytes("mv ${Environment.getExternalStorageDirectory().path}/nano.tmp/unzip /system/bin/unzip\n")
+                dos.writeBytes("mv ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/unzip /system/bin/unzip\n")
                 dos.writeBytes("chmod 755 /system/bin/unzip\n")
-                dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/nano.tmp/\n")
+                dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
                 dos.writeBytes("mount -o ro,remount /system\n")
             }
 
-            dos.writeBytes("mkdir ${Environment.getExternalStorageDirectory().path}/nano.tmp/\n")
-            dos.writeBytes("unzip $absolutePath -d ${Environment.getExternalStorageDirectory().path}/nano.tmp/\n")
-            dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/nano.tmp$updateBinaryPath dummy 1 $absolutePath\n")
-            dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/nano.tmp/\n")
+            dos.writeBytes("mkdir ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+            dos.writeBytes("unzip $absolutePath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+            dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $absolutePath\n")
+            dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
             dos.writeBytes("mount -o ro,remount /\n")
             dos.writeBytes("exit\n")
             dos.flush()
@@ -145,10 +145,10 @@ class FlashKernel {
      */
     private fun copyAssets(context: Context) {
         Log.e("unzip", "assets")
-        val file = File(Environment.getExternalStorageDirectory().path + "/nano.tmp/")
+        val file = File(Environment.getExternalStorageDirectory().path + "/kernel.updater/tmp/")
         if (!file.exists())
             file.mkdirs()
-        val fileOutputStream = FileOutputStream("${Environment.getExternalStorageDirectory().path}/nano.tmp/unzip")
+        val fileOutputStream = FileOutputStream("${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/unzip")
         val buffer = ByteArray(1024)
         var length: Int
         val inputStream = context.assets.open("unzip")
