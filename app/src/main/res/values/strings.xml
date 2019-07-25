@@ -23,12 +23,9 @@
 <resources>
     <string name="app_name">Nano Updater</string>
     <string name="about">About</string>
-    <string name="home">Home</string>
     <string name="changelog">Changelog</string>
-    <string name="downloads">Download Zip</string>
     <string name="settings">Settings</string>
     <string name="flash">Flasher</string>
-    <string name="check_for_updates">Check for updates</string>
     <string name="title_activity_settings">Settings</string>
     <string name="about_kernel">Nano Kernel Project by Shreejoy Dash aims to deliver the best performance that your device deserves!</string>
     <string name="fork_github">Fork our source on GitHub:</string>

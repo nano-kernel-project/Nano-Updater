@@ -23,7 +23,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:layout="@layout/preference_category_general">
         <SwitchPreference
-            android:id="@+id/channelPref"
             android:defaultValue="false"
             android:key="@string/key_miui_check"
             android:summary="@string/miui_channel_desc"
