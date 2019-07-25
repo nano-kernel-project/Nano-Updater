@@ -30,7 +30,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
@@ -75,7 +74,6 @@ class MainActivity : AppCompatActivity() {
     private val animation = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.e("MainActivity", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -210,6 +208,9 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_about -> {
                     startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                }
+                R.id.nav_feedback -> {
+                    startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
                 }
                 R.id.nav_settings -> {
                     startActivity(Intent(this@MainActivity, SettingsActivity::class.java))

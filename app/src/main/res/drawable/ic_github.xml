@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2019. The Nano Kernel Project.  All rights reserved.
+  ~ Developed by Axel <karthikgaddam4@gmail.com>.
+  ~
+  ~ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  ~
+  ~ This code is free software; you can redistribute it and/or modify it
+  ~ under the terms of the GNU General Public License version 3 only, as
+  ~ published by the Free Software Foundation.
+  ~
+  ~ This code is distributed in the hope that it will be useful, but WITHOUT
+  ~ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  ~ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  ~ version 3 for more details (a copy is included in the LICENSE file that
+  ~ accompanied this code).
+  ~
+  ~ You should have received a copy of the GNU General Public License version 3
+  ~ along with this work.
+  ~
+  ~ Last modified 25/7/19 11:50 AM.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34.45,10.6C44.28,7.04 55.54,7.37 65.03,11.83C74.05,15.95 81.32,23.65 85.08,32.8C89.26,42.88 89.29,54.67 84.82,64.65C80.73,73.98 72.94,81.63 63.53,85.55C62.28,86.35 60.2,85.59 60.25,83.97C59.75,77.28 61.68,69.39 56.31,64.13C62.42,62.73 68.94,59.52 71.28,53.3C73.53,47.41 71.39,40.88 67.55,36.19C68.19,32.49 68.41,28.71 68.07,24.97C67.23,23.51 65.63,24.2 64.35,24.52C61.26,25.38 58.56,27.18 56.08,29.16C50.88,27.75 45.36,27.74 40.16,29.17C37.03,26.6 33.43,24.2 29.25,24.03C27.6,27.9 28.01,32.16 28.7,36.19C25.01,40.88 22.72,47.26 24.9,53.11C27.16,59.44 33.8,62.71 39.96,64.13C37.6,66.01 36.79,68.86 35.76,71.55C32.63,73.11 29.01,71.57 27.29,68.72C25.62,66.42 22.97,62.76 19.76,64.83C24.76,66.51 23.53,72.94 27.42,75.68C29.84,77.74 33.17,77.41 36.09,77.12C35.97,79.69 36.5,82.38 35.66,84.85C34.56,86.26 32.8,84.94 31.56,84.51C22.8,80.48 15.6,73.19 11.7,64.37C7.34,54.59 6.95,43.01 11.06,33.07C15.25,22.75 23.98,14.4 34.45,10.6Z" />
+</vector>

@@ -28,7 +28,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/layout_background"
         android:padding="16dp">
 
         <TextView
@@ -56,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher" />
+            app:srcCompat="@drawable/ic_splash" />
 
         <TextView
             android:id="@+id/about_dialog_desc"

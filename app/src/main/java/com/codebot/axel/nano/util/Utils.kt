@@ -34,14 +34,15 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
+import com.codebot.axel.nano.FeedbackActivity
 import com.codebot.axel.nano.FlashKernelTask
 import com.codebot.axel.nano.MainActivity
 import com.codebot.axel.nano.R
 import com.codebot.axel.nano.model.Nano
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.activity_flash.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.layout_flash_expanded.*
 import kotlinx.android.synthetic.main.layout_update_card.*
@@ -250,11 +251,14 @@ class Utils {
      */
     fun snackBar(context: Context, message: String) {
         val snackBar: Snackbar
-        if (context is MainActivity) {
-            snackBar = Snackbar.make((context as Activity).bottom_sheet, message, Snackbar.LENGTH_LONG)
-            snackBar.anchorView = context.check_update
-        } else
-            snackBar = Snackbar.make((context as Activity).flasherLayout, message, Snackbar.LENGTH_LONG)
+        when (context) {
+            is MainActivity -> {
+                snackBar = Snackbar.make((context as Activity).check_update, message, Snackbar.LENGTH_LONG)
+                snackBar.anchorView = context.check_update
+            }
+            is FeedbackActivity -> snackBar = Snackbar.make((context as Activity).feedback_root_layout, message, Snackbar.LENGTH_LONG)
+            else -> snackBar = Snackbar.make((context as Activity).flasherLayout, message, Snackbar.LENGTH_LONG)
+        }
         snackBar.setBackgroundTint(ContextCompat.getColor(context, R.color.navBackground))
         snackBar.setTextColor(ContextCompat.getColor(context, R.color.navIconTint))
         snackBar.show()

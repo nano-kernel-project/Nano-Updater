@@ -25,33 +25,22 @@
     <string name="about">About</string>
     <string name="home">Home</string>
     <string name="changelog">Changelog</string>
-    <string name="whatsnew">What\'s new</string>
     <string name="downloads">Download Zip</string>
     <string name="settings">Settings</string>
     <string name="flash">Flasher</string>
     <string name="check_for_updates">Check for updates</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="device_info">" "Device Information</string>
-    <string name="about_kernel">Nano Kernel Project by Shreejoy Dash aims to deliver the best performance that your device deserves!!</string>
+    <string name="about_kernel">Nano Kernel Project by Shreejoy Dash aims to deliver the best performance that your device deserves!</string>
     <string name="fork_github">Fork our source on GitHub:</string>
-    <string name="app_version">App Version:</string>
-    <string name="xda_developers">XDA Developers</string>
-    <string name="codexinfo_xda">Nano Kernel thread on XDA forums for your device. General discussions, support and FAQs</string>
-    <string name="direct_support">Direct Support</string>
-    <string name="direct_support_info">Text me if you have any concern or suggestion about Nano Kernel or Updater</string>
-    <string name="changelog_json">Changelog_JSON</string>
 
     <!-- Keys for SharedPreferences -->
-    <string name="key_custom_pref">Custom_preference</string>
-    <string name="key_check_updates">check_updates</string>
-    <string name="key_auto_updates">auto_updates</string>
-    <string name="key_notification_check">Notify</string>
     <string name="key_miui_check">MIUI</string>
     <string name="key_is_root_checked">isRootChecked</string>
-    <string name="save_response_preference">Saved_response</string>
-    <string name="response_string">response_string</string>
 
     <!-- Strings related to Settings -->
     <string name="miui_channel">MIUI channel</string>
-    <string name="miui_channel_desc">If enabled, MIUI version of Nano will be downloaded. If disabled, AOSP/LOS based Nano will be downloaded.</string>
+    <string name="miui_channel_desc">Using a MIUI ROM? Check this option. </string>
+
+    <!-- String related to Feedback -->
+    <string name="feedback">Feedback</string>
 </resources>

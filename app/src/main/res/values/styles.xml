@@ -51,4 +51,9 @@
         <item name="android:navigationBarColor">@color/windowBackground</item>
     </style>
 
+    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+    </style>
+
 </resources>
