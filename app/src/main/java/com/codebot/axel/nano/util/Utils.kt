@@ -115,7 +115,7 @@ class Utils {
                     try {
                         if (packagesDir.listFiles().isNotEmpty()) {
                             for (file in packagesDir.listFiles()) {
-                                if (file.name != nanoPackage[0].filename) {
+                                if (file.name == nanoPackage[0].filename) {
                                     setViewVisibilityAndListeners(context, file, View.GONE)
                                     break
                                 }
@@ -126,7 +126,6 @@ class Utils {
                             context.updates_compact.visibility = View.VISIBLE
                         }
                     } catch (e: Exception) {
-                        context.updates_compact.visibility = View.VISIBLE
                         Log.e("isUpdateAvailable", "$e")
                     }
                 } else {
@@ -206,6 +205,16 @@ class Utils {
      *  @param compactLayoutVisibility The visibility value (View.VISIBLE or View.GONE)
      */
     fun setViewVisibilityAndListeners(context: Context, installPackage: File, compactLayoutVisibility: Int) {
+
+        val flashLayoutVisibility: Int = if (compactLayoutVisibility == View.GONE)
+            View.VISIBLE
+        else
+            View.GONE
+
+        // Check if listeners were already set
+        if (((context as Activity).packageInfoCompact.visibility == flashLayoutVisibility) || (context.packageInfoExpanded.visibility == flashLayoutVisibility))
+            return
+
         (context as Activity).fileName.text = installPackage.name
         context.fileDate.text = formatDate(installPackage.lastModified().toString())
         context.fileSize.text = "${installPackage.length() / 1000000} MB"
@@ -213,11 +222,6 @@ class Utils {
         context.expanded_sizeInfoTextView.text = "${installPackage.length() / 1000000} MB"
         context.expanded_packageInfoTextView.text = installPackage.name
         context.expanded_dateInfoTextView.text = formatDate(installPackage.lastModified().toString())
-
-        val flashLayoutVisibility: Int = if (compactLayoutVisibility == View.GONE)
-            View.VISIBLE
-        else
-            View.GONE
 
         context.updates_compact.visibility = compactLayoutVisibility
         context.packageInfoCompact.visibility = flashLayoutVisibility
@@ -227,8 +231,8 @@ class Utils {
             context.packageInfoExpanded.visibility = flashLayoutVisibility
         }
         context.packageInfoExpanded.setOnClickListener {
-            context.packageInfoCompact.visibility = flashLayoutVisibility
             context.packageInfoExpanded.visibility = compactLayoutVisibility
+            context.packageInfoCompact.visibility = flashLayoutVisibility
         }
         context.flasherImage.setOnClickListener {
             performManualFlash(context, installPackage)

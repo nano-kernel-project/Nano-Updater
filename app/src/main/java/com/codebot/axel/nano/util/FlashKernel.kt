@@ -135,6 +135,7 @@ class FlashKernel {
                 Utils().rebootDevice()
             }
         } catch (e: Exception) {
+            Utils().snackBar(context!!, "No root permission granted")
             Log.e("unzipAndFlash()", "$e")
         }
     }

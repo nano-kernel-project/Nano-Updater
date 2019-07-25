@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                     context.downloadButton.visibility = View.VISIBLE
                     context.update_fileDownload.visibility = View.VISIBLE
                     val packageName = getDownloadedFileName(id)
-                    val installPackage = File("${Environment.getExternalStorageDirectory().path}/Nano/$packageName")
+                    val installPackage = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/$packageName")
                     context.fileName.text = installPackage.name
                     context.fileDate.text = Utils().formatDate(installPackage.lastModified().toString())
                     context.fileSize.text = "${installPackage.length() / 1000000} MB"
