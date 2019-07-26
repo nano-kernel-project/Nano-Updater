@@ -17,10 +17,10 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 22/7/19 7:19 PM.
+  ~ Last modified 26/7/19 11:12 PM.
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="24dp" />
-    <solid android:color="@color/navItemRipple" />
+    <solid android:color="@color/nav_item_checked_background" />
 </shape>

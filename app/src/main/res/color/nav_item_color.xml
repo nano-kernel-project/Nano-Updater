@@ -17,11 +17,11 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 22/7/19 7:33 PM.
+  ~ Last modified 26/7/19 11:05 PM.
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@android:color/white" android:state_checked="true" />
-    <item android:color="@color/navIconTint" android:state_pressed="true" />
+    <item android:color="@color/accentTitleColor" android:state_checked="true" />
+    <item android:color="@android:color/white" android:state_pressed="true" />
     <item android:color="@color/navIconTint" />
 </selector>

@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 22/7/19 7:33 PM.
+  ~ Last modified 26/7/19 11:23 PM.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -52,6 +52,7 @@
         android:theme="@style/NoDefaultRipple"
         app:itemBackground="@drawable/activated_background"
         app:itemIconTint="@color/nav_item_color"
+        app:itemTextAppearance="@style/NavigationMenuTextStyle"
         app:itemTextColor="@color/nav_item_color"
         app:menu="@menu/activity_main_drawer" />
 

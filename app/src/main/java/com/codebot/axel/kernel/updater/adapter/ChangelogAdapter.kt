@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 26/7/19 3:31 PM.
  */
 
 package com.codebot.axel.kernel.updater.adapter
