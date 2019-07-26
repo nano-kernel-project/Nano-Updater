@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 26/7/19 3:12 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.app.Activity
 import android.content.Intent
@@ -31,9 +31,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.adapter.FileAdapter
-import com.codebot.axel.nano.model.Package
-import com.codebot.axel.nano.util.FlashKernel
+import com.codebot.axel.kernel.updater.adapter.FileAdapter
+import com.codebot.axel.kernel.updater.model.Package
+import com.codebot.axel.kernel.updater.util.FlashKernel
 import kotlinx.android.synthetic.main.activity_flash.*
 import kotlinx.android.synthetic.main.layout_package_info.*
 import java.io.File

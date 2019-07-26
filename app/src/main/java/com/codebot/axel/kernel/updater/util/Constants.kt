@@ -17,22 +17,22 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 24/7/19 10:20 PM.
  */
 
-package com.codebot.axel.codex
+package com.codebot.axel.kernel.updater.util
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import okhttp3.MediaType
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class Constants {
+
+    companion object {
+        const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
+        val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")
+        const val FEEDBACK_NAME_ENTRY_ID = "entry.1174402051"
+        const val FEEDBACK_TELEGRAM_ENTRY_ID = "entry.1168756939"
+        const val FEEDBACK_DEVICE_ENTRY_ID = "entry.615481595"
+        const val FEEDBACK_PROBLEM_ENTRY_ID = "entry.774677401"
+        const val KEY_CODENAME_DEVICE = "ro.product.device"
     }
 }

@@ -20,7 +20,7 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.adapter
+package com.codebot.axel.kernel.updater.adapter
 
 import android.content.Context
 import android.preference.PreferenceManager
@@ -29,10 +29,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.ChangelogTask
-import com.codebot.axel.nano.R
-import com.codebot.axel.nano.model.Nano
-import com.codebot.axel.nano.util.Utils
+import com.codebot.axel.kernel.updater.ChangelogTask
+import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.model.Nano
+import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.version_changelog_model.view.*
 
 class ChangelogVersionAdapter(private val context: Context, private val nanoData: Nano) : RecyclerView.Adapter<ChangelogVersionAdapter.ViewHolder>() {

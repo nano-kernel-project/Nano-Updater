@@ -20,7 +20,7 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.util
+package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
 import android.app.ProgressDialog

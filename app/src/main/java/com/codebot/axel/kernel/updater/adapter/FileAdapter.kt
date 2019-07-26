@@ -20,17 +20,17 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.adapter
+package com.codebot.axel.kernel.updater.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.FlashKernelTask
-import com.codebot.axel.nano.R
-import com.codebot.axel.nano.model.Package
-import com.codebot.axel.nano.util.FlashKernel
+import com.codebot.axel.kernel.updater.FlashKernelTask
+import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.model.Package
+import com.codebot.axel.kernel.updater.util.FlashKernel
 import kotlinx.android.synthetic.main.layout_flash_expanded.view.*
 import kotlinx.android.synthetic.main.package_list_item.view.*
 

@@ -20,7 +20,7 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.util
+package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
 import android.content.Context
@@ -34,11 +34,11 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import com.codebot.axel.nano.FeedbackActivity
-import com.codebot.axel.nano.FlashKernelTask
-import com.codebot.axel.nano.MainActivity
-import com.codebot.axel.nano.R
-import com.codebot.axel.nano.model.Nano
+import com.codebot.axel.kernel.updater.FeedbackActivity
+import com.codebot.axel.kernel.updater.FlashKernelTask
+import com.codebot.axel.kernel.updater.MainActivity
+import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.model.Nano
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.activity_flash.*

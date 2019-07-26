@@ -17,21 +17,21 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 24/7/19 10:32 PM.
+ * Last modified 26/7/19 3:12 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.codebot.axel.nano.util.Constants
-import com.codebot.axel.nano.util.Constants.Companion.FEEDBACK_FORM_URL
-import com.codebot.axel.nano.util.Constants.Companion.FORM_DATA_TYPE
-import com.codebot.axel.nano.util.Constants.Companion.KEY_CODENAME_DEVICE
-import com.codebot.axel.nano.util.Utils
+import com.codebot.axel.kernel.updater.util.Constants
+import com.codebot.axel.kernel.updater.util.Constants.Companion.FEEDBACK_FORM_URL
+import com.codebot.axel.kernel.updater.util.Constants.Companion.FORM_DATA_TYPE
+import com.codebot.axel.kernel.updater.util.Constants.Companion.KEY_CODENAME_DEVICE
+import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.activity_feedback.*
 import okhttp3.*
 import java.io.IOException

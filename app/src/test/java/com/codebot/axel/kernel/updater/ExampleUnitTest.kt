@@ -20,8 +20,19 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.model
+package com.codebot.axel.kernel.updater
 
-import java.io.Serializable
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-data class NanoPackage(val filename: String, val size: String, val date: String, val md5: String, val release_number: String, val url: String, val changelog_url: String) : Serializable
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
+}

@@ -17,19 +17,19 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 26/7/19 2:42 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.adapter.ChangelogVersionAdapter
-import com.codebot.axel.nano.model.Nano
-import com.codebot.axel.nano.util.Utils
+import com.codebot.axel.kernel.updater.adapter.ChangelogVersionAdapter
+import com.codebot.axel.kernel.updater.model.Nano
+import com.codebot.axel.kernel.updater.util.Utils
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_changelog.*
 import okhttp3.*

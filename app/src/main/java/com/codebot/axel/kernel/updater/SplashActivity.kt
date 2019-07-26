@@ -17,22 +17,32 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 24/7/19 10:20 PM.
+ * Last modified 26/7/19 2:42 PM.
  */
 
-package com.codebot.axel.nano.util
+package com.codebot.axel.kernel.updater
 
-import okhttp3.MediaType
+import android.content.Intent
+import android.os.Bundle
+import android.os.Handler
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_splash.*
 
-class Constants {
+// Timer for splash screen duration (1 sec)
+private const val SPLASH_DURATION = 1000L
 
-    companion object {
-        const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
-        val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")
-        const val FEEDBACK_NAME_ENTRY_ID = "entry.1174402051"
-        const val FEEDBACK_TELEGRAM_ENTRY_ID = "entry.1168756939"
-        const val FEEDBACK_DEVICE_ENTRY_ID = "entry.615481595"
-        const val FEEDBACK_PROBLEM_ENTRY_ID = "entry.774677401"
-        const val KEY_CODENAME_DEVICE = "ro.product.device"
+class SplashActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
+
+        splash_imageVIew.scaleType = ImageView.ScaleType.FIT_XY
+
+        Handler().postDelayed({
+            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            finish()
+        }, SPLASH_DURATION)
     }
 }

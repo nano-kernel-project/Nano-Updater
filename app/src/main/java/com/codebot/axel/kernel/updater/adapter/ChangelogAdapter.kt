@@ -20,13 +20,13 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.adapter
+package com.codebot.axel.kernel.updater.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.R
+import com.codebot.axel.kernel.updater.R
 import kotlinx.android.synthetic.main.changelog_model.view.*
 
 class ChangelogAdapter(private val sampleData: Array<String>) : RecyclerView.Adapter<ChangelogAdapter.ViewHolder>() {

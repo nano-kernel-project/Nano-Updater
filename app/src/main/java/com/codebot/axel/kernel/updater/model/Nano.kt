@@ -20,25 +20,9 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.codex
+package com.codebot.axel.kernel.updater.model
 
-import androidx.test.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import java.io.Serializable
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.codebot.axel.codex", appContext.packageName)
-    }
-}
+// Nano-Updater data
+class Nano(val AOSP: Array<NanoPackage>, val MIUI: Array<NanoPackage>) : Serializable

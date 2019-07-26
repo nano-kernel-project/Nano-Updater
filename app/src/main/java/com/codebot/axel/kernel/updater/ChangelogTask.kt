@@ -17,22 +17,20 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:33 PM.
+ * Last modified 26/7/19 3:12 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.os.AsyncTask
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.nano.adapter.ChangelogAdapter
-import com.codebot.axel.nano.model.DataHolder
+import com.codebot.axel.kernel.updater.adapter.ChangelogAdapter
+import com.codebot.axel.kernel.updater.model.DataHolder
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.net.MalformedURLException
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 

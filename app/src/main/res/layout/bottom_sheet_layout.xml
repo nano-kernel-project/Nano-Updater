@@ -32,7 +32,7 @@
     android:orientation="vertical"
     app:behavior_peekHeight="?attr/actionBarSize"
     app:layout_behavior="@string/bottom_sheet_behavior"
-    tools:context="com.codebot.axel.nano.MainActivity">
+    tools:context="com.codebot.axel.kernel.updater.MainActivity">
 
     <ImageView
         android:id="@+id/nav_menu"

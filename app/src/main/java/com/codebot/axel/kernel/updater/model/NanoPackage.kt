@@ -20,29 +20,8 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater.model
 
-import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_splash.*
+import java.io.Serializable
 
-// Timer for splash screen duration (1 sec)
-private const val SPLASH_DURATION = 1000L
-
-class SplashActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
-
-        splash_imageVIew.scaleType = ImageView.ScaleType.FIT_XY
-
-        Handler().postDelayed({
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            finish()
-        }, SPLASH_DURATION)
-    }
-}
+data class NanoPackage(val filename: String, val size: String, val date: String, val md5: String, val release_number: String, val url: String, val changelog_url: String) : Serializable

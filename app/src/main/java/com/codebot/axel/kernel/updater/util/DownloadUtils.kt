@@ -20,7 +20,7 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.util
+package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
 import android.app.DownloadManager
@@ -28,11 +28,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.codebot.axel.nano.R
-import com.codebot.axel.nano.model.Nano
+import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.model.Nano
 import kotlinx.android.synthetic.main.layout_flash_expanded.*
 import kotlinx.android.synthetic.main.layout_update_card.*
 import kotlinx.android.synthetic.main.package_list_item.*

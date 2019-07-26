@@ -36,7 +36,7 @@
         android:layout_marginEnd="16dp"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        tools:context="com.codebot.axel.nano.MainActivity">
+        tools:context="com.codebot.axel.kernel.updater.MainActivity">
 
         <TextView
             android:layout_width="wrap_content"

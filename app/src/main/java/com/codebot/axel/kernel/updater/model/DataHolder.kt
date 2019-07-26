@@ -20,6 +20,8 @@
  * Last modified 22/7/19 7:19 PM.
  */
 
-package com.codebot.axel.nano.model
+package com.codebot.axel.kernel.updater.model
 
-data class Package(val fileName: String, val size: String, val timestamp: String, val absolutePath: String)
+import androidx.recyclerview.widget.RecyclerView
+
+data class DataHolder(val changelogArray: Array<String>, val recyclerView: RecyclerView)

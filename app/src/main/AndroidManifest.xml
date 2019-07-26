@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.codebot.axel.nano">
+    package="com.codebot.axel.kernel.updater">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -23,42 +23,42 @@
         android:roundIcon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".FeedbackActivity"
+            android:name="com.codebot.axel.kernel.updater.FeedbackActivity"
             android:theme="@style/AppTheme.Other" />
         <activity
-            android:name=".ChangelogActivity"
+            android:name="com.codebot.axel.kernel.updater.ChangelogActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Other" />
         <activity
-            android:name=".FlashActivity"
+            android:name="com.codebot.axel.kernel.updater.FlashActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Other" />
         <activity
-            android:name=".about.AboutActivity"
+            android:name="com.codebot.axel.kernel.updater.about.AboutActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Other" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.codebot.axel.kernel.updater.SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.codebot.axel.kernel.updater.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Other">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.codebot.axel.nano.MainActivity" />
+                android:value="com.codebot.axel.kernel.updater.MainActivity" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.codebot.axel.kernel.updater.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.codebot.axel.kernel.updater.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Other">

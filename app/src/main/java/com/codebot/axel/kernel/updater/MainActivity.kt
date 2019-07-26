@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:33 PM.
+ * Last modified 26/7/19 3:12 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.app.Activity
 import android.app.DownloadManager
@@ -37,10 +37,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.codebot.axel.nano.about.AboutActivity
-import com.codebot.axel.nano.model.Nano
-import com.codebot.axel.nano.util.DownloadUtils
-import com.codebot.axel.nano.util.Utils
+import com.codebot.axel.kernel.updater.about.AboutActivity
+import com.codebot.axel.kernel.updater.model.Nano
+import com.codebot.axel.kernel.updater.util.DownloadUtils
+import com.codebot.axel.kernel.updater.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*

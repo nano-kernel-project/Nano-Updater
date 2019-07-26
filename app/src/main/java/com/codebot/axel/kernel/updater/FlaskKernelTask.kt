@@ -17,15 +17,15 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 7:19 PM.
+ * Last modified 26/7/19 2:42 PM.
  */
 
-package com.codebot.axel.nano
+package com.codebot.axel.kernel.updater
 
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
-import com.codebot.axel.nano.util.FlashKernel
+import com.codebot.axel.kernel.updater.util.FlashKernel
 import java.lang.ref.WeakReference
 
 class FlashKernelTask(context: Context) : AsyncTask<Any, Void, Void>() {

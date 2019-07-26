@@ -17,39 +17,37 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 22/7/19 8:17 PM.
+ * Last modified 26/7/19 2:42 PM.
  */
 
-package com.codebot.axel.nano.about
+package com.codebot.axel.kernel.updater
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.codebot.axel.nano.R
-import kotlinx.android.synthetic.main.activity_about.*
+import androidx.preference.PreferenceFragmentCompat
 
-class AboutActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        setContentView(R.layout.settings_activity)
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.settings, SettingsFragment())
+                .commit()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
-        about_text.text = "App version: ${packageManager.getPackageInfo(packageName, 0).versionName}"
-
-        about_dialog_telegram.setOnClickListener {
-            val telegramIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/Nano_Releases"))
-            startActivity(telegramIntent)
+    class SettingsFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.pref_settings, rootKey)
         }
+    }
 
-        about_dialog_xda.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://forum.xda-developers.com/redmi-5/development/kernel-nano-kernel-t3914450"))
-            startActivity(browserIntent)
-        }
-
-        about_dialog_github.setOnClickListener {
-            val githubIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nano-kernel-project/Nano-Updater"))
-            startActivity(githubIntent)
-        }
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+        super.onBackPressed()
     }
 }
