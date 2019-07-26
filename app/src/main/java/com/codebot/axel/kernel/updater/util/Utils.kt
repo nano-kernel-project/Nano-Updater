@@ -34,7 +34,10 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import com.codebot.axel.kernel.updater.*
+import com.codebot.axel.kernel.updater.FeedbackActivity
+import com.codebot.axel.kernel.updater.FlashKernelTask
+import com.codebot.axel.kernel.updater.MainActivity
+import com.codebot.axel.kernel.updater.R
 import com.codebot.axel.kernel.updater.model.Nano
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_feedback.*
@@ -71,15 +74,8 @@ class Utils {
     fun startRefreshAnimation(activity: Activity, animation: RotateAnimation) {
         animation.interpolator = LinearInterpolator()
         animation.repeatCount = Animation.INFINITE
-        when (activity) {
-            is MainActivity -> {
-                animation.duration = 1500
-                activity.check_update.startAnimation(animation)
-            }
-            is FlashActivity -> {
-                // activity.empty_view_image.startAnimation(animation)
-            }
-        }
+        animation.duration = 1000
+        activity.check_update.startAnimation(animation)
     }
 
     /**
@@ -208,17 +204,16 @@ class Utils {
      *  @param compactLayoutVisibility The visibility value (View.VISIBLE or View.GONE)
      */
     fun setViewVisibilityAndListeners(context: Context, installPackage: File, compactLayoutVisibility: Int) {
-
         val flashLayoutVisibility: Int = if (compactLayoutVisibility == View.GONE)
             View.VISIBLE
         else
             View.GONE
 
-        // Check if listeners were already set
+        // Check if listeners were already set. We don't need to set the listeners more than once
         if (((context as Activity).packageInfoCompact.visibility == flashLayoutVisibility) || (context.packageInfoExpanded.visibility == flashLayoutVisibility))
             return
 
-        (context as Activity).fileName.text = installPackage.name
+        context.fileName.text = installPackage.name
         context.fileDate.text = formatDate(installPackage.lastModified().toString())
         context.fileSize.text = "${installPackage.length() / 1000000} MB"
 
