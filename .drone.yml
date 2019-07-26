@@ -1,0 +1,17 @@
+pipeline:
+
+  build:
+    image: runmymind/docker-android-sdk:ubuntu-standalone
+    environment:
+      - CI_BUILD=true
+      - CI_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
+      - CI_EVENT_TYPE=${DRONE_BUILD_EVENT}
+    commands:
+      - bash ./gradlew build
+
+  upload:
+    image: divadsn/drone-transfer.sh:latest
+    upload: app/build/outputs/apk/debug/app-debug.apk
+    when:
+      event: push
+      status: success
