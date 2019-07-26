@@ -60,7 +60,6 @@ class DownloadUtils {
             Toast.makeText(context, "Download failed", Toast.LENGTH_SHORT).show()
         else {
             if (cursor.moveToFirst()) {
-                Log.e("MainActivity", "Cursor has empty rows")
                 when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                     DownloadManager.STATUS_PAUSED -> {
                         return arrayOf("status_paused", "true")
@@ -151,7 +150,6 @@ class DownloadUtils {
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()
             DownloadUtils().updateProgress(context, downloadId, downloadManager)
-            Log.e("Utils", "$downloadId")
             return downloadId
         }
         return -1
@@ -183,9 +181,8 @@ class DownloadUtils {
                         }
                     }
 
-                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_FAILED) {
-                        Log.e("updateProgress", "Failed!")
-                    }
+                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_FAILED)
+                        Toast.makeText(context, "Download unsuccessful", Toast.LENGTH_SHORT).show()
                     val downloadProgress = (noOfBytesDownloadedSoFar.toFloat() / sizeOfPackage.toFloat()) * 100
                     (context as Activity).runOnUiThread {
                         context.update_progressBar.progress = downloadProgress.toInt()

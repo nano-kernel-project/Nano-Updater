@@ -62,7 +62,6 @@ class FeedbackActivity : AppCompatActivity() {
                         Constants.FEEDBACK_DEVICE_ENTRY_ID + "=" + URLEncoder.encode(Utils().checkInstalledVersion(KEY_CODENAME_DEVICE), "UTF-8") + "&" +
                         Constants.FEEDBACK_PROBLEM_ENTRY_ID + "=" + URLEncoder.encode(feedbackProblem, "UTF-8")
 
-                Log.e("postBody", postBody)
                 val client = OkHttpClient()
                 val requestBody = RequestBody.create(FORM_DATA_TYPE, postBody)
                 val request = Request.Builder().post(requestBody).url(FEEDBACK_FORM_URL).build()

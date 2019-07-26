@@ -64,10 +64,6 @@ class ChangelogTask : AsyncTask<Any, Void, DataHolder>() {
                     line = bufferReader.readLine()
                 }
             }
-        } catch (e: MalformedURLException) {
-            Log.e("ChangelogTask", "$e")
-        } catch (e: IOException) {
-            Log.e("ChangelogTask", "$e")
         } catch (e: Exception) {
             Log.e("ChangelogTask", "$e")
         }

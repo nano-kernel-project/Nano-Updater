@@ -176,7 +176,6 @@ class Utils {
      *  @param installPackage The package file to be flashed
      */
     fun performManualFlash(context: Context, installPackage: File) {
-        Log.e("manualFlash", installPackage.absolutePath)
         FlashKernelTask(context).execute(context, installPackage.absolutePath)
     }
 

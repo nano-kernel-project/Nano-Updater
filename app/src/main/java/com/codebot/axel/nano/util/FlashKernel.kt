@@ -122,9 +122,7 @@ class FlashKernel {
                 builder.append(line + "\n")
                 line = bufferedReader.readLine()
             }
-            progressDialog.setMessage("Writing logs...")
             Utils().writeLogToFile(builder.toString(), absolutePath)
-            progressDialog.setMessage("Done!")
             if (isFlashSuccessful) {
                 var timer = 3
                 while (timer != 0) {
@@ -136,7 +134,6 @@ class FlashKernel {
             }
         } catch (e: Exception) {
             Utils().snackBar(context!!, "No root permission granted")
-            Log.e("unzipAndFlash()", "$e")
         }
     }
 
@@ -145,7 +142,6 @@ class FlashKernel {
      *  @param context Reference from base Activity
      */
     private fun copyAssets(context: Context) {
-        Log.e("unzip", "assets")
         val file = File(Environment.getExternalStorageDirectory().path + "/kernel.updater/tmp/")
         if (!file.exists())
             file.mkdirs()
@@ -174,7 +170,6 @@ class FlashKernel {
         val bufferedReader = BufferedReader(InputStreamReader(process.inputStream))
         var line = bufferedReader.readLine()
         while (line != null) {
-            // Log.e("readerOutput", line)
             if (line.equals("unzip")) {
                 return true
             }
