@@ -22,6 +22,8 @@
 
 package com.codebot.axel.kernel.updater.util
 
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import okhttp3.MediaType
 
 class Constants {
@@ -34,5 +36,11 @@ class Constants {
         const val FEEDBACK_DEVICE_ENTRY_ID = "entry.615481595"
         const val FEEDBACK_PROBLEM_ENTRY_ID = "entry.774677401"
         const val KEY_CODENAME_DEVICE = "ro.product.device"
+        const val API_ENDPOINT_URL = "https://raw.githubusercontent.com/nano-kernel-project/Nano_OTA_changelogs/master/api.json"
+        const val CHECK_FOR_UPDATES = "Check For Updates"
+        const val DOWNLOAD = "Download"
+        const val BUILD_DATE = "nano.release.date"
+        const val BUILD_VERSION = "nano.version"
+        val ROTATE_ANIMATION = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
     }
 }

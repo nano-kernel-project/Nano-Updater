@@ -25,6 +25,7 @@ package com.codebot.axel.kernel.updater
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Animatable2
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -76,6 +77,7 @@ class FlashActivity : AppCompatActivity() {
             subtitle1.visibility = View.GONE
             noOfPackagesOnStorage.visibility = View.GONE
             empty_view.visibility = View.VISIBLE
+            (empty_view_image.drawable as Animatable2).start()
         } else {
             fileRecyclerView.visibility = View.VISIBLE
             empty_view.visibility = View.GONE

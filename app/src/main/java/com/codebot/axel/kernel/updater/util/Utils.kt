@@ -34,10 +34,7 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import com.codebot.axel.kernel.updater.FeedbackActivity
-import com.codebot.axel.kernel.updater.FlashKernelTask
-import com.codebot.axel.kernel.updater.MainActivity
-import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.*
 import com.codebot.axel.kernel.updater.model.Nano
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_feedback.*
@@ -74,8 +71,15 @@ class Utils {
     fun startRefreshAnimation(activity: Activity, animation: RotateAnimation) {
         animation.interpolator = LinearInterpolator()
         animation.repeatCount = Animation.INFINITE
-        animation.duration = 1500
-        activity.check_update.startAnimation(animation)
+        when (activity) {
+            is MainActivity -> {
+                animation.duration = 1500
+                activity.check_update.startAnimation(animation)
+            }
+            is FlashActivity -> {
+                // activity.empty_view_image.startAnimation(animation)
+            }
+        }
     }
 
     /**

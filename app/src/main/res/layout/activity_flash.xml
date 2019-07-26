@@ -40,10 +40,11 @@
             android:visibility="gone">
 
             <ImageView
+                android:id="@+id/empty_view_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_puzzled" />
+                android:src="@drawable/empty" />
 
             <TextView
                 android:layout_width="wrap_content"

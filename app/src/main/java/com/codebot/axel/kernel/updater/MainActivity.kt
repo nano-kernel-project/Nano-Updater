@@ -31,7 +31,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -39,6 +38,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.codebot.axel.kernel.updater.about.AboutActivity
 import com.codebot.axel.kernel.updater.model.Nano
+import com.codebot.axel.kernel.updater.util.Constants.Companion.API_ENDPOINT_URL
+import com.codebot.axel.kernel.updater.util.Constants.Companion.BUILD_DATE
+import com.codebot.axel.kernel.updater.util.Constants.Companion.BUILD_VERSION
+import com.codebot.axel.kernel.updater.util.Constants.Companion.CHECK_FOR_UPDATES
+import com.codebot.axel.kernel.updater.util.Constants.Companion.DOWNLOAD
+import com.codebot.axel.kernel.updater.util.Constants.Companion.ROTATE_ANIMATION
 import com.codebot.axel.kernel.updater.util.DownloadUtils
 import com.codebot.axel.kernel.updater.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -54,12 +59,6 @@ import okhttp3.*
 import java.io.File
 import java.io.IOException
 
-private const val API_ENDPOINT_URL = "https://raw.githubusercontent.com/nano-kernel-project/Nano_OTA_changelogs/master/api.json"
-private const val CHECK_FOR_UPDATES = "Check For Updates"
-private const val DOWNLOAD = "Download"
-private const val BUILD_DATE = "nano.release.date"
-private const val BUILD_VERSION = "nano.version"
-
 class MainActivity : AppCompatActivity() {
 
     val context = this
@@ -71,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     private var buildDate = ""
     private lateinit var downloadManager: DownloadManager
     private lateinit var onDownloadComplete: BroadcastReceiver
-    private val animation = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         buildDate = Utils().checkInstalledVersion(BUILD_DATE)
         buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
+
 
         isStoragePermissionGranted()
 
@@ -113,8 +112,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (Utils().isNetworkAvailable(context)) {
-            Utils().startRefreshAnimation(context, animation)
-            fetchJSON(animation, CHECK_FOR_UPDATES)
+            Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
+            fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
         }
 
         onDownloadComplete = object : BroadcastReceiver() {
@@ -163,18 +162,18 @@ class MainActivity : AppCompatActivity() {
         update_fileDownload.setOnClickListener {
             update_fileDownload.isEnabled = false
             downloadButton.isEnabled = false
-            fetchJSON(animation, DOWNLOAD)
+            fetchJSON(ROTATE_ANIMATION, DOWNLOAD)
         }
 
         downloadButton.setOnClickListener {
             update_fileDownload.isEnabled = false
             downloadButton.isEnabled = false
-            fetchJSON(animation, DOWNLOAD)
+            fetchJSON(ROTATE_ANIMATION, DOWNLOAD)
         }
 
         check_update.setOnClickListener {
-            Utils().startRefreshAnimation(context, animation)
-            fetchJSON(animation, CHECK_FOR_UPDATES)
+            Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
+            fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
         }
 
         updates_compact.setOnClickListener {
@@ -301,7 +300,7 @@ class MainActivity : AppCompatActivity() {
 
     fun checkForUpdates(nanoData: Nano?) {
         if (Utils().isNetworkAvailable(context))
-            Utils().isUpdateAvailable(context, nanoData, buildDate, animation)
+            Utils().isUpdateAvailable(context, nanoData, buildDate, ROTATE_ANIMATION)
         else
             Utils().snackBar(context, "No connection")
     }
