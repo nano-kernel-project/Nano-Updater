@@ -43,25 +43,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_archive" />
+                android:src="@drawable/ic_puzzled" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="48dp"
-                android:text="Nothing here"
+                android:text="No files found"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Maybe go back and retry after downloading? Click the + button to flash a file manually"
+                android:text="Files downloaded will appear here. \nClick the + button to manually flash a zip"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         </LinearLayout>
