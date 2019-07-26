@@ -3,7 +3,6 @@ pipeline:
   build:
     image: runmymind/docker-android-sdk:ubuntu-standalone
     environment:
-      - MAJOR_MINOR=2.0
       - CI_BUILD=true
       - CI_BUILD_NUMBER=${DRONE_BUILD_NUMBER}
       - CI_EVENT_TYPE=${DRONE_BUILD_EVENT}
