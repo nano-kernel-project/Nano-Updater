@@ -41,6 +41,7 @@ class Constants {
         const val DOWNLOAD = "Download"
         const val BUILD_DATE = "nano.release.date"
         const val BUILD_VERSION = "nano.version"
+        val KERNEL_VERSION = System.getProperty("os.version")
         val ROTATE_ANIMATION = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
     }
 }
