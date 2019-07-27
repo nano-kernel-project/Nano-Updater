@@ -309,6 +309,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         nav_view.setCheckedItem(R.id.nav_home)
+        if (latest_version_textView.text == "-" && preferenceManager.getBoolean(getString(R.string.is_json_saved), false)) {
+            val bodyOfJSON = Utils().loadOfflineData(this@MainActivity)
+            if (bodyOfJSON != "") {
+                nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
+                loadData(nanoData)
+                executeCurrentTask(CHECK_FOR_UPDATES)
+            }
+        }
         super.onStart()
     }
 

@@ -89,7 +89,7 @@ class Utils {
      *  This method checks if a kernel update is available
      *  @param context Receives the context from calling Activity
      *  @param nanoData Holds the data in JSON format
-     *  @param buildDate Build date of the instslled version (yyyyMMdd)
+     *  @param buildDate Build date of the installed version (yyyyMMdd)
      *  @param animation Reference of RotateAnimation from base activity
      */
     fun isUpdateAvailable(context: Context, nanoData: Nano?, buildDate: String, animation: RotateAnimation) {
