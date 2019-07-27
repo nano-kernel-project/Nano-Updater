@@ -34,12 +34,12 @@ import com.codebot.axel.kernel.updater.adapter.ChangelogAdapter
 import com.codebot.axel.kernel.updater.model.DataHolder
 import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.activity_changelog.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.lang.ref.WeakReference
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 class ChangelogTask(context: Context) : AsyncTask<Any, Void, DataHolder>() {
     private val contextWeakReference = WeakReference(context)
@@ -72,22 +72,22 @@ class ChangelogTask(context: Context) : AsyncTask<Any, Void, DataHolder>() {
             return changelog.toArray(Array(changelog.size) { "" })
         }
         try {
-            val connection = URL(url).openConnection() as HttpsURLConnection
-            if (connection.responseCode == HttpsURLConnection.HTTP_OK) {
-                inputStream = connection.inputStream
-                val bufferReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
-                var line = bufferReader.readLine()
-                var offlineChangelogData = ""
-                while (line != null) {
-                    changelogArray.add(line)
-                    offlineChangelogData = if (offlineChangelogData == "")
-                        line
-                    else
-                        offlineChangelogData + "\n" + line
-                    line = bufferReader.readLine()
-                }
-                Utils().saveChangelogOffline(contextWeakReference.get()!!, offlineChangelogData)
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val connection = client.newCall(request).execute().body()!!
+            inputStream = connection.byteStream()
+            val bufferReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+            var line = bufferReader.readLine()
+            var offlineChangelogData = ""
+            while (line != null) {
+                changelogArray.add(line)
+                offlineChangelogData = if (offlineChangelogData == "")
+                    line
+                else
+                    offlineChangelogData + "\n" + line
+                line = bufferReader.readLine()
             }
+            Utils().saveChangelogOffline(contextWeakReference.get()!!, offlineChangelogData)
         } catch (e: Exception) {
             if (context is ChangelogActivity) {
                 (context as Activity).runOnUiThread {
