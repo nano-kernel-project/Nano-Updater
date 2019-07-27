@@ -313,6 +313,12 @@ class Utils {
         }
     }
 
+    /**
+     *  Helper method to write logs to a file when manual flashing is under progress.
+     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  @param context Reference of the base Activity.
+     *  @param bodyOfJSON The response that's returned from the remote in JSON format.
+     */
     fun saveJSONtoPreferences(context: Context, bodyOfJSON: String?) {
         if (!bodyOfJSON.equals(null)) {
             val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
@@ -323,11 +329,23 @@ class Utils {
         }
     }
 
+    /**
+     *  Helper method to write logs to a file when manual flashing is under progress.
+     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  @param context Reference of the base Activity.
+     *  @return Returns the offline data in JSON format (String).
+     */
     fun loadOfflineData(context: Context): String? {
         val offlineData = context.getSharedPreferences(context.getString(R.string.save_json), Context.MODE_PRIVATE)
         return offlineData.getString(context.getString(R.string.json_response), "")
     }
 
+    /**
+     *  Helper method to write logs to a file when manual flashing is under progress.
+     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  @param context Reference of the base Activity.
+     *  @param changelogData The response that's returned from the remote in text format.
+     */
     fun saveChangelogOffline(context: Context, changelogData: String) {
         if (changelogData != "") {
             val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
@@ -338,6 +356,12 @@ class Utils {
         }
     }
 
+    /**
+     *  Helper method to write logs to a file when manual flashing is under progress.
+     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  @param context Reference of the base Activity.
+     *  @return Returns the offline changelog data in the ArrayList<String> format
+     */
     fun loadOfflineChangelog(context: Context): ArrayList<String> {
         val changelogList = ArrayList<String>()
         val changelogPref = context.getSharedPreferences(context.getString(R.string.save_changelog), Context.MODE_PRIVATE)
@@ -348,6 +372,10 @@ class Utils {
                 changelogList.add(log)
             return changelogList
         }
+        /**
+         * When the code execution is here, we know that there's no offline changelog available.
+         * So appending an empty text and returning will be helpful for verifying.
+         */
         changelogList.add("")
         return changelogList
     }
