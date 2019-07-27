@@ -29,15 +29,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codebot.axel.kernel.updater.adapter.ChangelogVersionAdapter
 import com.codebot.axel.kernel.updater.model.Nano
+import com.codebot.axel.kernel.updater.util.Constants
 import com.codebot.axel.kernel.updater.util.Utils
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_changelog.*
 import okhttp3.*
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class ChangelogActivity : AppCompatActivity() {
-
-    private var nanoJSONUrl = "https://raw.githubusercontent.com/nano-kernel-project/Nano_OTA_changelogs/master/api.json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +46,18 @@ class ChangelogActivity : AppCompatActivity() {
         initialize()
 
         changelog_retryButton.setOnClickListener {
-            fetchJSON()
+            if (Utils().isNetworkAvailable(this@ChangelogActivity))
+                fetchJSON()
+            else
+                Utils().snackBar(this@ChangelogActivity, "No connection")
         }
     }
 
     private fun initialize() {
-        Utils().snackBar(this@ChangelogActivity, "Loading offline data")
-
         // Get offline data
         val bodyOfJSON = Utils().loadOfflineData(this@ChangelogActivity)
         if (bodyOfJSON != "") {
+            Utils().snackBar(this@ChangelogActivity, "Loading offline data")
             val nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
             loadChangelog(nanoData)
             if (changelog_progress_circular.visibility == View.VISIBLE) {
@@ -63,17 +65,28 @@ class ChangelogActivity : AppCompatActivity() {
                 changelog_progress_circular.visibility = View.GONE
             }
         } else {
-            Utils().snackBar(this@ChangelogActivity, "No offline data found. Try reloading")
-            changelogLayout.visibility = View.GONE
-            changelog_networkDisconnected.visibility = View.VISIBLE
+            if (!Utils().isNetworkAvailable(this@ChangelogActivity)) {
+                Utils().snackBar(this@ChangelogActivity, "No offline data found. Try reloading")
+                changelogLayout.visibility = View.GONE
+                changelog_networkDisconnected.visibility = View.VISIBLE
+            } else {
+                changelog_networkDisconnected.visibility = View.GONE
+                changelogLayout.visibility = View.VISIBLE
+                fetchJSON()
+            }
         }
     }
 
     private fun fetchJSON() {
         changelog_progress_horizontal.visibility = View.VISIBLE
         changelog_progress_horizontal.show()
-        val client = OkHttpClient()
-        val request = Request.Builder().url(nanoJSONUrl).build()
+        changelogLayout.visibility = View.VISIBLE
+        changelog_networkDisconnected.visibility = View.GONE
+        val request = Request.Builder().url(Constants.API_ENDPOINT_URL).build()
+        val client = OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .build()
         client.newCall(request).enqueue(object : Callback {
 
             override fun onFailure(call: Call?, e: IOException?) {
