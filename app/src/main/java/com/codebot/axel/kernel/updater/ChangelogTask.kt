@@ -22,15 +22,18 @@
 
 package com.codebot.axel.kernel.updater
 
+import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codebot.axel.kernel.updater.adapter.ChangelogAdapter
 import com.codebot.axel.kernel.updater.model.DataHolder
 import com.codebot.axel.kernel.updater.util.Utils
+import kotlinx.android.synthetic.main.activity_changelog.*
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -45,6 +48,13 @@ class ChangelogTask(context: Context) : AsyncTask<Any, Void, DataHolder>() {
     }
 
     override fun onPostExecute(result: DataHolder) {
+        if (result.changelogArray.size == 1 && result.changelogArray[0] == "") {
+            val context = contextWeakReference.get()
+            if (context is ChangelogActivity) {
+                (context as Activity).changelogLayout.visibility = View.GONE
+                context.changelog_networkDisconnected.visibility = View.VISIBLE
+            }
+        }
         result.recyclerView.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = ChangelogAdapter(result.changelogArray)
@@ -79,6 +89,12 @@ class ChangelogTask(context: Context) : AsyncTask<Any, Void, DataHolder>() {
                 Utils().saveChangelogOffline(contextWeakReference.get()!!, offlineChangelogData)
             }
         } catch (e: Exception) {
+            if (context is ChangelogActivity) {
+                (context as Activity).runOnUiThread {
+                    context.changelogLayout.visibility = View.GONE
+                    context.changelog_networkDisconnected.visibility = View.VISIBLE
+                }
+            }
             Log.e("ChangelogTask", "$e")
         }
         return changelogArray.toArray(Array(changelogArray.size) { "" })

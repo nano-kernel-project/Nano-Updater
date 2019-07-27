@@ -346,7 +346,9 @@ class Utils {
             val changelogData = changelog!!.split("\n")
             for (log in changelogData)
                 changelogList.add(log)
+            return changelogList
         }
+        changelogList.add("")
         return changelogList
     }
 
