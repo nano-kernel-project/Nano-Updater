@@ -62,7 +62,7 @@ class ChangelogVersionAdapter(private val context: Context, private val nanoData
                 holder.view.changelog_detail.visibility = View.GONE
         }
 
-        ChangelogTask().execute(nanoPackage[position].changelog_url, holder.view.changelog_detailRecyclerView, context)
+        ChangelogTask(context).execute(nanoPackage[position].changelog_url, holder.view.changelog_detailRecyclerView, context)
         setScrollListener(holder.view.changelog_detailRecyclerView)
     }
 

@@ -46,20 +46,24 @@ class ChangelogActivity : AppCompatActivity() {
         initialize()
 
         changelog_retryButton.setOnClickListener {
-            initialize()
+            fetchJSON()
         }
     }
 
     private fun initialize() {
-        if (Utils().isNetworkAvailable(this)) {
-            changelogLayout.visibility = View.VISIBLE
-            changelog_networkDisconnected.visibility = View.GONE
-            fetchJSON()
-        } else {
+        Utils().snackBar(this@ChangelogActivity, "Loading offline data")
+
+        // Get offline data
+        val bodyOfJSON = Utils().loadOfflineData(this@ChangelogActivity)
+        if (bodyOfJSON != "") {
+            val nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
+            loadChangelog(nanoData)
             if (changelog_progress_circular.visibility == View.VISIBLE) {
                 changelog_progress_circular.hide()
                 changelog_progress_circular.visibility = View.GONE
             }
+        } else {
+            Utils().snackBar(this@ChangelogActivity, "No offline data found. Try reloading")
             changelogLayout.visibility = View.GONE
             changelog_networkDisconnected.visibility = View.VISIBLE
         }
@@ -68,34 +72,34 @@ class ChangelogActivity : AppCompatActivity() {
     private fun fetchJSON() {
         changelog_progress_horizontal.visibility = View.VISIBLE
         changelog_progress_horizontal.show()
-        if (!Utils().isNetworkAvailable(this)) {
-            Utils().snackBar(this@ChangelogActivity, "No connection")
-            changelog_progress_horizontal.hide()
-            changelog_progress_horizontal.visibility = View.GONE
-        } else {
-            val client = OkHttpClient()
-            val request = Request.Builder().url(nanoJSONUrl).build()
-            client.newCall(request).enqueue(object : Callback {
+        val client = OkHttpClient()
+        val request = Request.Builder().url(nanoJSONUrl).build()
+        client.newCall(request).enqueue(object : Callback {
 
-                override fun onFailure(call: Call?, e: IOException?) {
-                    e!!.printStackTrace()
+            override fun onFailure(call: Call?, e: IOException?) {
+                e!!.printStackTrace()
+            }
+
+            override fun onResponse(call: Call?, response: Response?) {
+                val bodyOfJSON = response?.body()?.string()
+                val gson = GsonBuilder().create()
+                val nanoData = gson.fromJson(bodyOfJSON, Nano::class.java)
+
+                Utils().saveJSONtoPreferences(this@ChangelogActivity, bodyOfJSON)
+
+                runOnUiThread {
+                    loadChangelog(nanoData)
                 }
+            }
+        })
+    }
 
-                override fun onResponse(call: Call?, response: Response?) {
-                    val bodyOfJSON = response?.body()?.string()
-                    val gson = GsonBuilder().create()
-                    val nanoData = gson.fromJson(bodyOfJSON, Nano::class.java)
-                    runOnUiThread {
-                        versionChangelogRecyclerView.apply {
-                            layoutManager = LinearLayoutManager(this@ChangelogActivity, RecyclerView.VERTICAL, false)
-                            adapter = ChangelogVersionAdapter(this@ChangelogActivity, nanoData)
-                        }
-                        changelog_progress_horizontal.hide()
-                        changelog_progress_horizontal.visibility = View.GONE
-
-                    }
-                }
-            })
+    private fun loadChangelog(nanoData: Nano) {
+        versionChangelogRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@ChangelogActivity, RecyclerView.VERTICAL, false)
+            adapter = ChangelogVersionAdapter(this@ChangelogActivity, nanoData)
         }
+        changelog_progress_horizontal.hide()
+        changelog_progress_horizontal.visibility = View.GONE
     }
 }

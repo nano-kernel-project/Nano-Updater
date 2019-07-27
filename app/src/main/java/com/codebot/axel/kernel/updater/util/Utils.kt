@@ -34,12 +34,10 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.content.ContextCompat
-import com.codebot.axel.kernel.updater.FeedbackActivity
-import com.codebot.axel.kernel.updater.FlashKernelTask
-import com.codebot.axel.kernel.updater.MainActivity
-import com.codebot.axel.kernel.updater.R
+import com.codebot.axel.kernel.updater.*
 import com.codebot.axel.kernel.updater.model.Nano
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_changelog.*
 import kotlinx.android.synthetic.main.activity_feedback.*
 import kotlinx.android.synthetic.main.activity_flash.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,6 +50,7 @@ import java.io.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Utils {
 
@@ -259,6 +258,7 @@ class Utils {
                 snackBar.anchorView = context.check_update
             }
             is FeedbackActivity -> snackBar = Snackbar.make((context as Activity).feedback_root_layout, message, Snackbar.LENGTH_LONG)
+            is ChangelogActivity -> snackBar = Snackbar.make((context as Activity).changelog_root_layout, message, Snackbar.LENGTH_LONG)
             else -> snackBar = Snackbar.make((context as Activity).flasherLayout, message, Snackbar.LENGTH_LONG)
         }
         snackBar.setBackgroundTint(ContextCompat.getColor(context, R.color.navBackground))
@@ -311,6 +311,43 @@ class Utils {
         } catch (e: Exception) {
             Log.e("writeLogToFile", "$e")
         }
+    }
+
+    fun saveJSONtoPreferences(context: Context, bodyOfJSON: String?) {
+        if (!bodyOfJSON.equals(null)) {
+            val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
+            preferenceManager.edit().putBoolean(context.getString(R.string.is_json_saved), true).apply()
+
+            val saveResponseStringPref = context.getSharedPreferences(context.getString(R.string.save_json), Context.MODE_PRIVATE)
+            saveResponseStringPref.edit().putString(context.getString(R.string.json_response), bodyOfJSON).apply()
+        }
+    }
+
+    fun loadOfflineData(context: Context): String? {
+        val offlineData = context.getSharedPreferences(context.getString(R.string.save_json), Context.MODE_PRIVATE)
+        return offlineData.getString(context.getString(R.string.json_response), "")
+    }
+
+    fun saveChangelogOffline(context: Context, changelogData: String) {
+        if (changelogData != "") {
+            val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
+            preferenceManager.edit().putBoolean(context.getString(R.string.is_changelog_saved), true).apply()
+
+            val saveResponseStringPref = context.getSharedPreferences(context.getString(R.string.save_changelog), Context.MODE_PRIVATE)
+            saveResponseStringPref.edit().putString(context.getString(R.string.changelog_response), changelogData).apply()
+        }
+    }
+
+    fun loadOfflineChangelog(context: Context): ArrayList<String> {
+        val changelogList = ArrayList<String>()
+        val changelogPref = context.getSharedPreferences(context.getString(R.string.save_changelog), Context.MODE_PRIVATE)
+        val changelog = changelogPref.getString(context.getString(R.string.changelog_response), "")
+        if (changelog != "") {
+            val changelogData = changelog!!.split("\n")
+            for (log in changelogData)
+                changelogList.add(log)
+        }
+        return changelogList
     }
 
     /**

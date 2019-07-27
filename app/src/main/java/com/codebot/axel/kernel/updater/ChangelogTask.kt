@@ -22,19 +22,24 @@
 
 package com.codebot.axel.kernel.updater
 
+import android.content.Context
 import android.os.AsyncTask
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codebot.axel.kernel.updater.adapter.ChangelogAdapter
 import com.codebot.axel.kernel.updater.model.DataHolder
+import com.codebot.axel.kernel.updater.util.Utils
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.ref.WeakReference
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-class ChangelogTask : AsyncTask<Any, Void, DataHolder>() {
+class ChangelogTask(context: Context) : AsyncTask<Any, Void, DataHolder>() {
+    private val contextWeakReference = WeakReference(context)
     override fun doInBackground(vararg params: Any?): DataHolder {
         return DataHolder(getChangelogFromUrl(params[0] as String), (params[1] as RecyclerView))
     }
@@ -49,18 +54,29 @@ class ChangelogTask : AsyncTask<Any, Void, DataHolder>() {
     }
 
     private fun getChangelogFromUrl(url: String): Array<String> {
+        val context = contextWeakReference.get()
         val inputStream: InputStream
         val changelogArray = ArrayList<String>()
+        if (!Utils().isNetworkAvailable(contextWeakReference.get()!!) || PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context!!.getString(R.string.is_changelog_saved), false)) {
+            val changelog = Utils().loadOfflineChangelog(contextWeakReference.get()!!)
+            return changelog.toArray(Array(changelog.size) { "" })
+        }
         try {
             val connection = URL(url).openConnection() as HttpsURLConnection
             if (connection.responseCode == HttpsURLConnection.HTTP_OK) {
                 inputStream = connection.inputStream
                 val bufferReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
                 var line = bufferReader.readLine()
+                var offlineChangelogData = ""
                 while (line != null) {
                     changelogArray.add(line)
+                    offlineChangelogData = if (offlineChangelogData == "")
+                        line
+                    else
+                        offlineChangelogData + "\n" + line
                     line = bufferReader.readLine()
                 }
+                Utils().saveChangelogOffline(contextWeakReference.get()!!, offlineChangelogData)
             }
         } catch (e: Exception) {
             Log.e("ChangelogTask", "$e")

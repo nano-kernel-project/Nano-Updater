@@ -111,10 +111,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (Utils().isNetworkAvailable(context)) {
-            Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
-            fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
-        }
+        // Attempt to load json data
+        Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
+        fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
 
         onDownloadComplete = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -149,9 +148,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-        // Toast.makeText(this, context.packageManager.getPackageInfo(context.packageName, 0).versionName, Toast.LENGTH_SHORT).show()
-        if (!Utils().isNetworkAvailable(context))
-            Utils().snackBar(context, "No connection")
 
         // Set OnClickListeners
         setListeners()
@@ -244,7 +240,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchJSON(animation: RotateAnimation, currentTask: String) {
         if (!Utils().isNetworkAvailable(context)) {
-            Utils().snackBar(context, "No connection")
+            Utils().snackBar(this@MainActivity, "No connection. Attempting to load offline data")
+
+            // Get offline data
+            val bodyOfJSON = Utils().loadOfflineData(this@MainActivity)
+            if (bodyOfJSON != "") {
+                nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
+                loadData(nanoData)
+                executeCurrentTask(currentTask)
+            } else
+                Utils().snackBar(this@MainActivity, "Failed to load offline data")
+
             Utils().stopRefreshAnimation(animation)
         } else {
             val client = OkHttpClient()
@@ -259,52 +265,47 @@ class MainActivity : AppCompatActivity() {
                     val gson = GsonBuilder().create()
                     nanoData = gson.fromJson(bodyOfJSON, Nano::class.java)
 
-                    runOnUiThread {
-                        if (preferenceManager.getBoolean(getString(R.string.key_miui_check), false)) {
-                            ChangelogTask().execute(nanoData!!.MIUI[0].changelog_url, changelogView, this@MainActivity)
-                            latest_version_textView.text = "Nano " + nanoData!!.MIUI[0].release_number + " • " + Utils().formatDate(nanoData!!.MIUI[0].date)
-                            update_fileName.text = "Nano Kernel ${nanoData!!.MIUI[0].release_number}"
-                            update_fileSize.text = nanoData!!.MIUI[0].size
-                            update_timestamp.text = Utils().formatDate(nanoData!!.MIUI[0].date)
-                            packageInfoTextView.text = nanoData!!.MIUI[0].filename
-                            sizeInfoTextView.text = nanoData!!.MIUI[0].size
-                            md5InfoTextView.text = nanoData!!.MIUI[0].md5
-                        } else {
-                            ChangelogTask().execute(nanoData!!.AOSP[0].changelog_url, changelogView, this@MainActivity)
-                            latest_version_textView.text = "Nano " + nanoData!!.AOSP[0].release_number + " • " + Utils().formatDate(nanoData!!.AOSP[0].date)
-                            update_fileName.text = "Nano Kernel ${nanoData!!.AOSP[0].release_number}"
-                            update_fileSize.text = nanoData!!.AOSP[0].size
-                            update_timestamp.text = Utils().formatDate(nanoData!!.AOSP[0].date)
-                            packageInfoTextView.text = nanoData!!.AOSP[0].filename
-                            sizeInfoTextView.text = nanoData!!.AOSP[0].size
-                            md5InfoTextView.text = nanoData!!.AOSP[0].md5
-                        }
-                    }
+                    // Save an offline copy of the response string to be used further
+                    Utils().saveJSONtoPreferences(context, bodyOfJSON)
 
-                    when (currentTask) {
-                        DOWNLOAD -> {
-                            runOnUiThread {
-                                downloadId = DownloadUtils().downloadPackage(context, downloadManager, nanoData, "MainActivity")
-                            }
-                        }
-                        CHECK_FOR_UPDATES -> {
-                            runOnUiThread {
-                                checkForUpdates(nanoData)
-                            }
-                        }
-                    }
+                    loadData(nanoData)
+                    executeCurrentTask(currentTask)
                 }
             })
         }
     }
 
-    fun checkForUpdates(nanoData: Nano?) {
-        if (Utils().isNetworkAvailable(context))
-            Utils().isUpdateAvailable(context, nanoData, buildDate, ROTATE_ANIMATION)
-        else
-            Utils().snackBar(context, "No connection")
+    private fun executeCurrentTask(currentTask: String) {
+        when (currentTask) {
+            DOWNLOAD -> {
+                runOnUiThread {
+                    downloadId = DownloadUtils().downloadPackage(context, downloadManager, nanoData)
+                }
+            }
+            CHECK_FOR_UPDATES -> {
+                runOnUiThread {
+                    Utils().isUpdateAvailable(context, nanoData, buildDate, ROTATE_ANIMATION)
+                }
+            }
+        }
     }
 
+    private fun loadData(nanoData: Nano?) {
+        val nanoPackage = if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_miui_check), false))
+            nanoData!!.MIUI
+        else
+            nanoData!!.AOSP
+        runOnUiThread {
+            ChangelogTask(context).execute(nanoPackage[0].changelog_url, changelogView, this@MainActivity)
+            latest_version_textView.text = "Nano " + nanoPackage[0].release_number + " • " + Utils().formatDate(nanoPackage[0].date)
+            update_fileName.text = "Nano Kernel ${nanoPackage[0].release_number}"
+            update_fileSize.text = nanoPackage[0].size
+            update_timestamp.text = Utils().formatDate(nanoPackage[0].date)
+            packageInfoTextView.text = nanoPackage[0].filename
+            sizeInfoTextView.text = nanoPackage[0].size
+            md5InfoTextView.text = nanoPackage[0].md5
+        }
+    }
 
     override fun onStart() {
         nav_view.setCheckedItem(R.id.nav_home)
@@ -313,6 +314,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        preferenceManager.edit().putBoolean(getString(R.string.is_json_saved), false).apply()
         preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), false).apply()
         unregisterReceiver(onDownloadComplete)
     }

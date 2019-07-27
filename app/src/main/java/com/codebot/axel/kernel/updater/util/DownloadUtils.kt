@@ -105,7 +105,7 @@ class DownloadUtils {
      * @param nanoData Holds the information about the package to be downloaded.
      * @return Returns the unique identifier for the enqueued download.
      */
-    fun downloadPackage(context: Context, downloadManager: DownloadManager, nanoData: Nano?, isWhichAcitivty: String): Long {
+    fun downloadPackage(context: Context, downloadManager: DownloadManager, nanoData: Nano?): Long {
         val downloadUrl: String = if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_miui_check), false))
             nanoData!!.MIUI[0].url
         else
@@ -119,10 +119,7 @@ class DownloadUtils {
         if (installPackage.exists()) {
             (context as Activity).update_fileDownload.isEnabled = true
             context.downloadButton.isEnabled = true
-            if (isWhichAcitivty != "DownloadActivity")
-                Utils().setViewVisibilityAndListeners(context, installPackage, View.GONE)
-            else
-                Toast.makeText(context, "Package exists. No download required", Toast.LENGTH_SHORT).show()
+            Utils().setViewVisibilityAndListeners(context, installPackage, View.GONE)
         } else {
             (context as Activity).update_progressBar.visibility = View.VISIBLE
             context.progress_info.visibility = View.VISIBLE
@@ -133,19 +130,17 @@ class DownloadUtils {
                     .setDestinationInExternalPublicDir("/kernel.updater/builds/", downloadFileName)
 
             downloadId = downloadManager.enqueue(downloadRequest)
-            if (isWhichAcitivty != "DownloadActivity") {
-                context.flasherImage.setOnClickListener {
-                    Utils().performManualFlash(context, installPackage)
-                }
-                context.expanded_flasherImage.setOnClickListener {
-                    Utils().performManualFlash(context, installPackage)
-                }
-                context.autoFlasherImage.setOnClickListener {
-                    Utils().performAutoFlash(installPackage)
-                }
-                context.expanded_autoFlasherImage.setOnClickListener {
-                    Utils().performAutoFlash(installPackage)
-                }
+            context.flasherImage.setOnClickListener {
+                Utils().performManualFlash(context, installPackage)
+            }
+            context.expanded_flasherImage.setOnClickListener {
+                Utils().performManualFlash(context, installPackage)
+            }
+            context.autoFlasherImage.setOnClickListener {
+                Utils().performAutoFlash(installPackage)
+            }
+            context.expanded_autoFlasherImage.setOnClickListener {
+                Utils().performAutoFlash(installPackage)
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()
             DownloadUtils().updateProgress(context, downloadId, downloadManager)

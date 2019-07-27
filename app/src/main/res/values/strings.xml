@@ -33,6 +33,12 @@
     <!-- Keys for SharedPreferences -->
     <string name="key_miui_check">MIUI</string>
     <string name="key_is_root_checked">isRootChecked</string>
+    <string name="is_json_saved">isJSONSaved</string>
+    <string name="save_json">SaveJSON</string>
+    <string name="json_response">JSONResponse</string>
+    <string name="is_changelog_saved">isChangelogSaved</string>
+    <string name="save_changelog">SaveChangelog</string>
+    <string name="changelog_response">ChangelogResponse</string>
 
     <!-- Strings related to Settings -->
     <string name="miui_channel">MIUI channel</string>
