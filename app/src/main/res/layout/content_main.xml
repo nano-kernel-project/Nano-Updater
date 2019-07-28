@@ -121,9 +121,17 @@
             app:layout_constraintTop_toBottomOf="@+id/latest_version_textView"
             tools:textStyle="bold" />
 
-        <include layout="@layout/layout_update_card" />
+        <ViewStub
+            android:id="@+id/update_card_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_update_card" />
 
-        <include layout="@layout/package_list_item" />
+        <ViewStub
+            android:id="@+id/package_list_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/package_list_item" />
     </LinearLayout>
 
 </ScrollView>

@@ -27,9 +27,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Animatable2
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
+import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,8 +102,7 @@ class FlashActivity : AppCompatActivity() {
         if (requestCode == FILE_CHOOSER_INT) {
             if (resultCode == Activity.RESULT_OK) {
                 val dataUri = data!!.data
-                Log.e("FlashActiivty", dataUri!!.path)
-                val filePath = dataUri!!.path!!.split(":")[1]
+                val filePath = getPath(dataUri).split(":")[1]
                 val absolutePath = "${Environment.getExternalStorageDirectory().path}/$filePath"
                 FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
             }
@@ -115,10 +115,35 @@ class FlashActivity : AppCompatActivity() {
             STORAGE_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // User granted permission
-                    FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
+                    initialize()
+                } else {
+                    fileRecyclerView.visibility = View.GONE
+                    subtitle1.visibility = View.GONE
+                    noOfPackagesOnStorage.visibility = View.GONE
+                    empty_view.visibility = View.VISIBLE
+                    (empty_view_image.drawable as Animatable2).start()
                 }
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun getPath(uri: Uri): String {
+        val path: String?
+        val projection: Array<String> = Array(MediaStore.Files.FileColumns.DATA.length) { MediaStore.Files.FileColumns.DATA }
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+
+        if (cursor == null) {
+            path = uri.path
+        } else {
+            cursor.moveToFirst()
+            val column_index = cursor.getColumnIndexOrThrow(projection[0])
+            path = cursor.getString(column_index)
+            cursor.close()
+        }
+        return if (path == null || path.isEmpty())
+            uri.path!!
+        else
+            path
     }
 }

@@ -97,5 +97,10 @@
 
     </LinearLayout>
 
-    <include layout="@layout/update_info_layout" />
+    <ViewStub
+        android:id="@+id/update_info_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/update_info_layout" />
+
 </LinearLayout>

@@ -30,9 +30,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.view.View
 import android.view.animation.RotateAnimation
@@ -62,7 +62,6 @@ import kotlinx.android.synthetic.main.update_info_layout.*
 import okhttp3.*
 import java.io.File
 import java.io.IOException
-import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,10 +77,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        InitializeTask(this@MainActivity).execute()
+        Handler().postDelayed({
+            initializeOnBackgroundThread()
+        }, 150)
     }
 
     private fun setListeners() {
+        if (update_card_stub != null)
+            update_card_stub.inflate()
+        if (package_list_stub != null)
+            package_list_stub.inflate()
+        if (update_info_stub != null)
+            update_info_stub.inflate()
+        if (flash_expanded_stub != null)
+            flash_expanded_stub.inflate()
+
+        // Set required views to scroll horizontally
+        packageInfoTextView.isSelected = true
+        md5InfoTextView.isSelected = true
+        fileName.isSelected = true
+        expanded_packageInfoTextView.isSelected = true
+
         update_fileDownload.setOnClickListener {
             update_fileDownload.isEnabled = false
             downloadButton.isEnabled = false
@@ -129,19 +145,34 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_about -> {
-                    startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+                    Handler().postDelayed({
+                        startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                    }, 235)
                 }
                 R.id.nav_feedback -> {
-                    startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
+                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+                    Handler().postDelayed({
+                        startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
+                    }, 235)
                 }
                 R.id.nav_settings -> {
-                    startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+                    Handler().postDelayed({
+                        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                    }, 235)
                 }
                 R.id.nav_flasher -> {
-                    startActivity(Intent(this@MainActivity, FlashActivity::class.java))
+                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+                    Handler().postDelayed({
+                        startActivity(Intent(this@MainActivity, FlashActivity::class.java))
+                    }, 235)
                 }
                 R.id.nav_changelog -> {
-                    startActivity(Intent(this@MainActivity, ChangelogActivity::class.java))
+                    bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+                    Handler().postDelayed({
+                        startActivity(Intent(this@MainActivity, ChangelogActivity::class.java))
+                    }, 235)
                 }
             }
             true
@@ -207,6 +238,14 @@ class MainActivity : AppCompatActivity() {
         else
             nanoData!!.AOSP
         runOnUiThread {
+            if (update_card_stub != null)
+                update_card_stub.inflate()
+            if (package_list_stub != null)
+                package_list_stub.inflate()
+            if (update_info_stub != null)
+                update_info_stub.inflate()
+            if (flash_expanded_stub != null)
+                flash_expanded_stub.inflate()
             ChangelogTask(this@MainActivity).execute(nanoPackage[0].changelog_url, changelogView, this@MainActivity)
             latest_version_textView.text = "Nano " + nanoPackage[0].release_number + " • " + Utils().formatDate(nanoPackage[0].date)
             update_fileName.text = "Nano Kernel ${nanoPackage[0].release_number}"
@@ -219,37 +258,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeOnBackgroundThread() {
-        // Set required views enabled
-        packageInfoTextView.isSelected = true
-        md5InfoTextView.isSelected = true
-        fileName.isSelected = true
-        expanded_packageInfoTextView.isSelected = true
 
         // Tint the FAB to white
         check_update.drawable.mutate().setTint(Color.WHITE)
 
         // Set OnClickListeners
-        setListeners()
+        Handler().postDelayed({
+            setListeners()
+        }, 100)
 
-        val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-        buildDate = Utils().checkInstalledVersion(BUILD_DATE)
-        buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
-        currentVersion = Utils().formatDate(buildDate)
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        Thread(Runnable {
+            val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+            buildDate = Utils().checkInstalledVersion(BUILD_DATE)
+            buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
+            currentVersion = Utils().formatDate(buildDate)
 
-        // Attempt to load json data
-        Utils().startRefreshAnimation(this@MainActivity, ROTATE_ANIMATION)
-        fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
+            // Attempt to load json data
+            Utils().startRefreshAnimation(this@MainActivity, ROTATE_ANIMATION)
+            fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
 
-        if (!preferenceManager.getBoolean(getString(R.string.key_is_root_checked), false)) {
-            try {
-                Runtime.getRuntime().exec("su")
-                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
-            } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "Device is not rooted", Toast.LENGTH_SHORT).show()
-                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
+            if (!preferenceManager.getBoolean(getString(R.string.key_is_root_checked), false)) {
+                try {
+                    Runtime.getRuntime().exec("su")
+                    preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, "Device is not rooted", Toast.LENGTH_SHORT).show()
+                    }
+                    preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
+                }
             }
-        }
+        }).start()
         onDownloadComplete = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 downloadButton.isEnabled = true
@@ -257,7 +296,7 @@ class MainActivity : AppCompatActivity() {
 
                 //Fetching the download id received with the broadcast
                 val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
-
+                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 if (DownloadUtils().isDownloadSuccessful(context, id, downloadManager)[0] == "status_successful") {
                     Toast.makeText(context, "Build downloaded successfully", Toast.LENGTH_SHORT).show()
                     (context as Activity).updates_compact.visibility = View.GONE
@@ -281,6 +320,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        layoutParams.setMargins(0, 0, 0, bottomSheetBehavior!!.peekHeight * 2 + 16)
+        if (update_card_stub != null)
+            update_card_stub.inflate()
+        if (update_info_stub != null)
+            update_info_stub.inflate()
+        update_info_expanded.layoutParams = layoutParams
+        if (buildDate != "")
+            current_version_textView.text = "Nano ${buildVersion} • ${currentVersion}"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -325,26 +375,5 @@ class MainActivity : AppCompatActivity() {
         preferenceManager.edit().putBoolean(getString(R.string.is_json_saved), false).apply()
         preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), false).apply()
         unregisterReceiver(onDownloadComplete)
-    }
-
-    class InitializeTask(context: Context) : AsyncTask<Void, Void, Void>() {
-        private val contextRef = WeakReference(context)
-
-        override fun doInBackground(vararg params: Void): Void? {
-            (contextRef.get() as MainActivity).initializeOnBackgroundThread()
-            return null
-        }
-
-        override fun onPostExecute(result: Void?) {
-            val context = contextRef.get() as MainActivity
-            context.registerReceiver(context.onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            context.bottomSheetBehavior = BottomSheetBehavior.from(context.bottom_sheet)
-            layoutParams.setMargins(0, 0, 0, context.bottomSheetBehavior!!.peekHeight * 2 + 16)
-            context.update_info_expanded.layoutParams = layoutParams
-            if (context.buildDate != "")
-                context.current_version_textView.text = "Nano $context.buildVersion • $context.currentVersion}"
-            super.onPostExecute(result)
-        }
     }
 }

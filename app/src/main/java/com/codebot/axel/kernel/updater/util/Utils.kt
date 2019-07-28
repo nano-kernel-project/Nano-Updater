@@ -124,6 +124,19 @@ class Utils {
                                     }
                                 }
                             } else {
+                                // Set required views enabled
+                                if (context.update_card_stub != null)
+                                    context.update_card_stub.inflate()
+                                if (context.package_list_stub != null)
+                                    context.package_list_stub.inflate()
+                                if (context.update_info_stub != null)
+                                    context.update_info_stub.inflate()
+                                if (context.flash_expanded_stub != null)
+                                    context.flash_expanded_stub.inflate()
+                                context.packageInfoTextView.isSelected = true
+                                context.md5InfoTextView.isSelected = true
+                                context.fileName.isSelected = true
+                                context.expanded_packageInfoTextView.isSelected = true
                                 if (context.update_info_expanded.visibility == View.VISIBLE)
                                     context.update_info_expanded.visibility = View.GONE
                                 context.updates_compact.visibility = View.VISIBLE

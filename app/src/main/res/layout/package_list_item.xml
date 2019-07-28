@@ -124,6 +124,10 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/layout_flash_expanded" />
+    <ViewStub
+        android:id="@+id/flash_expanded_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/layout_flash_expanded" />
 
 </LinearLayout>
