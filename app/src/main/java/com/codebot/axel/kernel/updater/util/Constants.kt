@@ -29,6 +29,8 @@ import okhttp3.MediaType
 class Constants {
 
     companion object {
+        const val FILE_CHOOSER_INT = 1
+        const val STORAGE_PERMISSION_CODE = 2
         const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
         val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")
         const val FEEDBACK_NAME_ENTRY_ID = "entry.1174402051"

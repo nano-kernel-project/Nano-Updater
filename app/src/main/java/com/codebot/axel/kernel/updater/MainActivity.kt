@@ -39,7 +39,6 @@ import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.codebot.axel.kernel.updater.about.AboutActivity
 import com.codebot.axel.kernel.updater.model.Nano
 import com.codebot.axel.kernel.updater.util.Constants.Companion.API_ENDPOINT_URL
@@ -48,6 +47,7 @@ import com.codebot.axel.kernel.updater.util.Constants.Companion.BUILD_VERSION
 import com.codebot.axel.kernel.updater.util.Constants.Companion.CHECK_FOR_UPDATES
 import com.codebot.axel.kernel.updater.util.Constants.Companion.DOWNLOAD
 import com.codebot.axel.kernel.updater.util.Constants.Companion.ROTATE_ANIMATION
+import com.codebot.axel.kernel.updater.util.Constants.Companion.STORAGE_PERMISSION_CODE
 import com.codebot.axel.kernel.updater.util.DownloadUtils
 import com.codebot.axel.kernel.updater.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -148,15 +148,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun isStoragePermissionGranted(): Boolean {
-        return if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            true
-        else {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-            false
-        }
-    }
-
     private fun fetchJSON(animation: RotateAnimation, currentTask: String) {
         if (!Utils().isNetworkAvailable(this@MainActivity)) {
             Utils().snackBar(this@MainActivity, "No connection. Attempting to load offline data")
@@ -198,7 +189,8 @@ class MainActivity : AppCompatActivity() {
         when (currentTask) {
             DOWNLOAD -> {
                 runOnUiThread {
-                    downloadId = DownloadUtils().downloadPackage(this@MainActivity, downloadManager, nanoData)
+                    if (Utils().isStoragePermissionGranted(this@MainActivity, STORAGE_PERMISSION_CODE))
+                        downloadId = DownloadUtils().downloadPackage(this@MainActivity, downloadManager, nanoData)
                 }
             }
             CHECK_FOR_UPDATES -> {
@@ -227,9 +219,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeOnBackgroundThread() {
-        // Check if storage permission is granted
-        isStoragePermissionGranted()
-
         // Set required views enabled
         packageInfoTextView.isSelected = true
         md5InfoTextView.isSelected = true
@@ -292,6 +281,22 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            STORAGE_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Do nothing
+                } else {
+                    Utils().snackBar(this@MainActivity, "Storage permission denied")
+                    if (update_info_expanded.visibility == View.VISIBLE)
+                        update_info_expanded.visibility = View.GONE
+                    updates_compact.visibility = View.VISIBLE
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onStart() {

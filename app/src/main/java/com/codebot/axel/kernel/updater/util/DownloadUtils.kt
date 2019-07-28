@@ -143,7 +143,7 @@ class DownloadUtils {
                 Utils().performAutoFlash(installPackage)
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()
-            DownloadUtils().updateProgress(context, downloadId, downloadManager)
+            updateProgress(context, downloadId, downloadManager)
             return downloadId
         }
         return -1

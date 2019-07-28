@@ -24,6 +24,7 @@ package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.ConnectivityManager
 import android.os.Environment
@@ -33,6 +34,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.codebot.axel.kernel.updater.*
 import com.codebot.axel.kernel.updater.model.Nano
@@ -99,7 +101,7 @@ class Utils {
             nanoData!!.AOSP
         val isKernelInstalled = Constants.KERNEL_VERSION.contains("Nano")
         when {
-            buildDate == "" && !isKernelInstalled -> {
+            buildDate == "" && isKernelInstalled -> {
                 (context as Activity).update_notify_textView.text = "Unsupported kernel detected"
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
@@ -110,23 +112,25 @@ class Utils {
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.ic_info), null, null, null)
-                val packagesDir = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
-                if (packagesDir.exists()) {
-                    try {
-                        if (packagesDir.listFiles().isNotEmpty()) {
-                            for (file in packagesDir.listFiles()) {
-                                if (file.name == nanoPackage[0].filename) {
-                                    setViewVisibilityAndListeners(context, file, View.GONE)
-                                    break
+                if (isStoragePermissionGranted(context, Constants.STORAGE_PERMISSION_CODE)) {
+                    val packagesDir = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
+                    if (packagesDir.exists()) {
+                        try {
+                            if (packagesDir.listFiles().isNotEmpty()) {
+                                for (file in packagesDir.listFiles()) {
+                                    if (file.name == nanoPackage[0].filename) {
+                                        setViewVisibilityAndListeners(context, file, View.GONE)
+                                        break
+                                    }
                                 }
+                            } else {
+                                if (context.update_info_expanded.visibility == View.VISIBLE)
+                                    context.update_info_expanded.visibility = View.GONE
+                                context.updates_compact.visibility = View.VISIBLE
                             }
-                        } else {
-                            if (context.update_info_expanded.visibility == View.VISIBLE)
-                                context.update_info_expanded.visibility = View.GONE
-                            context.updates_compact.visibility = View.VISIBLE
+                        } catch (e: Exception) {
+                            Log.e("isUpdateAvailable", "$e")
                         }
-                    } catch (e: Exception) {
-                        Log.e("isUpdateAvailable", "$e")
                     }
                 } else {
                     if (context.update_info_expanded.visibility == View.VISIBLE)
@@ -393,5 +397,18 @@ class Utils {
         dos.writeBytes("exit\n")
         dos.flush()
         process.waitFor()
+    }
+
+    /**
+     * Helper method to check if storage permissions are granted by the user
+     * @param context Reference from calling Activity
+     */
+    fun isStoragePermissionGranted(context: Activity, storagePermissionCode: Int): Boolean {
+        return if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            true
+        else {
+            ActivityCompat.requestPermissions(context, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), storagePermissionCode)
+            false
+        }
     }
 }

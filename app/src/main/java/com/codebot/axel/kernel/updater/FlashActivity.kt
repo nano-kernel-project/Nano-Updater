@@ -24,25 +24,28 @@ package com.codebot.axel.kernel.updater
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Animatable2
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codebot.axel.kernel.updater.adapter.FileAdapter
 import com.codebot.axel.kernel.updater.model.Package
+import com.codebot.axel.kernel.updater.util.Constants.Companion.FILE_CHOOSER_INT
+import com.codebot.axel.kernel.updater.util.Constants.Companion.STORAGE_PERMISSION_CODE
 import com.codebot.axel.kernel.updater.util.FlashKernel
+import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.activity_flash.*
 import kotlinx.android.synthetic.main.layout_package_info.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-
-private const val FILE_CHOOSER_INT = 1
 
 class FlashActivity : AppCompatActivity() {
 
@@ -55,9 +58,15 @@ class FlashActivity : AppCompatActivity() {
         selectFile.drawable.mutate().setTint(Color.WHITE)
 
         selectFile.setOnClickListener {
-            FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
+            if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE))
+                FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
         }
+        if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE)) {
+            initialize()
+        }
+    }
 
+    private fun initialize() {
         val nanoDirectory = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
         if (nanoDirectory.exists()) {
             val files = nanoDirectory.listFiles()
@@ -92,11 +101,24 @@ class FlashActivity : AppCompatActivity() {
         if (requestCode == FILE_CHOOSER_INT) {
             if (resultCode == Activity.RESULT_OK) {
                 val dataUri = data!!.data
+                Log.e("FlashActiivty", dataUri!!.path)
                 val filePath = dataUri!!.path!!.split(":")[1]
                 val absolutePath = "${Environment.getExternalStorageDirectory().path}/$filePath"
                 FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            STORAGE_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // User granted permission
+                    FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
