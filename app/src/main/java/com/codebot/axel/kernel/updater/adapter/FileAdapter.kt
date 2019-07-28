@@ -22,6 +22,7 @@
 
 package com.codebot.axel.kernel.updater.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +32,14 @@ import com.codebot.axel.kernel.updater.FlashKernelTask
 import com.codebot.axel.kernel.updater.R
 import com.codebot.axel.kernel.updater.model.Package
 import com.codebot.axel.kernel.updater.util.FlashKernel
+import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.layout_flash_expanded.view.*
+import kotlinx.android.synthetic.main.layout_update_card.*
+import kotlinx.android.synthetic.main.layout_update_card.view.*
+import kotlinx.android.synthetic.main.package_list_item.*
 import kotlinx.android.synthetic.main.package_list_item.view.*
+import kotlinx.android.synthetic.main.package_list_item.view.flash_expanded_stub
 
 class FileAdapter(private val packageList: ArrayList<Package>, private val context: Context) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,6 +52,14 @@ class FileAdapter(private val packageList: ArrayList<Package>, private val conte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (holder.view.update_card_stub != null)
+            holder.view.update_card_stub.inflate()
+        if (holder.view.package_list_stub != null)
+            holder.view.package_list_stub.inflate()
+        if (holder.view.update_info_stub != null)
+            holder.view.update_info_stub.inflate()
+        if (holder.view.flash_expanded_stub != null)
+            holder.view.flash_expanded_stub.inflate()
         holder.view.packageInfoCompact.setOnClickListener {
             holder.view.packageInfoCompact.visibility = View.GONE
             holder.view.packageInfoExpanded.visibility = View.VISIBLE
