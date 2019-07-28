@@ -101,7 +101,7 @@ class Utils {
             nanoData!!.AOSP
         val isKernelInstalled = Constants.KERNEL_VERSION.contains("Nano")
         when {
-            buildDate == "" && isKernelInstalled -> {
+            buildDate == "" && !isKernelInstalled -> {
                 (context as Activity).update_notify_textView.text = "Unsupported kernel detected"
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
