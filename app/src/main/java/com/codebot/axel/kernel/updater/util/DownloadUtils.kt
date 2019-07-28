@@ -187,4 +187,13 @@ class DownloadUtils {
             }
         }).start()
     }
+
+    fun getDownloadedFileName(id: Long, context: Context): String {
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val cursor = downloadManager.query(DownloadManager.Query().setFilterById(id))
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_TITLE))
+        }
+        return ""
+    }
 }

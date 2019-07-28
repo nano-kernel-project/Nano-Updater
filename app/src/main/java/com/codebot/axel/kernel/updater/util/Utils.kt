@@ -190,7 +190,9 @@ class Utils {
             val new_date = dateFormatter.parse(date) as Date
             val new_date_formatter = SimpleDateFormat("MMM dd, yyyy")
             new_date_formatter.format(new_date)
-        } else {
+        } else if (date == "")
+            return ""
+        else {
             val date = Date(date.toLong())
             val dateFormat = SimpleDateFormat("MMM dd, yyyy")
             dateFormat.format(date)

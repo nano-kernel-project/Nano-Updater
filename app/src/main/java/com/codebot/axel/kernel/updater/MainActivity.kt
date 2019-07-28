@@ -24,9 +24,13 @@ package com.codebot.axel.kernel.updater
 
 import android.app.Activity
 import android.app.DownloadManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.preference.PreferenceManager
@@ -58,100 +62,23 @@ import kotlinx.android.synthetic.main.update_info_layout.*
 import okhttp3.*
 import java.io.File
 import java.io.IOException
+import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
-    val context = this
-    private lateinit var preferenceManager: SharedPreferences
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var nanoData: Nano? = null
     private var downloadId: Long = 0
     private var buildVersion = ""
     private var buildDate = ""
-    private lateinit var downloadManager: DownloadManager
-    private lateinit var onDownloadComplete: BroadcastReceiver
+    private var currentVersion = ""
+    private var onDownloadComplete: BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-        check_update.drawable.mutate().setTint(Color.WHITE)
-
-        packageInfoTextView.isSelected = true
-        md5InfoTextView.isSelected = true
-
-        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-        preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
-
-        buildDate = Utils().checkInstalledVersion(BUILD_DATE)
-        buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
-
-
-        isStoragePermissionGranted()
-
-        fileName.isSelected = true
-        expanded_packageInfoTextView.isSelected = true
-
-        if (buildDate != "")
-            current_version_textView.text = "Nano $buildVersion • ${Utils().formatDate(buildDate)}"
-
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.setMargins(0, 0, 0, bottomSheetBehavior.peekHeight * 2 + 16)
-        update_info_expanded.layoutParams = layoutParams
-
-        if (!preferenceManager.getBoolean(getString(R.string.key_is_root_checked), false)) {
-            try {
-                Runtime.getRuntime().exec("su")
-                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
-            } catch (e: Exception) {
-                Toast.makeText(context, "Device is not rooted", Toast.LENGTH_SHORT).show()
-                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
-            }
-        }
-
-        // Attempt to load json data
-        Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
-        fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
-
-        onDownloadComplete = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                downloadButton.isEnabled = true
-                update_fileDownload.isEnabled = true
-
-                //Fetching the download id received with the broadcast
-                val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
-
-                if (DownloadUtils().isDownloadSuccessful(context, id, downloadManager)[0] == "status_successful") {
-                    Toast.makeText(context, "Build downloaded successfully", Toast.LENGTH_SHORT).show()
-                    (context as Activity).updates_compact.visibility = View.GONE
-                    context.update_info_expanded.visibility = View.GONE
-                    context.update_progressBar.visibility = View.GONE
-                    context.progress_info.visibility = View.GONE
-                    context.downloadButton.visibility = View.VISIBLE
-                    context.update_fileDownload.visibility = View.VISIBLE
-                    val packageName = getDownloadedFileName(id)
-                    val installPackage = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/$packageName")
-                    context.fileName.text = installPackage.name
-                    context.fileDate.text = Utils().formatDate(installPackage.lastModified().toString())
-                    context.fileSize.text = "${installPackage.length() / 1000000} MB"
-
-                    context.expanded_sizeInfoTextView.text = "${installPackage.length() / 1000000} MB"
-                    context.expanded_packageInfoTextView.text = installPackage.name
-                    context.expanded_dateInfoTextView.text = Utils().formatDate(installPackage.lastModified().toString())
-                    context.packageInfoCompact.visibility = View.VISIBLE
-                } else {
-                    Toast.makeText(this@MainActivity, "Download failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-        registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        // Set OnClickListeners
-        setListeners()
-
+        InitializeTask(this@MainActivity).execute()
     }
 
     private fun setListeners() {
@@ -168,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         check_update.setOnClickListener {
-            Utils().startRefreshAnimation(context, ROTATE_ANIMATION)
+            Utils().startRefreshAnimation(this@MainActivity, ROTATE_ANIMATION)
             fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
         }
 
@@ -193,10 +120,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         nav_menu.setOnClickListener {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED)
+                bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
             else
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         nav_view.setNavigationItemSelectedListener { menuItem ->
@@ -221,14 +148,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDownloadedFileName(id: Long): String {
-        val cursor = downloadManager.query(DownloadManager.Query().setFilterById(id))
-        if (cursor.moveToFirst()) {
-            return cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_TITLE))
-        }
-        return ""
-    }
-
     private fun isStoragePermissionGranted(): Boolean {
         return if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             true
@@ -239,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchJSON(animation: RotateAnimation, currentTask: String) {
-        if (!Utils().isNetworkAvailable(context)) {
+        if (!Utils().isNetworkAvailable(this@MainActivity)) {
             Utils().snackBar(this@MainActivity, "No connection. Attempting to load offline data")
 
             // Get offline data
@@ -250,7 +169,6 @@ class MainActivity : AppCompatActivity() {
                 executeCurrentTask(currentTask)
             } else
                 Utils().snackBar(this@MainActivity, "Failed to load offline data")
-
             Utils().stopRefreshAnimation(animation)
         } else {
             val client = OkHttpClient()
@@ -266,7 +184,7 @@ class MainActivity : AppCompatActivity() {
                     nanoData = gson.fromJson(bodyOfJSON, Nano::class.java)
 
                     // Save an offline copy of the response string to be used further
-                    Utils().saveJSONtoPreferences(context, bodyOfJSON)
+                    Utils().saveJSONtoPreferences(this@MainActivity, bodyOfJSON)
 
                     loadData(nanoData)
                     executeCurrentTask(currentTask)
@@ -276,27 +194,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun executeCurrentTask(currentTask: String) {
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         when (currentTask) {
             DOWNLOAD -> {
                 runOnUiThread {
-                    downloadId = DownloadUtils().downloadPackage(context, downloadManager, nanoData)
+                    downloadId = DownloadUtils().downloadPackage(this@MainActivity, downloadManager, nanoData)
                 }
             }
             CHECK_FOR_UPDATES -> {
                 runOnUiThread {
-                    Utils().isUpdateAvailable(context, nanoData, buildDate, ROTATE_ANIMATION)
+                    Utils().isUpdateAvailable(this@MainActivity, nanoData, buildDate, ROTATE_ANIMATION)
                 }
             }
         }
     }
 
     private fun loadData(nanoData: Nano?) {
-        val nanoPackage = if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.key_miui_check), false))
+        val nanoPackage = if (PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getBoolean(this.getString(R.string.key_miui_check), false))
             nanoData!!.MIUI
         else
             nanoData!!.AOSP
         runOnUiThread {
-            ChangelogTask(context).execute(nanoPackage[0].changelog_url, changelogView, this@MainActivity)
+            ChangelogTask(this@MainActivity).execute(nanoPackage[0].changelog_url, changelogView, this@MainActivity)
             latest_version_textView.text = "Nano " + nanoPackage[0].release_number + " • " + Utils().formatDate(nanoPackage[0].date)
             update_fileName.text = "Nano Kernel ${nanoPackage[0].release_number}"
             update_fileSize.text = nanoPackage[0].size
@@ -307,23 +226,120 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        nav_view.setCheckedItem(R.id.nav_home)
-        if (latest_version_textView.text == "-" && preferenceManager.getBoolean(getString(R.string.is_json_saved), false)) {
-            val bodyOfJSON = Utils().loadOfflineData(this@MainActivity)
-            if (bodyOfJSON != "") {
-                nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
-                loadData(nanoData)
-                executeCurrentTask(CHECK_FOR_UPDATES)
+    private fun initializeOnBackgroundThread() {
+        // Check if storage permission is granted
+        isStoragePermissionGranted()
+
+        // Set required views enabled
+        packageInfoTextView.isSelected = true
+        md5InfoTextView.isSelected = true
+        fileName.isSelected = true
+        expanded_packageInfoTextView.isSelected = true
+
+        // Tint the FAB to white
+        check_update.drawable.mutate().setTint(Color.WHITE)
+
+        // Set OnClickListeners
+        setListeners()
+
+        val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+        buildDate = Utils().checkInstalledVersion(BUILD_DATE)
+        buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
+        currentVersion = Utils().formatDate(buildDate)
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+        // Attempt to load json data
+        Utils().startRefreshAnimation(this@MainActivity, ROTATE_ANIMATION)
+        fetchJSON(ROTATE_ANIMATION, CHECK_FOR_UPDATES)
+
+        if (!preferenceManager.getBoolean(getString(R.string.key_is_root_checked), false)) {
+            try {
+                Runtime.getRuntime().exec("su")
+                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
+            } catch (e: Exception) {
+                Toast.makeText(this@MainActivity, "Device is not rooted", Toast.LENGTH_SHORT).show()
+                preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), true).apply()
             }
         }
+        onDownloadComplete = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                downloadButton.isEnabled = true
+                update_fileDownload.isEnabled = true
+
+                //Fetching the download id received with the broadcast
+                val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
+
+                if (DownloadUtils().isDownloadSuccessful(context, id, downloadManager)[0] == "status_successful") {
+                    Toast.makeText(context, "Build downloaded successfully", Toast.LENGTH_SHORT).show()
+                    (context as Activity).updates_compact.visibility = View.GONE
+                    context.update_info_expanded.visibility = View.GONE
+                    context.update_progressBar.visibility = View.GONE
+                    context.progress_info.visibility = View.GONE
+                    context.downloadButton.visibility = View.VISIBLE
+                    context.update_fileDownload.visibility = View.VISIBLE
+                    val packageName = DownloadUtils().getDownloadedFileName(id, this@MainActivity)
+                    val installPackage = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/$packageName")
+                    context.fileName.text = installPackage.name
+                    context.fileDate.text = Utils().formatDate(installPackage.lastModified().toString())
+                    context.fileSize.text = "${installPackage.length() / 1000000} MB"
+
+                    context.expanded_sizeInfoTextView.text = "${installPackage.length() / 1000000} MB"
+                    context.expanded_packageInfoTextView.text = installPackage.name
+                    context.expanded_dateInfoTextView.text = Utils().formatDate(installPackage.lastModified().toString())
+                    context.packageInfoCompact.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(this@MainActivity, "Download failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onStart() {
+        nav_view.setCheckedItem(R.id.nav_home)
         super.onStart()
+    }
+
+    override fun onResume() {
+        Thread(Runnable {
+            val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+            if (latest_version_textView.text == "-" && preferenceManager.getBoolean(getString(R.string.is_json_saved), false)) {
+                val bodyOfJSON = Utils().loadOfflineData(this@MainActivity)
+                if (bodyOfJSON != "") {
+                    nanoData = GsonBuilder().create().fromJson(bodyOfJSON, Nano::class.java)
+                    loadData(nanoData)
+                    executeCurrentTask(CHECK_FOR_UPDATES)
+                }
+            }
+        }).start()
+        super.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
         preferenceManager.edit().putBoolean(getString(R.string.is_json_saved), false).apply()
         preferenceManager.edit().putBoolean(getString(R.string.key_is_root_checked), false).apply()
         unregisterReceiver(onDownloadComplete)
+    }
+
+    class InitializeTask(context: Context) : AsyncTask<Void, Void, Void>() {
+        private val contextRef = WeakReference(context)
+
+        override fun doInBackground(vararg params: Void): Void? {
+            (contextRef.get() as MainActivity).initializeOnBackgroundThread()
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            val context = contextRef.get() as MainActivity
+            context.registerReceiver(context.onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            context.bottomSheetBehavior = BottomSheetBehavior.from(context.bottom_sheet)
+            layoutParams.setMargins(0, 0, 0, context.bottomSheetBehavior!!.peekHeight * 2 + 16)
+            context.update_info_expanded.layoutParams = layoutParams
+            if (context.buildDate != "")
+                context.current_version_textView.text = "Nano $context.buildVersion • $context.currentVersion}"
+            super.onPostExecute(result)
+        }
     }
 }
