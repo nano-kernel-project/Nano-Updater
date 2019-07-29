@@ -83,12 +83,27 @@ class FlashKernel {
     fun unzipAndFlash(context: Context?, absolutePath: String, progressDialog: ProgressDialog) {
         var isFlashSuccessful = false
         val updateBinaryPath = "/META-INF/com/google/android/update-binary"
+        val path = absolutePath.substring(0, absolutePath.lastIndexOf("/") + 1)
+        var modifiedPath = ""
+        var fileName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.length)
         try {
             val process = Runtime.getRuntime().exec("su")
             val dos = DataOutputStream(process.outputStream)
             val bufferedReader = BufferedReader(InputStreamReader(process.inputStream))
+            val unwantedCharsPresent = !fileName.matches("[^()\\s\\[\\]]+".toRegex())
+            // Remove any white spaces, brackets in the file name
+            if (unwantedCharsPresent) {
+                fileName = fileName.replace("[()\\s]".toRegex()) { "" }
+                modifiedPath = path + fileName
+
+                // Rename file with modified name
+                val origFile = File(absolutePath)
+                val renamedFile = File(modifiedPath)
+                origFile.renameTo(renamedFile)
+            }
             dos.writeBytes("mount -o rw,remount /\n")
             if (!checkUnZipUtility()) {
+                Log.e("FlashActivity", "unZip")
                 copyAssets(context!!)
                 dos.writeBytes("mount -o rw,remount /system\n")
                 dos.writeBytes("mv ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/unzip /system/bin/unzip\n")
@@ -98,8 +113,13 @@ class FlashKernel {
             }
 
             dos.writeBytes("mkdir ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
-            dos.writeBytes("unzip $absolutePath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
-            dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $absolutePath\n")
+            if (!unwantedCharsPresent) {
+                dos.writeBytes("unzip $absolutePath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+                dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $absolutePath\n")
+            } else {
+                dos.writeBytes("unzip $modifiedPath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+                dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $modifiedPath\n")
+            }
             dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
             dos.writeBytes("mount -o ro,remount /\n")
             dos.writeBytes("exit\n")
@@ -122,7 +142,10 @@ class FlashKernel {
                 builder.append(line + "\n")
                 line = bufferedReader.readLine()
             }
-            Utils().writeLogToFile(builder.toString(), absolutePath)
+            if (!unwantedCharsPresent)
+                Utils().writeLogToFile(builder.toString(), absolutePath)
+            else
+                Utils().writeLogToFile(builder.toString(), modifiedPath)
             if (isFlashSuccessful) {
                 var timer = 3
                 while (timer != 0) {
@@ -131,6 +154,11 @@ class FlashKernel {
                     timer--
                 }
                 Utils().rebootDevice()
+            }
+            if (unwantedCharsPresent) {
+                val origFile = File(absolutePath)
+                val renamedFile = File(modifiedPath)
+                renamedFile.renameTo(origFile)
             }
         } catch (e: Exception) {
             Utils().snackBar(context!!, "No root permission granted")
