@@ -22,7 +22,6 @@
 
 package com.codebot.axel.kernel.updater.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -32,14 +31,10 @@ import com.codebot.axel.kernel.updater.FlashKernelTask
 import com.codebot.axel.kernel.updater.R
 import com.codebot.axel.kernel.updater.model.Package
 import com.codebot.axel.kernel.updater.util.FlashKernel
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.layout_flash_expanded.view.*
-import kotlinx.android.synthetic.main.layout_update_card.*
 import kotlinx.android.synthetic.main.layout_update_card.view.*
-import kotlinx.android.synthetic.main.package_list_item.*
 import kotlinx.android.synthetic.main.package_list_item.view.*
-import kotlinx.android.synthetic.main.package_list_item.view.flash_expanded_stub
 
 class FileAdapter(private val packageList: ArrayList<Package>, private val context: Context) : RecyclerView.Adapter<FileAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

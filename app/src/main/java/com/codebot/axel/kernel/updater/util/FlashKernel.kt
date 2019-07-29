@@ -69,7 +69,7 @@ class FlashKernel {
         fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
             (context as Activity).startActivityForResult(Intent.createChooser(fileChooserIntent, "Select a zip package"), fileChooserCode)
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             Log.e("launchFileChooser", "$e")
         }
     }
