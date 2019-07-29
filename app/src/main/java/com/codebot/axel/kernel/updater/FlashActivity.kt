@@ -102,23 +102,31 @@ class FlashActivity : AppCompatActivity() {
         if (requestCode == FILE_CHOOSER_INT) {
             if (resultCode == Activity.RESULT_OK) {
                 val dataUri = data!!.data
-                val filePath = getPath(dataUri).split(":")
-                val isRaw = filePath[0] == "/document/raw"
-                val absolutePath: String
-                if (!isRaw) {
-                    val zipPath = filePath[1]
-                    if (zipPath.substring(zipPath.lastIndexOf('.') + 1, zipPath.length) == "zip") {
-                        absolutePath = "${Environment.getExternalStorageDirectory().path}/$zipPath"
+                val pathContainsColon = getPath(dataUri).contains(":")
+                if (!pathContainsColon) {
+                    val absolutePath = getPath(dataUri)
+                    if (isZipFile(absolutePath))
                         FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
-                    } else
+                    else
                         Utils().snackBar(this@FlashActivity, "Selected file is not a zip")
                 } else {
-                    absolutePath = filePath[1]
-                    if (absolutePath.substring(absolutePath.lastIndexOf('.') + 1, absolutePath.length) == "zip") {
-                        FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
-                    } else
-                        Utils().snackBar(this@FlashActivity, "Selected file is not a zip")
-
+                    val filePath = getPath(dataUri).split(":")
+                    val isRaw = filePath[0] == "/document/raw"
+                    val absolutePath: String
+                    if (!isRaw) {
+                        val zipPath = filePath[1]
+                        if (isZipFile(zipPath)) {
+                            absolutePath = "${Environment.getExternalStorageDirectory().path}/$zipPath"
+                            FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
+                        } else
+                            Utils().snackBar(this@FlashActivity, "Selected file is not a zip")
+                    } else {
+                        absolutePath = filePath[1]
+                        if (isZipFile(absolutePath)) {
+                            FlashKernelTask(this@FlashActivity).execute(this@FlashActivity, absolutePath)
+                        } else
+                            Utils().snackBar(this@FlashActivity, "Selected file is not a zip")
+                    }
                 }
             }
         }
@@ -160,5 +168,9 @@ class FlashActivity : AppCompatActivity() {
             uri.path!!
         else
             path
+    }
+
+    private fun isZipFile(absolutePath: String): Boolean {
+        return absolutePath.substring(absolutePath.lastIndexOf('.') + 1, absolutePath.length) == "zip"
     }
 }
