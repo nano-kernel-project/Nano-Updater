@@ -43,7 +43,12 @@ class Constants {
         const val DOWNLOAD = "Download"
         const val BUILD_DATE = "nano.release.date"
         const val BUILD_VERSION = "nano.version"
-        val KERNEL_VERSION = System.getProperty("os.version")
+        val KERNEL_VERSION: String = System.getProperty("os.version")
+        const val SHUTDOWN_BROADCAST = "am broadcast android.intent.action.ACTION_SHUTDOWN"
+        const val SYNC = "sync"
+        const val NORMAL_REBOOT_CMD = "svc power reboot"
+        const val REBOOT_RECOVERY_CMD = "svc power reboot recovery"
+        const val CACHE_RECOVERY_CMD = "/cache/recovery/command"
         val ROTATE_ANIMATION = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
     }
 }

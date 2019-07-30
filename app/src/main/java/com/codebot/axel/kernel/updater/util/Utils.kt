@@ -406,7 +406,9 @@ class Utils {
     fun rebootDevice() {
         val process = Runtime.getRuntime().exec("su")
         val dos = DataOutputStream(process.outputStream)
-        dos.writeBytes("reboot\n")
+        dos.writeBytes("${Constants.SHUTDOWN_BROADCAST}\n")
+        dos.writeBytes("${Constants.SYNC}\n")
+        dos.writeBytes("${Constants.NORMAL_REBOOT_CMD}\n")
         dos.writeBytes("exit\n")
         dos.flush()
         process.waitFor()

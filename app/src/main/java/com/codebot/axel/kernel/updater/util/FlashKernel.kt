@@ -41,13 +41,15 @@ class FlashKernel {
      */
     fun flashPackage(packageName: String) {
 
-        val installPackage = File(Environment.getExternalStorageDirectory().toString() + "/Nano/$packageName")
+        val installPackage = File(Environment.getExternalStorageDirectory().toString() + "/kernel.updater/builds//$packageName")
         try {
             val p = Runtime.getRuntime().exec("su")
             val dos = DataOutputStream(p.outputStream)
-            dos.writeBytes("echo 'boot-recovery ' > /cache/recovery/command\n")
-            dos.writeBytes("echo '--update_package=/sdcard/0/Nano/$packageName' > /cache/recovery/command\n")
-            dos.writeBytes("reboot recovery\n")
+            dos.writeBytes("echo 'boot-recovery ' > ${Constants.CACHE_RECOVERY_CMD}\n")
+            dos.writeBytes("echo '--update_package=/sdcard/0/kernel.updater/builds/$packageName' > ${Constants.CACHE_RECOVERY_CMD}\n")
+            dos.writeBytes("${Constants.SHUTDOWN_BROADCAST}\n")
+            dos.writeBytes("${Constants.SYNC}\n")
+            dos.writeBytes("${Constants.REBOOT_RECOVERY_CMD}\n")
             dos.writeBytes("exit\n")
             dos.flush()
             dos.close()
@@ -142,24 +144,19 @@ class FlashKernel {
                 builder.append(line + "\n")
                 line = bufferedReader.readLine()
             }
+
             if (!unwantedCharsPresent)
                 Utils().writeLogToFile(builder.toString(), absolutePath)
-            else
-                Utils().writeLogToFile(builder.toString(), modifiedPath)
-            if (isFlashSuccessful) {
-                var timer = 3
-                while (timer != 0) {
-                    progressDialog.setMessage("Rebooting in $timer seconds")
-                    Thread.sleep(1000)
-                    timer--
-                }
-                Utils().rebootDevice()
-            }
+
             if (unwantedCharsPresent) {
                 val origFile = File(absolutePath)
                 val renamedFile = File(modifiedPath)
                 renamedFile.renameTo(origFile)
             }
+
+            if (isFlashSuccessful)
+                Utils().rebootDevice()
+
         } catch (e: Exception) {
             Utils().snackBar(context!!, "No root permission granted")
         }
