@@ -21,6 +21,8 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="24dp" />
+    <corners
+        android:bottomLeftRadius="24dp"
+        android:topLeftRadius="24dp" />
     <solid android:color="@color/nav_item_checked_background" />
 </shape>

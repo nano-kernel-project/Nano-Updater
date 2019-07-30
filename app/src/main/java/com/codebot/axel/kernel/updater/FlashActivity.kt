@@ -46,6 +46,7 @@ import kotlinx.android.synthetic.main.layout_package_info.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 class FlashActivity : AppCompatActivity() {
@@ -63,7 +64,9 @@ class FlashActivity : AppCompatActivity() {
                 FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
         }
         if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE)) {
-            initialize()
+            Thread {
+                initialize()
+            }.start()
         }
     }
 
@@ -76,7 +79,7 @@ class FlashActivity : AppCompatActivity() {
             for (file in files) {
                 var size = (file.length() / 1000000.00).toString()
                 size = size.substring(0, 5)
-                val date = Date(file.lastModified())
+                val date = Date(extractDateFromFileName(file.name))
                 val dateFormat = SimpleDateFormat("MMM dd, yyyy")
                 packageList.add(Package(file.name, size, dateFormat.format(date), file.absolutePath))
             }
@@ -91,9 +94,11 @@ class FlashActivity : AppCompatActivity() {
         } else {
             fileRecyclerView.visibility = View.VISIBLE
             empty_view.visibility = View.GONE
-            fileRecyclerView.apply {
-                adapter = FileAdapter(packageList, this@FlashActivity)
-                layoutManager = LinearLayoutManager(this@FlashActivity, RecyclerView.VERTICAL, false)
+            runOnUiThread {
+                fileRecyclerView.apply {
+                    adapter = FileAdapter(packageList, this@FlashActivity)
+                    layoutManager = LinearLayoutManager(this@FlashActivity, RecyclerView.VERTICAL, false)
+                }
             }
         }
     }
@@ -172,5 +177,20 @@ class FlashActivity : AppCompatActivity() {
 
     private fun isZipFile(absolutePath: String): Boolean {
         return absolutePath.substring(absolutePath.lastIndexOf('.') + 1, absolutePath.length) == "zip"
+    }
+
+    private fun extractDateFromFileName(fileName: String): Long {
+        val dateFormat = SimpleDateFormat("yyyyMMdd")
+        val pattern1 = Pattern.compile(".*(\\d{8})-(\\d{8}).*")
+        val matcher1 = pattern1.matcher(fileName)
+        if (matcher1.find())
+            return dateFormat.parse(matcher1.group(1)).time
+        else {
+            val pattern2 = Pattern.compile(".*(\\d{8}).*")
+            val matcher2 = pattern2.matcher(fileName)
+            if (matcher2.find())
+                return dateFormat.parse(matcher2.group(1)).time
+        }
+        return 0L
     }
 }
