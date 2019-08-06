@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             initializeOnBackgroundThread()
-        }, 150)
+        }, 200)
     }
 
     private fun setListeners() {

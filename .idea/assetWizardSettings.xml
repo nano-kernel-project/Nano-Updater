@@ -166,9 +166,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_refresh" />
-                            <entry key="sourceFile" value="C:\Users\Karthik\Pictures\cloud_dead.svg" />
+                            <entry key="outputName" value="ic_logo" />
+                            <entry key="sourceFile" value="C:\Users\Karthik\Downloads\logo.svg" />
                           </map>
                         </option>
                       </PersistentState>

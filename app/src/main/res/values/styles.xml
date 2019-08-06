@@ -61,4 +61,8 @@
         <item name="fontFamily">@font/open_sans</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme.Other">
+        <item name="android:windowBackground">@drawable/window_background</item>
+    </style>
+
 </resources>
