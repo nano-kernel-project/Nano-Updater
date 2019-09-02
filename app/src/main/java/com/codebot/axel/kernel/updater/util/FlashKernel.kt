@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/9/19 12:19 PM.
+ * Last modified 2/9/19 12:29 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -116,19 +116,15 @@ class FlashKernel {
             val tempPath = "${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp"
             dos.writeBytes("mkdir $tempPath/\n")
 
-            // Check if the zip is AnyKernel supported
-            if (File("$tempPath/anykernel.sh").exists()) {
-                (context as Activity).runOnUiThread {
-                    Utils().snackBar(context!!, "Choose a valid AnyKernel zip")
-                }
-                return
-            }
-
             if (!unwantedCharsPresent) {
                 dos.writeBytes("unzip $absolutePath -d $tempPath/\n")
+                if (!isAnyKernelZip(context!!, tempPath))
+                    return
                 dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $absolutePath\n")
             } else {
                 dos.writeBytes("unzip $modifiedPath -d $tempPath/\n")
+                if (!isAnyKernelZip(context!!, tempPath))
+                    return
                 dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $modifiedPath\n")
             }
             dos.writeBytes("rm -rf $tempPath/\n")
@@ -210,5 +206,15 @@ class FlashKernel {
             line = bufferedReader.readLine()
         }
         return false
+    }
+
+    private fun isAnyKernelZip(context: Context, path: String): Boolean {
+        if (!File("$path/anykernel.sh").exists()) {
+            (context as Activity).runOnUiThread {
+                Utils().snackBar(context, "Choose a valid AnyKernel zip")
+            }
+            return false
+        }
+        return true
     }
 }
