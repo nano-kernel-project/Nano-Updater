@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 3:22 PM.
+ * Last modified 2/9/19 11:39 AM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -113,16 +113,23 @@ class FlashKernel {
                 dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
                 dos.writeBytes("mount -o ro,remount /system\n")
             }
+            val tempPath = "${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp"
+            dos.writeBytes("mkdir $tempPath/\n")
 
-            dos.writeBytes("mkdir ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
-            if (!unwantedCharsPresent) {
-                dos.writeBytes("unzip $absolutePath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
-                dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $absolutePath\n")
-            } else {
-                dos.writeBytes("unzip $modifiedPath -d ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
-                dos.writeBytes("sh ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp$updateBinaryPath dummy 1 $modifiedPath\n")
+            // Check if the zip is AnyKernel supported
+            if (File("$tempPath/anykernel.sh").exists()) {
+                Utils().snackBar(context!!, "Choose a valid AnyKernel zip")
+                return
             }
-            dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+
+            if (!unwantedCharsPresent) {
+                dos.writeBytes("unzip $absolutePath -d $tempPath/\n")
+                dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $absolutePath\n")
+            } else {
+                dos.writeBytes("unzip $modifiedPath -d $tempPath/\n")
+                dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $modifiedPath\n")
+            }
+            dos.writeBytes("rm -rf $tempPath/\n")
             dos.writeBytes("mount -o ro,remount /\n")
             dos.writeBytes("exit\n")
             dos.flush()
