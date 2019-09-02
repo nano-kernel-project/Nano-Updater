@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/9/19 11:39 AM.
+ * Last modified 2/9/19 12:19 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -118,7 +118,9 @@ class FlashKernel {
 
             // Check if the zip is AnyKernel supported
             if (File("$tempPath/anykernel.sh").exists()) {
-                Utils().snackBar(context!!, "Choose a valid AnyKernel zip")
+                (context as Activity).runOnUiThread {
+                    Utils().snackBar(context!!, "Choose a valid AnyKernel zip")
+                }
                 return
             }
 
