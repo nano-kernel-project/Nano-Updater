@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/9/19 12:29 PM.
+ * Last modified 4/9/19 9:32 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -29,6 +29,7 @@ import android.content.Intent
 import android.os.Environment
 import android.util.Log
 import java.io.*
+
 
 /**
  *  This class holds all the utilities required for flashing the kernel.
@@ -88,6 +89,13 @@ class FlashKernel {
         val path = absolutePath.substring(0, absolutePath.lastIndexOf("/") + 1)
         var modifiedPath = ""
         var fileName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.length)
+        val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        if (!isAnyKernelZip(absolutePath)) {
+            (context as Activity).runOnUiThread {
+                Utils().snackBar(context, "Not a valid AnyKernel zip")
+            }
+            return
+        }
         try {
             val process = Runtime.getRuntime().exec("su")
             val dos = DataOutputStream(process.outputStream)
@@ -118,13 +126,9 @@ class FlashKernel {
 
             if (!unwantedCharsPresent) {
                 dos.writeBytes("unzip $absolutePath -d $tempPath/\n")
-                if (!isAnyKernelZip(context!!, tempPath))
-                    return
                 dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $absolutePath\n")
             } else {
                 dos.writeBytes("unzip $modifiedPath -d $tempPath/\n")
-                if (!isAnyKernelZip(context!!, tempPath))
-                    return
                 dos.writeBytes("sh $tempPath$updateBinaryPath dummy 1 $modifiedPath\n")
             }
             dos.writeBytes("rm -rf $tempPath/\n")
@@ -159,11 +163,12 @@ class FlashKernel {
                 renamedFile.renameTo(origFile)
             }
 
+            installPackagePath.deleteRecursively()
             if (isFlashSuccessful)
                 Utils().rebootDevice()
 
         } catch (e: Exception) {
-            Utils().snackBar(context!!, "No root permission granted")
+            e.printStackTrace()
         }
     }
 
@@ -208,13 +213,16 @@ class FlashKernel {
         return false
     }
 
-    private fun isAnyKernelZip(context: Context, path: String): Boolean {
-        if (!File("$path/anykernel.sh").exists()) {
-            (context as Activity).runOnUiThread {
-                Utils().snackBar(context, "Choose a valid AnyKernel zip")
+    private fun isAnyKernelZip(absolutePath: String): Boolean {
+        val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        ZipManager.unzip(absolutePath, "${installPackagePath.absolutePath}/")
+        val files = installPackagePath.listFiles()
+        for (file in files) {
+            if (file.name.equals("anykernel.sh")) {
+                return true
             }
-            return false
         }
-        return true
+        installPackagePath.deleteRecursively()
+        return false
     }
 }
