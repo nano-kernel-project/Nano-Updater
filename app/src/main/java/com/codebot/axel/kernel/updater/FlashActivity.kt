@@ -17,13 +17,12 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 8:37 PM.
+ * Last modified 11/9/19 9:04 PM.
  */
 
 package com.codebot.axel.kernel.updater
 
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.drawable.Animatable2
 import android.os.Bundle
 import android.os.Environment
@@ -53,8 +52,6 @@ class FlashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flash)
-
-        selectFile.drawable.mutate().setTint(Color.WHITE)
 
         fileRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

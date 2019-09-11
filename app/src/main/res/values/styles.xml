@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 11/9/19 7:36 PM.
+  ~ Last modified 11/9/19 9:03 PM.
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -78,11 +78,12 @@
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textAllCaps">false</item>
         <item name="backgroundTint">@color/colorAccent</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="rippleColor">@color/navItemRipple</item>
     </style>
 </resources>

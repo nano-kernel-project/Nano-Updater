@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 10:30 PM.
+ * Last modified 11/9/19 9:04 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -29,7 +29,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -258,9 +257,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeOnBackgroundThread() {
-
-        // Tint the FAB to white
-        check_update.drawable.mutate().setTint(Color.WHITE)
 
         // Set OnClickListeners
         Handler().postDelayed({

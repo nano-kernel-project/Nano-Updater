@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 8:54 PM.
+ * Last modified 11/9/19 8:58 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -85,7 +85,7 @@ class FlashKernel {
                 }
                 AlertDialog.Builder(context, R.style.DialogTheme)
                         .setTitle("Flash Kernel")
-                        .setMessage("You're about to flash ${file.name}. Your device will reboot after the process of flashing. Would you like to flash now?")
+                        .setMessage("You're about to flash ${file.name}. Your device will reboot after flashing is successful. Would you like to flash now?")
                         .setPositiveButton("Flash", object : DialogInterface.OnClickListener {
                             override fun onClick(dialog: DialogInterface?, which: Int) {
                                 FlashKernelTask(context).execute(context, file.absolutePath)
