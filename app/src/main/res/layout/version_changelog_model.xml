@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 11/9/19 8:30 PM.
+  ~ Last modified 11/9/19 8:47 PM.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,6 +32,14 @@
     android:elevation="8dp"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/changelog_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textStyle="bold"
+        tools:text="Version 1.0" />
 
     <LinearLayout
         android:id="@+id/changelog_detail"
@@ -55,13 +63,5 @@
             android:scrollbars="vertical" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/changelog_version"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textStyle="bold"
-        tools:text="Version 1.0" />
 
 </LinearLayout>
