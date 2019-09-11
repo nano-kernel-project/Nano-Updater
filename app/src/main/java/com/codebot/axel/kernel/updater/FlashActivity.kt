@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 6:33 PM.
+ * Last modified 11/9/19 8:37 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -27,6 +27,7 @@ import android.graphics.Color
 import android.graphics.drawable.Animatable2
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,7 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
+
 class FlashActivity : AppCompatActivity() {
 
     private var packageList = ArrayList<Package>()
@@ -54,6 +56,14 @@ class FlashActivity : AppCompatActivity() {
 
         selectFile.drawable.mutate().setTint(Color.WHITE)
 
+        fileRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0)
+                    selectFile.hide()
+                else if (dy < 0)
+                    selectFile.show()
+            }
+        })
         selectFile.setOnClickListener {
             if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE))
                 FlashKernel().launchFileChooser(this@FlashActivity)
@@ -65,6 +75,7 @@ class FlashActivity : AppCompatActivity() {
         }
     }
 
+
     private fun initialize() {
         val nanoDirectory = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
         if (nanoDirectory.exists()) {
@@ -73,7 +84,10 @@ class FlashActivity : AppCompatActivity() {
 
             for (file in files) {
                 var size = (file.length() / 1000000.00).toString()
-                size = size.substring(0, 5)
+                if (size.length - size.lastIndexOf('.') <= 2)
+                    size += "00"
+                Log.d("Size", "length - " + size.length + " index of dot - " + size.lastIndexOf('.') + " and it's size - " + size)
+                size = size.substring(0, size.lastIndexOf('.') + 3)
                 val date = Date(extractDateFromFileName(file.name))
                 val dateFormat = SimpleDateFormat("MMM dd, yyyy")
                 packageList.add(Package(file.name, size, dateFormat.format(date), file.absolutePath))

@@ -17,13 +17,15 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 10:35 PM.
+ * Last modified 11/9/19 7:45 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.ConnectivityManager
@@ -183,8 +185,8 @@ class Utils {
      *  @param context Receives the context from calling Activity
      *  @param installPackage The package file to be flashed
      */
-    fun performAutoFlash(installPackage: File) {
-        FlashKernel().flashPackage(installPackage.name)
+    fun performAutoFlash(context: Context, installPackage: File) {
+        FlashKernel().flashPackage(context, installPackage.name)
     }
 
     /**
@@ -258,10 +260,10 @@ class Utils {
             performManualFlash(context, installPackage)
         }
         context.expanded_autoFlasherImage.setOnClickListener {
-            performAutoFlash(installPackage)
+            performAutoFlash(context, installPackage)
         }
         context.autoFlasherImage.setOnClickListener {
-            performAutoFlash(installPackage)
+            performAutoFlash(context, installPackage)
         }
     }
 
@@ -425,5 +427,23 @@ class Utils {
             ActivityCompat.requestPermissions(context, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), storagePermissionCode)
             false
         }
+    }
+
+    fun showDialog(context: Context, absolutePath: String) {
+        val packageToBeFlashed = absolutePath.substring(absolutePath.lastIndexOf('/') + 1, absolutePath.length)
+        AlertDialog.Builder(context, R.style.DialogTheme)
+                .setTitle("Flash Kernel")
+                .setMessage("You're about to flash $packageToBeFlashed within the app. Your device will reboot after the flashing is successful. Would you like to flash now?")
+                .setPositiveButton("Flash", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        FlashKernelTask(context).execute(context, absolutePath)
+                    }
+                })
+                .setNegativeButton("Later", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        dialog!!.dismiss()
+                    }
+                })
+                .show()
     }
 }

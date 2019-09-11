@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 26/7/19 3:22 PM.
+  ~ Last modified 11/9/19 7:54 PM.
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -64,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/version_info_background"
             android:fontFamily="@font/open_sans"
-            android:text="-"
+            android:text="Unknown"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/installed_textView"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/version_info_background"
-            android:text="-"
+            android:text="Unknown"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/latest_textView"

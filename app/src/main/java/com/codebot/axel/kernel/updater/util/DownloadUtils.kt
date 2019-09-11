@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 3:31 PM.
+ * Last modified 11/9/19 7:05 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -137,10 +137,10 @@ class DownloadUtils {
                 Utils().performManualFlash(context, installPackage)
             }
             context.autoFlasherImage.setOnClickListener {
-                Utils().performAutoFlash(installPackage)
+                Utils().performAutoFlash(context, installPackage)
             }
             context.expanded_autoFlasherImage.setOnClickListener {
-                Utils().performAutoFlash(installPackage)
+                Utils().performAutoFlash(context, installPackage)
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()
             updateProgress(context, downloadId, downloadManager)

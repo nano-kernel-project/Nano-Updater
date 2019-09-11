@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 26/7/19 11:22 PM.
+  ~ Last modified 11/9/19 8:31 PM.
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -26,8 +26,8 @@
     <color name="nav_item_checked_background">#394456</color>
     <color name="strokeColor">#5F6368</color>
     <color name="accentTitleColor">#8AB4F8</color>
-    <color name="windowBackground">#121212</color>
-    <color name="navBackground">#1D1D1D</color>
+    <color name="windowBackground">#202124</color>
+    <color name="navBackground">#303134</color>
     <color name="navIconTint">#F1F3F4</color>
     <color name="green">#4CAF50</color>
     <!--A workaround for TextInputLayout boxStrokeColor-->

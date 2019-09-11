@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 26/7/19 11:11 PM.
+  ~ Last modified 11/9/19 7:56 PM.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -122,6 +122,7 @@
                 android:layout_gravity="end"
                 android:backgroundTint="@color/accentTitleColor"
                 android:text="Submit"
+                android:textStyle="bold"
                 android:textAllCaps="false"
                 app:rippleColor="@color/navItemRipple" />
         </LinearLayout>

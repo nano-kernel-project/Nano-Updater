@@ -17,17 +17,20 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 6:43 PM.
+ * Last modified 11/9/19 7:51 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Environment
 import android.util.Log
 import com.codebot.axel.kernel.updater.FlashKernelTask
+import com.codebot.axel.kernel.updater.R
 import java.io.*
 
 
@@ -40,25 +43,32 @@ class FlashKernel {
      *  Helper method to auto flash kernel package. Reboots the device to recovery mode to flash kernel.
      *  @param packageName The package name to be flashed
      */
-    fun flashPackage(packageName: String) {
-
-        val installPackage = File(Environment.getExternalStorageDirectory().toString() + "/kernel.updater/builds//$packageName")
-        try {
-            val p = Runtime.getRuntime().exec("su")
-            val dos = DataOutputStream(p.outputStream)
-            dos.writeBytes("echo 'boot-recovery ' > ${Constants.CACHE_RECOVERY_CMD}\n")
-            dos.writeBytes("echo '--update_package=/sdcard/0/kernel.updater/builds/$packageName' > ${Constants.CACHE_RECOVERY_CMD}\n")
-            dos.writeBytes("${Constants.SHUTDOWN_BROADCAST}\n")
-            dos.writeBytes("${Constants.SYNC}\n")
-            dos.writeBytes("${Constants.REBOOT_RECOVERY_CMD}\n")
-            dos.writeBytes("exit\n")
-            dos.flush()
-            dos.close()
-            p.waitFor()
-            installPackage.delete()
-        } catch (e: Exception) {
-            Log.d("flashPackage()", "$e")
-        }
+    fun flashPackage(context: Context, absolutePath: String) {
+        val installPackage = File(absolutePath)
+        val packageName = absolutePath.substring(absolutePath.lastIndexOf('/') + 1, absolutePath.length)
+        AlertDialog.Builder(context, R.style.DialogTheme)
+                .setTitle("Flash Kernel")
+                .setMessage("Your device will reboot to recovery to flash $packageName. Would you like to reboot now?")
+                .setPositiveButton("Reboot") { dialog, which ->
+                    try {
+                        val p = Runtime.getRuntime().exec("su")
+                        val dos = DataOutputStream(p.outputStream)
+                        dos.writeBytes("echo 'boot-recovery ' > ${Constants.CACHE_RECOVERY_CMD}\n")
+                        dos.writeBytes("echo '--update_package=$absolutePath' > ${Constants.CACHE_RECOVERY_CMD}\n")
+                        dos.writeBytes("${Constants.SHUTDOWN_BROADCAST}\n")
+                        dos.writeBytes("${Constants.SYNC}\n")
+                        dos.writeBytes("${Constants.REBOOT_RECOVERY_CMD}\n")
+                        dos.writeBytes("exit\n")
+                        dos.flush()
+                        dos.close()
+                        p.waitFor()
+                        installPackage.delete()
+                    } catch (e: Exception) {
+                        Log.d("flashPackage()", "$e")
+                    }
+                }
+                .setNegativeButton("Later") { dialog, which -> dialog!!.dismiss() }
+                .show()
     }
 
     /**
@@ -72,7 +82,20 @@ class FlashKernel {
                     Utils().snackBar(context, "Choose a valid AnyKernel zip")
                     return
                 }
-                FlashKernelTask(context).execute(context, file.absolutePath)
+                AlertDialog.Builder(context, R.style.DialogTheme)
+                        .setTitle("Flash Kernel")
+                        .setMessage("You're about to flash ${file.name}. Your device will reboot after the process of flashing. Would you like to flash now?")
+                        .setPositiveButton("Flash", object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                FlashKernelTask(context).execute(context, file.absolutePath)
+                            }
+                        })
+                        .setNegativeButton("Later", object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                dialog!!.dismiss()
+                            }
+                        })
+                        .show()
             }
         }).showDialog()
     }

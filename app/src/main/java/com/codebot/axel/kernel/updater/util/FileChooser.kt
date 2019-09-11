@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 6:43 PM.
+ * Last modified 11/9/19 7:35 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -63,7 +63,7 @@ class FileChooser(private val activity: Activity) {
     }
 
     init {
-        dialog = Dialog(activity, R.style.DialogTheme)
+        dialog = Dialog(activity, R.style.ChooserTheme)
         list = ListView(activity)
         list.onItemClickListener = AdapterView.OnItemClickListener { _, _, which, _ ->
             val fileModel = list.getItemAtPosition(which) as FileModel
@@ -91,10 +91,6 @@ class FileChooser(private val activity: Activity) {
 
     fun showDialog() {
         dialog.show()
-    }
-
-    fun dismissDialog() {
-        dialog.dismiss()
     }
 
     /**

@@ -17,14 +17,13 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 26/7/19 7:52 PM.
+  ~ Last modified 11/9/19 8:36 PM.
   -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,7 +62,6 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         </LinearLayout>
-
     </RelativeLayout>
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 3:32 PM.
+ * Last modified 11/9/19 8:41 PM.
  */
 
 package com.codebot.axel.kernel.updater.adapter
@@ -27,10 +27,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.codebot.axel.kernel.updater.FlashKernelTask
 import com.codebot.axel.kernel.updater.R
 import com.codebot.axel.kernel.updater.model.Package
 import com.codebot.axel.kernel.updater.util.FlashKernel
+import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.layout_flash_expanded.view.*
 import kotlinx.android.synthetic.main.layout_update_card.view.*
@@ -65,19 +65,19 @@ class FileAdapter(private val packageList: ArrayList<Package>, private val conte
         }
 
         holder.view.autoFlasherImage.setOnClickListener {
-            FlashKernel().flashPackage(packageList[position].absolutePath)
+            FlashKernel().flashPackage(context, packageList[position].absolutePath)
         }
 
         holder.view.expanded_autoFlasherImage.setOnClickListener {
-            FlashKernel().flashPackage(packageList[position].absolutePath)
+            FlashKernel().flashPackage(context, packageList[position].absolutePath)
         }
 
         holder.view.flasherImage.setOnClickListener {
-            FlashKernelTask(context).execute(context, packageList[position].absolutePath)
+            Utils().showDialog(context, packageList[position].absolutePath)
         }
 
         holder.view.expanded_flasherImage.setOnClickListener {
-            FlashKernelTask(context).execute(context, packageList[position].absolutePath)
+            Utils().showDialog(context, packageList[position].absolutePath)
         }
 
         holder.view.fileName.isSelected = true
