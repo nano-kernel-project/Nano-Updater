@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 7:51 PM.
+ * Last modified 11/9/19 8:54 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -64,7 +64,8 @@ class FlashKernel {
                         p.waitFor()
                         installPackage.delete()
                     } catch (e: Exception) {
-                        Log.d("flashPackage()", "$e")
+                        Utils().snackBar(context!!, "Root permission denied")
+                        e.printStackTrace()
                     }
                 }
                 .setNegativeButton("Later") { dialog, which -> dialog!!.dismiss() }
@@ -191,6 +192,7 @@ class FlashKernel {
                 Utils().rebootDevice()
 
         } catch (e: Exception) {
+            Utils().snackBar(context!!, "Root permission denied")
             e.printStackTrace()
         }
     }
