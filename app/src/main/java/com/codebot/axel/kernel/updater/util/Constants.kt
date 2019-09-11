@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 4:40 PM.
+ * Last modified 11/9/19 6:22 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -29,7 +29,6 @@ import okhttp3.MediaType
 class Constants {
 
     companion object {
-        const val FILE_CHOOSER_INT = 1
         const val STORAGE_PERMISSION_CODE = 2
         const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
         val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 4/9/19 9:32 PM.
+ * Last modified 11/9/19 6:43 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -25,9 +25,9 @@ package com.codebot.axel.kernel.updater.util
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Environment
 import android.util.Log
+import com.codebot.axel.kernel.updater.FlashKernelTask
 import java.io.*
 
 
@@ -64,17 +64,17 @@ class FlashKernel {
     /**
      *  Helper method to open a file chooser for manual flashing.
      *  @param context Reference from the base Activity.
-     *  @param fileChooserCode Unique code used for verifying the success of file chooser in onActivityResult()
      */
-    fun launchFileChooser(context: Context, fileChooserCode: Int) {
-        val fileChooserIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        fileChooserIntent.type = "*/*"
-        fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE)
-        try {
-            (context as Activity).startActivityForResult(Intent.createChooser(fileChooserIntent, "Select a zip package"), fileChooserCode)
-        } catch (e: Exception) {
-            Log.e("launchFileChooser", "$e")
-        }
+    fun launchFileChooser(context: Context) {
+        FileChooser(context as Activity).setFileListener(object : FileChooser.FileSelectedListener {
+            override fun fileSelected(file: File) {
+                if (!isAnyKernelZip(file.absolutePath)) {
+                    Utils().snackBar(context, "Choose a valid AnyKernel zip")
+                    return
+                }
+                FlashKernelTask(context).execute(context, file.absolutePath)
+            }
+        }).showDialog()
     }
 
     /**
@@ -205,7 +205,7 @@ class FlashKernel {
         val bufferedReader = BufferedReader(InputStreamReader(process.inputStream))
         var line = bufferedReader.readLine()
         while (line != null) {
-            if (line.equals("unzip")) {
+            if (line == "unzip") {
                 return true
             }
             line = bufferedReader.readLine()
@@ -213,12 +213,16 @@ class FlashKernel {
         return false
     }
 
+    /**
+     * Helper method to check if the selected zip is a valid AnyKernel zip.
+     * @param absolutePath is the path of file
+     */
     private fun isAnyKernelZip(absolutePath: String): Boolean {
         val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
         ZipManager.unzip(absolutePath, "${installPackagePath.absolutePath}/")
         val files = installPackagePath.listFiles()
         for (file in files) {
-            if (file.name.equals("anykernel.sh")) {
+            if (file.name == "anykernel.sh") {
                 return true
             }
         }
