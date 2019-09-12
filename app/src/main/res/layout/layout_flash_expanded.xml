@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 26/7/19 11:11 PM.
+  ~ Last modified 12/9/19 12:22 PM.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,11 +37,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/colorAccent"
+        android:text="Package Info"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="Package"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/strokeColor" />
 
     <TextView
         android:id="@+id/expanded_packageInfoTextView"

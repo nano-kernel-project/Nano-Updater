@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 11/9/19 8:47 PM.
+  ~ Last modified 12/9/19 12:22 PM.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,7 +51,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@color/strokeColor" />
@@ -63,5 +63,4 @@
             android:scrollbars="vertical" />
 
     </LinearLayout>
-
 </LinearLayout>

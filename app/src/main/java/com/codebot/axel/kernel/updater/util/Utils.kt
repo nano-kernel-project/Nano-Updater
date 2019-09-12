@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 7:45 PM.
+ * Last modified 12/9/19 12:23 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -118,30 +118,19 @@ class Utils {
                     val packagesDir = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
                     if (packagesDir.exists()) {
                         try {
-                            if (packagesDir.listFiles().isNotEmpty()) {
-                                for (file in packagesDir.listFiles()) {
+                            val files = packagesDir.listFiles()
+                            if (files.isNotEmpty()) {
+                                for (file in files) {
+                                    Log.d("Utils", "Packages found in builds dir")
                                     if (file.name == nanoPackage[0].filename) {
+                                        Log.d("Utils", "Update package already exist in builds dir")
                                         setViewVisibilityAndListeners(context, file, View.GONE)
                                         break
-                                    }
+                                    } else
+                                        setVisibilityForViews(context)
                                 }
                             } else {
-                                // Set required views enabled
-                                if (context.update_card_stub != null)
-                                    context.update_card_stub.inflate()
-                                if (context.package_list_stub != null)
-                                    context.package_list_stub.inflate()
-                                if (context.update_info_stub != null)
-                                    context.update_info_stub.inflate()
-                                if (context.flash_expanded_stub != null)
-                                    context.flash_expanded_stub.inflate()
-                                context.packageInfoTextView.isSelected = true
-                                context.md5InfoTextView.isSelected = true
-                                context.fileName.isSelected = true
-                                context.expanded_packageInfoTextView.isSelected = true
-                                if (context.update_info_expanded.visibility == View.VISIBLE)
-                                    context.update_info_expanded.visibility = View.GONE
-                                context.updates_compact.visibility = View.VISIBLE
+                                setVisibilityForViews(context)
                             }
                         } catch (e: Exception) {
                             Log.e("isUpdateAvailable", "$e")
@@ -445,5 +434,24 @@ class Utils {
                     }
                 })
                 .show()
+    }
+
+    private fun setVisibilityForViews(context: Activity) {
+        // Set required views enabled
+        if (context.update_card_stub != null)
+            context.update_card_stub.inflate()
+        if (context.package_list_stub != null)
+            context.package_list_stub.inflate()
+        if (context.update_info_stub != null)
+            context.update_info_stub.inflate()
+        if (context.flash_expanded_stub != null)
+            context.flash_expanded_stub.inflate()
+        context.packageInfoTextView.isSelected = true
+        context.md5InfoTextView.isSelected = true
+        context.fileName.isSelected = true
+        context.expanded_packageInfoTextView.isSelected = true
+        if (context.update_info_expanded.visibility == View.VISIBLE)
+            context.update_info_expanded.visibility = View.GONE
+        context.updates_compact.visibility = View.VISIBLE
     }
 }
