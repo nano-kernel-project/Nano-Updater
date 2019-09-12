@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 7:05 PM.
+ * Last modified 12/9/19 1:42 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -30,6 +30,7 @@ import android.os.Environment
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.codebot.axel.kernel.updater.R
 import com.codebot.axel.kernel.updater.model.Nano
 import kotlinx.android.synthetic.main.layout_flash_expanded.*
@@ -143,6 +144,7 @@ class DownloadUtils {
                 Utils().performAutoFlash(context, installPackage)
             }
             Toast.makeText(context, "Downloading $downloadFileName", Toast.LENGTH_SHORT).show()
+            context.downloadButton.setTextColor(ContextCompat.getColor(context, R.color.strokeColor))
             updateProgress(context, downloadId, downloadManager)
             return downloadId
         }

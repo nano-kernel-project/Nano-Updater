@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 12/9/19 12:56 PM.
+ * Last modified 12/9/19 1:59 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -38,6 +38,7 @@ import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.codebot.axel.kernel.updater.about.AboutActivity
 import com.codebot.axel.kernel.updater.model.Nano
 import com.codebot.axel.kernel.updater.util.Constants.Companion.API_ENDPOINT_URL
@@ -312,6 +313,7 @@ class MainActivity : AppCompatActivity() {
                     context.expanded_dateInfoTextView.text = Utils().formatDate(installPackage.lastModified().toString())
                     context.packageInfoCompact.visibility = View.VISIBLE
                 } else {
+                    (context as Activity).downloadButton.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
                     Toast.makeText(this@MainActivity, "Download failed", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -319,7 +321,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-        layoutParams.setMargins(0, 0, 0, bottomSheetBehavior!!.peekHeight * 2 + 16)
+        layoutParams.setMargins(0, 0, 0, Utils().getPaddingUnitsInDp(this, bottomSheetBehavior!!.peekHeight + 16))
         if (update_card_stub != null)
             update_card_stub.inflate()
         if (update_info_stub != null)
