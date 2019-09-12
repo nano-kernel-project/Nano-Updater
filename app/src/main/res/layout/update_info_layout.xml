@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 12/9/19 1:10 PM.
+  ~ Last modified 12/9/19 1:35 PM.
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -145,6 +145,13 @@
         android:layout_marginBottom="8dp"
         android:background="@color/strokeColor" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/changelogView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="vertical" />
+
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_info"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -152,13 +159,6 @@
         android:layout_height="wrap_content"
         android:indeterminate="false"
         android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/changelogView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="16dp"
-        android:scrollbars="vertical" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/downloadButton"
