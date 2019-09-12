@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 6:22 PM.
+ * Last modified 12/9/19 12:57 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -31,7 +31,6 @@ class Constants {
     companion object {
         const val STORAGE_PERMISSION_CODE = 2
         const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
-        val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")
         const val FEEDBACK_NAME_ENTRY_ID = "entry.1174402051"
         const val FEEDBACK_TELEGRAM_ENTRY_ID = "entry.1168756939"
         const val FEEDBACK_DEVICE_ENTRY_ID = "entry.615481595"
@@ -42,12 +41,14 @@ class Constants {
         const val DOWNLOAD = "Download"
         const val BUILD_DATE = "nano.release.date"
         const val BUILD_VERSION = "nano.version"
-        val KERNEL_VERSION: String = System.getProperty("os.version")
         const val SHUTDOWN_BROADCAST = "am broadcast android.intent.action.ACTION_SHUTDOWN"
         const val SYNC = "sync"
         const val NORMAL_REBOOT_CMD = "svc power reboot"
         const val REBOOT_RECOVERY_CMD = "svc power reboot recovery"
         const val CACHE_RECOVERY_CMD = "/cache/recovery/command"
+        val DEVICE = Utils().getBuildProperty(KEY_CODENAME_DEVICE)
+        val KERNEL_VERSION: String = System.getProperty("os.version")!!
+        val FORM_DATA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8")
         val ROTATE_ANIMATION = RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
     }
 }

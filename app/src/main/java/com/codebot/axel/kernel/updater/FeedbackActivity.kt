@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 3:32 PM.
+ * Last modified 12/9/19 12:57 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -59,7 +59,7 @@ class FeedbackActivity : AppCompatActivity() {
             try {
                 postBody = Constants.FEEDBACK_NAME_ENTRY_ID + "=" + URLEncoder.encode(feedbackName, "UTF-8") + "&" +
                         Constants.FEEDBACK_TELEGRAM_ENTRY_ID + "=" + URLEncoder.encode(feedbackTelegram, "UTF-8") + "&" +
-                        Constants.FEEDBACK_DEVICE_ENTRY_ID + "=" + URLEncoder.encode(Utils().checkInstalledVersion(KEY_CODENAME_DEVICE), "UTF-8") + "&" +
+                        Constants.FEEDBACK_DEVICE_ENTRY_ID + "=" + URLEncoder.encode(Utils().getBuildProperty(KEY_CODENAME_DEVICE), "UTF-8") + "&" +
                         Constants.FEEDBACK_PROBLEM_ENTRY_ID + "=" + URLEncoder.encode(feedbackProblem, "UTF-8")
 
                 val client = OkHttpClient()

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 9:04 PM.
+ * Last modified 12/9/19 12:56 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -265,8 +265,8 @@ class MainActivity : AppCompatActivity() {
 
         Thread(Runnable {
             val preferenceManager = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-            buildDate = Utils().checkInstalledVersion(BUILD_DATE)
-            buildVersion = Utils().checkInstalledVersion(BUILD_VERSION)
+            buildDate = Utils().getBuildProperty(BUILD_DATE)
+            buildVersion = Utils().getBuildProperty(BUILD_VERSION)
             currentVersion = Utils().formatDate(buildDate)
 
             // Attempt to load json data
