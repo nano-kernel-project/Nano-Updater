@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 26/7/19 3:22 PM.
+ * Last modified 2/10/19 7:12 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -26,28 +26,36 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.AsyncTask
 import com.codebot.axel.kernel.updater.util.FlashKernel
+import com.codebot.axel.kernel.updater.util.Utils
 import java.lang.ref.WeakReference
 
-class FlashKernelTask(context: Context) : AsyncTask<Any, Void, Void>() {
+class FlashKernelTask(context: Context) : AsyncTask<Any, String, Boolean>() {
 
     private val contextRef = WeakReference(context)
     private val progressDialog = ProgressDialog(contextRef.get())
 
-    override fun doInBackground(vararg params: Any?): Void? {
-        FlashKernel().unzipAndFlash((params[0] as Context), (params[1] as String), progressDialog)
-        return null
+    override fun doInBackground(vararg params: Any?): Boolean {
+        val context = (params[0] as Context)
+        val absolutePath = params[1] as String
+        if (!FlashKernel().isAnyKernelZip(context, absolutePath))
+            return false
+        publishProgress("Flashing kernel")
+        FlashKernel().unzipAndFlash(context, absolutePath)
+        return true
     }
 
     override fun onPreExecute() {
         progressDialog.isIndeterminate = true
         progressDialog.setCancelable(false)
-        progressDialog.setMessage("Flashing Kernel")
+        progressDialog.setMessage("Verifying zip")
         progressDialog.show()
         super.onPreExecute()
     }
 
-    override fun onPostExecute(result: Void?) {
+    override fun onPostExecute(result: Boolean) {
         progressDialog.cancel()
+        if (!result)
+            Utils().snackBar(contextRef.get()!!, "Choose a valid AnyKernel zip")
         super.onPostExecute(result)
     }
 }

@@ -17,17 +17,15 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/10/19 5:16 PM.
+ * Last modified 2/10/19 7:12 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.os.Environment
 import android.util.Log
 import com.codebot.axel.kernel.updater.R
 import java.io.*
@@ -40,7 +38,7 @@ class FlashKernel {
 
     /**
      *  Helper method to auto flash kernel package. Reboots the device to recovery mode to flash kernel.
-     *  @param packageName The package name to be flashed
+     *  @param absolutePath The package path to be flashed
      */
     fun flashPackage(context: Context, absolutePath: String) {
         val installPackage = File(absolutePath)
@@ -118,13 +116,13 @@ class FlashKernel {
      * @param absolutePath The absolute path of the package to be flashed.
      * @param progressDialog Used to display the Flashing Kernel message.
      */
-    fun unzipAndFlash(context: Context?, absolutePath: String, progressDialog: ProgressDialog) {
+    fun unzipAndFlash(context: Context?, absolutePath: String) {
         var isFlashSuccessful = false
         val updateBinaryPath = "/META-INF/com/google/android/update-binary"
         val path = absolutePath.substring(0, absolutePath.lastIndexOf("/") + 1)
         var modifiedPath = ""
         var fileName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.length)
-        val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        val installPackagePath = File("${context!!.getExternalFilesDir(null)!!.path}/install_package/")
         try {
             val process = Runtime.getRuntime().exec("su")
             val dos = DataOutputStream(process.outputStream)
@@ -143,14 +141,14 @@ class FlashKernel {
             dos.writeBytes("mount -o rw,remount /\n")
             if (!checkUnZipUtility()) {
                 Log.e("FlashActivity", "unZip")
-                copyAssets(context!!)
+                copyAssets(context)
                 dos.writeBytes("mount -o rw,remount /system\n")
-                dos.writeBytes("mv ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/unzip /system/bin/unzip\n")
+                dos.writeBytes("mv ${context.getExternalFilesDir(null)!!.path}/tmp/unzip /system/bin/unzip\n")
                 dos.writeBytes("chmod 755 /system/bin/unzip\n")
-                dos.writeBytes("rm -rf ${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/\n")
+                dos.writeBytes("rm -rf ${context.getExternalFilesDir(null)!!.path}/tmp/\n")
                 dos.writeBytes("mount -o ro,remount /system\n")
             }
-            val tempPath = "${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp"
+            val tempPath = "${context.getExternalFilesDir(null)!!.path}/tmp"
             dos.writeBytes("mkdir $tempPath/\n")
 
             if (!unwantedCharsPresent) {
@@ -184,7 +182,7 @@ class FlashKernel {
             }
 
             if (!unwantedCharsPresent)
-                Utils().writeLogToFile(builder.toString(), absolutePath)
+                Utils().writeLogToFile(context, builder.toString(), absolutePath)
 
             if (unwantedCharsPresent) {
                 val origFile = File(absolutePath)
@@ -197,7 +195,7 @@ class FlashKernel {
                 Utils().rebootDevice()
 
         } catch (e: Exception) {
-            Utils().snackBar(context!!, "Root permission denied")
+            Utils().snackBar(context, "Root permission denied")
             e.printStackTrace()
         }
     }
@@ -207,10 +205,10 @@ class FlashKernel {
      *  @param context Reference from base Activity
      */
     private fun copyAssets(context: Context) {
-        val file = File(Environment.getExternalStorageDirectory().path + "/kernel.updater/tmp/")
+        val file = File(context.getExternalFilesDir(null)!!.path + "/tmp/")
         if (!file.exists())
             file.mkdirs()
-        val fileOutputStream = FileOutputStream("${Environment.getExternalStorageDirectory().path}/kernel.updater/tmp/unzip")
+        val fileOutputStream = FileOutputStream("${context.getExternalFilesDir(null)!!.path}/tmp/unzip")
         val buffer = ByteArray(1024)
         var length: Int
         val inputStream = context.assets.open("unzip")
@@ -247,22 +245,16 @@ class FlashKernel {
         // No kernel size is above 40 MB
         if (File(absolutePath).length() > 40000000)
             return false
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Verifying zip")
-        progressDialog.show()
-        val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        val installPackagePath = File("${context.getExternalFilesDir(null)!!.path}/install_package/")
         ZipManager.unzip(absolutePath, "${installPackagePath.absolutePath}/")
         val files = installPackagePath.listFiles()
         for (file in files) {
             if (file.name.equals("anykernel.sh")) {
-                if (progressDialog.isShowing)
-                    progressDialog.dismiss()
+                installPackagePath.deleteRecursively()
                 return true
             }
         }
         installPackagePath.deleteRecursively()
-        if (progressDialog.isShowing)
-            progressDialog.dismiss()
         return false
     }
 }

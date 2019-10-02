@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 12/9/19 1:59 PM.
+ * Last modified 2/10/19 7:09 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -30,7 +30,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.view.View
@@ -303,7 +302,7 @@ class MainActivity : AppCompatActivity() {
                     context.downloadButton.visibility = View.VISIBLE
                     context.update_fileDownload.visibility = View.VISIBLE
                     val packageName = DownloadUtils().getDownloadedFileName(id, this@MainActivity)
-                    val installPackage = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/$packageName")
+                    val installPackage = File("${getExternalFilesDir(null).path}/builds/$packageName")
                     context.fileName.text = installPackage.name
                     context.fileDate.text = Utils().formatDate(installPackage.lastModified().toString())
                     context.fileSize.text = "${installPackage.length() / 1000000} MB"
@@ -312,6 +311,11 @@ class MainActivity : AppCompatActivity() {
                     context.expanded_packageInfoTextView.text = installPackage.name
                     context.expanded_dateInfoTextView.text = Utils().formatDate(installPackage.lastModified().toString())
                     context.packageInfoCompact.visibility = View.VISIBLE
+
+                    val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    val bottomSheetBehavior = BottomSheetBehavior.from(context.bottom_sheet)
+                    layoutParams.setMargins(0, 0, 0, Utils().getPaddingUnitsInDp(context, bottomSheetBehavior!!.peekHeight + 16))
+                    context.packageInfoExpanded.layoutParams = layoutParams
                 } else {
                     (context as Activity).downloadButton.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
                     Toast.makeText(this@MainActivity, "Download failed", Toast.LENGTH_SHORT).show()

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/10/19 4:59 PM.
+ * Last modified 2/10/19 7:09 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -29,7 +29,6 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.ConnectivityManager
-import android.os.Environment
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
@@ -296,19 +295,19 @@ class Utils {
 
     /**
      *  Helper method to write logs to a file when manual flashing is under progress.
-     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  Logs are stored under /sdcard/Android/data/com.codebot.axel.kernel.updater/files/logs.
      *  @param log The text to be written in the file
      *  @param absolutePath The absolute path of the file that is currently being flashed
      */
-    fun writeLogToFile(log: String, absolutePath: String) {
+    fun writeLogToFile(context: Context, log: String, absolutePath: String) {
         try {
             val currentTimeAndDate = DateFormat.getDateTimeInstance().format(Date())
             val file = absolutePath.substring(absolutePath.lastIndexOf('/') + 1, absolutePath.length)
             val logName = "$currentTimeAndDate-$file.log"
-            val logPath = "${Environment.getExternalStorageDirectory().path}/kernel.updater/logs/"
+            val logPath = "${context.getExternalFilesDir(null).path}/logs/"
             if (!File(logPath).exists())
                 File(logPath).mkdirs()
-            val logFile = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/logs/$logName")
+            val logFile = File("${context.getExternalFilesDir(null).path}/logs/$logName")
             val fileWriter = FileWriter(logFile)
             fileWriter.append(log)
             fileWriter.flush()
@@ -320,7 +319,7 @@ class Utils {
 
     /**
      *  Helper method to write logs to a file when manual flashing is under progress.
-     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  Logs are stored under /sdcard/Android/data/com.codebot.axel.kernel.updater/files/logs.
      *  @param context Reference of the base Activity.
      *  @param bodyOfJSON The response that's returned from the remote in JSON format.
      */
@@ -336,7 +335,7 @@ class Utils {
 
     /**
      *  Helper method to write logs to a file when manual flashing is under progress.
-     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  Logs are stored under /sdcard/Android/data/com.codebot.axel.kernel.updater/files/logs.
      *  @param context Reference of the base Activity.
      *  @return Returns the offline data in JSON format (String).
      */
@@ -347,7 +346,7 @@ class Utils {
 
     /**
      *  Helper method to write logs to a file when manual flashing is under progress.
-     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  Logs are stored under /sdcard/Android/data/com.codebot.axel.kernel.updater/files/logs.
      *  @param context Reference of the base Activity.
      *  @param changelogData The response that's returned from the remote in text format.
      */
@@ -363,7 +362,7 @@ class Utils {
 
     /**
      *  Helper method to write logs to a file when manual flashing is under progress.
-     *  Logs are stored under /sdcard/kernel.updater/logs.
+     *  Logs are stored under /sdcard/Android/data/com.codebot.axel.kernel.updater/files/logs.
      *  @param context Reference of the base Activity.
      *  @return Returns the offline changelog data in the ArrayList<String> format
      */
@@ -451,7 +450,7 @@ class Utils {
 
     private fun verifyAndDisplayUpdate(context: Activity, nanoPackage: Array<NanoPackage>) {
         if (isStoragePermissionGranted(context, Constants.STORAGE_PERMISSION_CODE)) {
-            val packagesDir = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
+            val packagesDir = File("${context.getExternalFilesDir(null).path}/builds/")
             if (packagesDir.exists()) {
                 try {
                     val files = packagesDir.listFiles()

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 2/10/19 5:40 PM.
+ * Last modified 2/10/19 7:12 PM.
  */
 
 package com.codebot.axel.kernel.updater
@@ -80,7 +80,7 @@ class FlashActivity : AppCompatActivity() {
 
 
     private fun initialize() {
-        val nanoDirectory = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/builds/")
+        val nanoDirectory = File("${getExternalFilesDir(null)!!.path}/builds/")
         if (nanoDirectory.exists()) {
             val files = nanoDirectory.listFiles()
             noOfPackagesOnStorage.text = "Packages ready to be flashed: ${files.size}"
@@ -122,11 +122,7 @@ class FlashActivity : AppCompatActivity() {
                 if ("com.android.providers.downloads.documents" == dataUri.authority || "com.android.externalstorage.documents" == dataUri.authority) {
                     val pathContainsColon = getPath(dataUri).contains(":")
                     if (!pathContainsColon) {
-                        val absolutePath = getPath(dataUri)
-                        if (FlashKernel().isAnyKernelZip(this, absolutePath))
-                            Utils().showDialog(this@FlashActivity, absolutePath)
-                        else
-                            Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                        Utils().showDialog(this@FlashActivity, getPath(dataUri))
                     } else {
                         val filePath = getPath(dataUri).split(":")
                         val isRaw = filePath[0] == "/document/raw"
@@ -134,28 +130,15 @@ class FlashActivity : AppCompatActivity() {
                         if (!isRaw) {
                             val zipPath = filePath[1]
                             absolutePath = "${Environment.getExternalStorageDirectory().path}/$zipPath"
-                            if (!FlashKernel().isAnyKernelZip(this, absolutePath)) {
-                                Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
-                                return
-                            }
                             Utils().showDialog(this@FlashActivity, absolutePath)
                         } else {
                             absolutePath = filePath[1]
-                            if (FlashKernel().isAnyKernelZip(this, absolutePath))
-                                Utils().showDialog(this@FlashActivity, absolutePath)
-                            else {
-                                Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
-                                return
-                            }
+                            Utils().showDialog(this@FlashActivity, absolutePath)
                         }
                     }
                 } else {
-                    Utils().snackBar(this, "Hold on! Verifying zip")
                     val absolutePath = convertDocsToFile(dataUri)
-                    if (FlashKernel().isAnyKernelZip(this, absolutePath))
-                        Utils().showDialog(this@FlashActivity, absolutePath)
-                    else
-                        Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                    Utils().showDialog(this@FlashActivity, absolutePath)
                 }
             }
         }
@@ -217,21 +200,21 @@ class FlashActivity : AppCompatActivity() {
     }
 
     private fun convertDocsToFile(uri: Uri): String {
-        val file = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/TempPackage.zip")
-        val tmpPath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        val file = File("${getExternalFilesDir(null)!!.path}/install_package/TempPackage.zip")
+        val tmpPath = File("${getExternalFilesDir(null)!!.path}/install_package/")
         if (!tmpPath.exists())
             tmpPath.mkdirs()
         try {
-            val iS = contentResolver.openInputStream(uri)
+            val inputStream = contentResolver.openInputStream(uri)
             val fos = FileOutputStream(file)
             val buffer = ByteArray(1024)
-            var bytesRead: Int = iS.read(buffer)
-            //read from is to buffer
+            var bytesRead: Int = inputStream.read(buffer)
+            //read from inputStream to buffer
             while (bytesRead != -1) {
                 fos.write(buffer, 0, bytesRead)
-                bytesRead = iS.read(buffer)
+                bytesRead = inputStream.read(buffer)
             }
-            iS.close()
+            inputStream.close()
             //flush OutputStream to write any buffered data to file
             fos.flush()
             fos.close()

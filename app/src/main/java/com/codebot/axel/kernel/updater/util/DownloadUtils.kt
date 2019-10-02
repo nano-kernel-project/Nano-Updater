@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 12/9/19 1:42 PM.
+ * Last modified 2/10/19 7:09 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -26,7 +26,6 @@ import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.Toast
@@ -112,7 +111,7 @@ class DownloadUtils {
         else
             nanoData!!.AOSP[0].url
         val downloadFileName = downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1, downloadUrl.length)
-        val downloadPath = Environment.getExternalStorageDirectory().toString() + "/kernel.updater/builds/"
+        val downloadPath = context.getExternalFilesDir(null)!!.path + "/builds/"
 
         if (!File(downloadPath).exists())
             File(downloadPath).mkdirs()
@@ -128,7 +127,7 @@ class DownloadUtils {
 
             val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
                     .setTitle(downloadFileName)
-                    .setDestinationInExternalPublicDir("/kernel.updater/builds/", downloadFileName)
+                    .setDestinationInExternalFilesDir(context, null, "builds/$downloadFileName")
 
             downloadId = downloadManager.enqueue(downloadRequest)
             context.flasherImage.setOnClickListener {
