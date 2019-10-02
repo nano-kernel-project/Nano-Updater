@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 12/9/19 2:13 PM.
+ * Last modified 2/10/19 4:59 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -170,20 +170,7 @@ class Utils {
      *  @param installPackage The package file to be flashed
      */
     fun performManualFlash(context: Context, installPackage: File) {
-        AlertDialog.Builder(context, R.style.DialogTheme)
-                .setTitle("Flash Kernel")
-                .setMessage("You're about to flash ${installPackage.name}. Your device will reboot after flashing is successful. Would you like to flash now?")
-                .setPositiveButton("Flash", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        FlashKernelTask(context).execute(context, installPackage.absolutePath)
-                    }
-                })
-                .setNegativeButton("Later", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog!!.dismiss()
-                    }
-                })
-                .show()
+        Utils().showDialog(context, installPackage.absolutePath)
     }
 
     /**
@@ -276,10 +263,11 @@ class Utils {
             }
             is FeedbackActivity -> snackBar = Snackbar.make((context as Activity).feedback_root_layout, message, Snackbar.LENGTH_LONG)
             is ChangelogActivity -> snackBar = Snackbar.make((context as Activity).changelog_root_layout, message, Snackbar.LENGTH_LONG)
-            else -> snackBar = Snackbar.make((context as Activity).flasherLayout, message, Snackbar.LENGTH_LONG)
+            else -> {
+                snackBar = Snackbar.make((context as Activity).flasherLayout, message, Snackbar.LENGTH_LONG)
+                snackBar.anchorView = context.selectFile
+            }
         }
-        snackBar.setBackgroundTint(ContextCompat.getColor(context, R.color.navBackground))
-        snackBar.setTextColor(ContextCompat.getColor(context, R.color.navIconTint))
         snackBar.show()
     }
 

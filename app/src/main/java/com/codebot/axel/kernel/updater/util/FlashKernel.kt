@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 8:58 PM.
+ * Last modified 2/10/19 5:16 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -26,10 +26,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Environment
 import android.util.Log
-import com.codebot.axel.kernel.updater.FlashKernelTask
 import com.codebot.axel.kernel.updater.R
 import java.io.*
 
@@ -75,8 +74,9 @@ class FlashKernel {
     /**
      *  Helper method to open a file chooser for manual flashing.
      *  @param context Reference from the base Activity.
+     *  @param fileChooserCode Unique code used for verifying the success of file chooser in onActivityResult()
      */
-    fun launchFileChooser(context: Context) {
+    /*fun launchFileChooser(context: Context) {
         FileChooser(context as Activity).setFileListener(object : FileChooser.FileSelectedListener {
             override fun fileSelected(file: File) {
                 if (!isAnyKernelZip(file.absolutePath)) {
@@ -99,6 +99,17 @@ class FlashKernel {
                         .show()
             }
         }).showDialog()
+    }*/
+
+    fun launchFileChooser(context: Context, fileChooserCode: Int) {
+        val fileChooserIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        fileChooserIntent.type = "application/zip"
+        fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE)
+        try {
+            (context as Activity).startActivityForResult(Intent.createChooser(fileChooserIntent, "Select a zip package"), fileChooserCode)
+        } catch (e: Exception) {
+            Log.e("launchFileChooser", "$e")
+        }
     }
 
     /**
@@ -114,12 +125,6 @@ class FlashKernel {
         var modifiedPath = ""
         var fileName = absolutePath.substring(absolutePath.lastIndexOf("/") + 1, absolutePath.length)
         val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
-        if (!isAnyKernelZip(absolutePath)) {
-            (context as Activity).runOnUiThread {
-                Utils().snackBar(context, "Not a valid AnyKernel zip")
-            }
-            return
-        }
         try {
             val process = Runtime.getRuntime().exec("su")
             val dos = DataOutputStream(process.outputStream)
@@ -230,7 +235,7 @@ class FlashKernel {
         val bufferedReader = BufferedReader(InputStreamReader(process.inputStream))
         var line = bufferedReader.readLine()
         while (line != null) {
-            if (line == "unzip") {
+            if (line.equals("unzip")) {
                 return true
             }
             line = bufferedReader.readLine()
@@ -238,20 +243,26 @@ class FlashKernel {
         return false
     }
 
-    /**
-     * Helper method to check if the selected zip is a valid AnyKernel zip.
-     * @param absolutePath is the path of file
-     */
-    private fun isAnyKernelZip(absolutePath: String): Boolean {
+    fun isAnyKernelZip(context: Context, absolutePath: String): Boolean {
+        // No kernel size is above 40 MB
+        if (File(absolutePath).length() > 40000000)
+            return false
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Verifying zip")
+        progressDialog.show()
         val installPackagePath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
         ZipManager.unzip(absolutePath, "${installPackagePath.absolutePath}/")
         val files = installPackagePath.listFiles()
         for (file in files) {
-            if (file.name == "anykernel.sh") {
+            if (file.name.equals("anykernel.sh")) {
+                if (progressDialog.isShowing)
+                    progressDialog.dismiss()
                 return true
             }
         }
         installPackagePath.deleteRecursively()
+        if (progressDialog.isShowing)
+            progressDialog.dismiss()
         return false
     }
 }

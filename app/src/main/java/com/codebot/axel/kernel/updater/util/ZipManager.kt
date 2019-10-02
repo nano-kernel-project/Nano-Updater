@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 4/9/19 9:32 PM.
+ * Last modified 2/10/19 4:18 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -41,7 +41,7 @@ object ZipManager {
                 var ze: ZipEntry? = zin.nextEntry
                 while (ze != null) {
                     val path = location + File.separator + ze!!.name
-
+                    Log.d("Unzipping", ze.name)
                     if (ze.isDirectory) {
                         val unzipFile = File(path)
                         if (!unzipFile.isDirectory) {

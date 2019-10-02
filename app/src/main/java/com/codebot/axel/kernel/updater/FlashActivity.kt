@@ -17,15 +17,19 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 11/9/19 9:04 PM.
+ * Last modified 2/10/19 5:40 PM.
  */
 
 package com.codebot.axel.kernel.updater
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Animatable2
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -33,12 +37,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codebot.axel.kernel.updater.adapter.FileAdapter
 import com.codebot.axel.kernel.updater.model.Package
+import com.codebot.axel.kernel.updater.util.Constants.Companion.FILE_CHOOSER_INT
 import com.codebot.axel.kernel.updater.util.Constants.Companion.STORAGE_PERMISSION_CODE
 import com.codebot.axel.kernel.updater.util.FlashKernel
 import com.codebot.axel.kernel.updater.util.Utils
 import kotlinx.android.synthetic.main.activity_flash.*
 import kotlinx.android.synthetic.main.layout_package_info.*
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -63,7 +69,7 @@ class FlashActivity : AppCompatActivity() {
         })
         selectFile.setOnClickListener {
             if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE))
-                FlashKernel().launchFileChooser(this@FlashActivity)
+                FlashKernel().launchFileChooser(this@FlashActivity, FILE_CHOOSER_INT)
         }
         if (Utils().isStoragePermissionGranted(this@FlashActivity, STORAGE_PERMISSION_CODE)) {
             Thread {
@@ -109,6 +115,53 @@ class FlashActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == FILE_CHOOSER_INT) {
+            if (resultCode == Activity.RESULT_OK) {
+                val dataUri = data!!.data
+                if ("com.android.providers.downloads.documents" == dataUri.authority || "com.android.externalstorage.documents" == dataUri.authority) {
+                    val pathContainsColon = getPath(dataUri).contains(":")
+                    if (!pathContainsColon) {
+                        val absolutePath = getPath(dataUri)
+                        if (FlashKernel().isAnyKernelZip(this, absolutePath))
+                            Utils().showDialog(this@FlashActivity, absolutePath)
+                        else
+                            Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                    } else {
+                        val filePath = getPath(dataUri).split(":")
+                        val isRaw = filePath[0] == "/document/raw"
+                        val absolutePath: String
+                        if (!isRaw) {
+                            val zipPath = filePath[1]
+                            absolutePath = "${Environment.getExternalStorageDirectory().path}/$zipPath"
+                            if (!FlashKernel().isAnyKernelZip(this, absolutePath)) {
+                                Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                                return
+                            }
+                            Utils().showDialog(this@FlashActivity, absolutePath)
+                        } else {
+                            absolutePath = filePath[1]
+                            if (FlashKernel().isAnyKernelZip(this, absolutePath))
+                                Utils().showDialog(this@FlashActivity, absolutePath)
+                            else {
+                                Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                                return
+                            }
+                        }
+                    }
+                } else {
+                    Utils().snackBar(this, "Hold on! Verifying zip")
+                    val absolutePath = convertDocsToFile(dataUri)
+                    if (FlashKernel().isAnyKernelZip(this, absolutePath))
+                        Utils().showDialog(this@FlashActivity, absolutePath)
+                    else
+                        Utils().snackBar(this@FlashActivity, "Choose a valid AnyKernel zip")
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             STORAGE_PERMISSION_CODE -> {
@@ -127,6 +180,27 @@ class FlashActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    private fun getPath(uri: Uri): String {
+        val path: String?
+        val projection: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+
+        if (cursor == null) {
+            path = uri.path
+        } else {
+            cursor.moveToFirst()
+            val column_index = cursor.getColumnIndexOrThrow(projection[0])
+            path = cursor.getString(column_index)
+            cursor.close()
+        }
+        if (path == null || path.isEmpty()) {
+            Log.d("FlashActivity", uri.path!!)
+            return uri.path!!
+        } else
+            Log.d("FlashActivity", path)
+        return path
+    }
+
     private fun extractDateFromFileName(fileName: String): Long {
         val dateFormat = SimpleDateFormat("yyyyMMdd")
         val pattern1 = Pattern.compile(".*(\\d{8})-(\\d{8}).*")
@@ -140,5 +214,30 @@ class FlashActivity : AppCompatActivity() {
                 return dateFormat.parse(matcher2.group(1)).time
         }
         return 0L
+    }
+
+    private fun convertDocsToFile(uri: Uri): String {
+        val file = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/TempPackage.zip")
+        val tmpPath = File("${Environment.getExternalStorageDirectory().path}/kernel.updater/install_package/")
+        if (!tmpPath.exists())
+            tmpPath.mkdirs()
+        try {
+            val iS = contentResolver.openInputStream(uri)
+            val fos = FileOutputStream(file)
+            val buffer = ByteArray(1024)
+            var bytesRead: Int = iS.read(buffer)
+            //read from is to buffer
+            while (bytesRead != -1) {
+                fos.write(buffer, 0, bytesRead)
+                bytesRead = iS.read(buffer)
+            }
+            iS.close()
+            //flush OutputStream to write any buffered data to file
+            fos.flush()
+            fos.close()
+            return file.absolutePath
+        } catch (e: Exception) {
+            return ""
+        }
     }
 }

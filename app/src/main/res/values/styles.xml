@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License version 3
   ~ along with this work.
   ~
-  ~ Last modified 11/9/19 9:03 PM.
+  ~ Last modified 2/10/19 4:00 PM.
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
@@ -69,10 +69,6 @@
         <item name="android:windowBackground">@drawable/dialog_background</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
-    <style name="ChooserTheme" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/chooser_background</item>
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button">

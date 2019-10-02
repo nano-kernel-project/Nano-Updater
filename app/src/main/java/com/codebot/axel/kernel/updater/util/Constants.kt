@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License version 3
  * along with this work.
  *
- * Last modified 12/9/19 12:57 PM.
+ * Last modified 2/10/19 4:33 PM.
  */
 
 package com.codebot.axel.kernel.updater.util
@@ -29,6 +29,7 @@ import okhttp3.MediaType
 class Constants {
 
     companion object {
+        const val FILE_CHOOSER_INT = 1
         const val STORAGE_PERMISSION_CODE = 2
         const val FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf2M2N-65QKzHcwm6tNDCK5KNTyiwDRyLq5evHcK_2LsG7dkw/formResponse"
         const val FEEDBACK_NAME_ENTRY_ID = "entry.1174402051"
