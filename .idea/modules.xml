@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Nano-Updater.iml" filepath="$PROJECT_DIR$/.idea/Nano-Updater.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Nano-Updater-app.iml" filepath="$PROJECT_DIR$/app/Nano-Updater-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StudioProjects-Nano-Updater.iml" filepath="$PROJECT_DIR$/StudioProjects-Nano-Updater.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

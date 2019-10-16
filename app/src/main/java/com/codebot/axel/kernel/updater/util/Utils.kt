@@ -25,7 +25,6 @@ package com.codebot.axel.kernel.updater.util
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.ConnectivityManager
@@ -107,7 +106,7 @@ class Utils {
         val isKernelInstalled = Constants.KERNEL_VERSION.contains("Nano")
         val supportedDevices = (context as Activity).resources.getStringArray(R.array.supported_devices)
         when {
-            Constants.DEVICE in supportedDevices && !isKernelInstalled -> {
+            /*Constants.DEVICE in supportedDevices && !isKernelInstalled -> {
                 context.update_notify_textView.text = "Nano ${nanoPackage.get(0).release_number} is ready to be installed"
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
@@ -119,8 +118,8 @@ class Utils {
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.ic_info), null, null, null)
-            }
-            getBuildTimeFromDate(nanoPackage[0].date) > getBuildTimeFromDate(buildDate) -> {
+            }*/
+            getBuildTimeFromDate(nanoPackage[0].date) != getBuildTimeFromDate(buildDate) -> {
                 context.update_notify_textView.text = "An update is available!"
                 context.update_notify_textView.setTextColor(ContextCompat.getColor(context, R.color.accentTitleColor))
                 context.update_notify_textView.compoundDrawableTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.accentTitleColor))
@@ -304,10 +303,10 @@ class Utils {
             val currentTimeAndDate = DateFormat.getDateTimeInstance().format(Date())
             val file = absolutePath.substring(absolutePath.lastIndexOf('/') + 1, absolutePath.length)
             val logName = "$currentTimeAndDate-$file.log"
-            val logPath = "${context.getExternalFilesDir(null).path}/logs/"
+            val logPath = "${context.getExternalFilesDir(null)!!.path}/logs/"
             if (!File(logPath).exists())
                 File(logPath).mkdirs()
-            val logFile = File("${context.getExternalFilesDir(null).path}/logs/$logName")
+            val logFile = File("${context.getExternalFilesDir(null)!!.path}/logs/$logName")
             val fileWriter = FileWriter(logFile)
             fileWriter.append(log)
             fileWriter.flush()
@@ -416,16 +415,8 @@ class Utils {
         AlertDialog.Builder(context, R.style.DialogTheme)
                 .setTitle("Flash Kernel")
                 .setMessage("You're about to flash $packageToBeFlashed within the app. Your device will reboot after the flashing is successful. Would you like to flash now?")
-                .setPositiveButton("Flash", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        FlashKernelTask(context).execute(context, absolutePath)
-                    }
-                })
-                .setNegativeButton("Later", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        dialog!!.dismiss()
-                    }
-                })
+                .setPositiveButton("Flash") { dialog, which -> FlashKernelTask(context).execute(context, absolutePath) }
+                .setNegativeButton("Later") { dialog, which -> dialog!!.dismiss() }
                 .show()
     }
 
@@ -450,11 +441,11 @@ class Utils {
 
     private fun verifyAndDisplayUpdate(context: Activity, nanoPackage: Array<NanoPackage>) {
         if (isStoragePermissionGranted(context, Constants.STORAGE_PERMISSION_CODE)) {
-            val packagesDir = File("${context.getExternalFilesDir(null).path}/builds/")
+            val packagesDir = File("${context.getExternalFilesDir(null)!!.path}/builds/")
             if (packagesDir.exists()) {
                 try {
                     val files = packagesDir.listFiles()
-                    if (files.isNotEmpty()) {
+                    if (files!!.isNotEmpty()) {
                         for (file in files) {
                             Log.d("Utils", "Packages found in builds dir")
                             if (file.name == nanoPackage[0].filename) {
@@ -472,6 +463,10 @@ class Utils {
                 } catch (e: Exception) {
                     Log.e("isUpdateAvailable", "$e")
                 }
+            } else {
+                if (context.update_info_expanded.visibility == View.VISIBLE)
+                    context.update_info_expanded.visibility = View.GONE
+                context.updates_compact.visibility = View.VISIBLE
             }
         } else {
             if (context.update_info_expanded.visibility == View.VISIBLE)

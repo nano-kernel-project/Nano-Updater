@@ -302,7 +302,7 @@ class MainActivity : AppCompatActivity() {
                     context.downloadButton.visibility = View.VISIBLE
                     context.update_fileDownload.visibility = View.VISIBLE
                     val packageName = DownloadUtils().getDownloadedFileName(id, this@MainActivity)
-                    val installPackage = File("${getExternalFilesDir(null).path}/builds/$packageName")
+                    val installPackage = File("${getExternalFilesDir(null)!!.path}/builds/$packageName")
                     context.fileName.text = installPackage.name
                     context.fileDate.text = Utils().formatDate(installPackage.lastModified().toString())
                     context.fileSize.text = "${installPackage.length() / 1000000} MB"

@@ -119,7 +119,7 @@ class FlashActivity : AppCompatActivity() {
         if (requestCode == FILE_CHOOSER_INT) {
             if (resultCode == Activity.RESULT_OK) {
                 val dataUri = data!!.data
-                if ("com.android.providers.downloads.documents" == dataUri.authority || "com.android.externalstorage.documents" == dataUri.authority) {
+                if ("com.android.providers.downloads.documents" == dataUri!!.authority || "com.android.externalstorage.documents" == dataUri.authority) {
                     val pathContainsColon = getPath(dataUri).contains(":")
                     if (!pathContainsColon) {
                         Utils().showDialog(this@FlashActivity, getPath(dataUri))
@@ -189,12 +189,12 @@ class FlashActivity : AppCompatActivity() {
         val pattern1 = Pattern.compile(".*(\\d{8})-(\\d{8}).*")
         val matcher1 = pattern1.matcher(fileName)
         if (matcher1.find())
-            return dateFormat.parse(matcher1.group(1)).time
+            return dateFormat.parse(matcher1.group(1)!!)!!.time
         else {
             val pattern2 = Pattern.compile(".*(\\d{8}).*")
             val matcher2 = pattern2.matcher(fileName)
             if (matcher2.find())
-                return dateFormat.parse(matcher2.group(1)).time
+                return dateFormat.parse(matcher2.group(1)!!)!!.time
         }
         return 0L
     }
@@ -208,7 +208,7 @@ class FlashActivity : AppCompatActivity() {
             val inputStream = contentResolver.openInputStream(uri)
             val fos = FileOutputStream(file)
             val buffer = ByteArray(1024)
-            var bytesRead: Int = inputStream.read(buffer)
+            var bytesRead: Int = inputStream!!.read(buffer)
             //read from inputStream to buffer
             while (bytesRead != -1) {
                 fos.write(buffer, 0, bytesRead)
