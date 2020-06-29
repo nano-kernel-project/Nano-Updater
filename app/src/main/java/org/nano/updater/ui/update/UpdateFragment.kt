@@ -156,7 +156,6 @@ class UpdateFragment : Fragment() {
     ) {
         binding.updateFab.setOnClickListener {
             if (!isUpdateVerified) {
-                snackBarUtils.showSnackBar(requireContext(), getString(R.string.checksum_mismatch))
                 // Force user to download the update
                 val downloadUrl = if (position == 1)
                     (updateType[0] as Kernel).kernelLink
