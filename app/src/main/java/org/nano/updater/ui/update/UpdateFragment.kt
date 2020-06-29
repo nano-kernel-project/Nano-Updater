@@ -58,7 +58,9 @@ class UpdateFragment : Fragment() {
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
-                exitTransition = MaterialFadeThrough()
+                exitTransition = MaterialFadeThrough.create().apply {
+                    duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
+                }
                 findNavController().navigateUp()
             }
         }
@@ -217,14 +219,14 @@ class UpdateFragment : Fragment() {
             )
         ) {
             setFabClickListener(updateType = updateTypeAndFileName, isUpdateVerified = true)
-                binding.updateFab.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_save_alt)
-                binding.updateFab.text = getString(R.string.action_install)
+            binding.updateFab.icon =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_save_alt)
+            binding.updateFab.text = getString(R.string.action_install)
         } else {
             setFabClickListener(updateType = updateTypeAndFileName, isUpdateVerified = false)
-                binding.updateFab.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_get_app)
-                binding.updateFab.text = getString(R.string.action_download)
+            binding.updateFab.icon =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_get_app)
+            binding.updateFab.text = getString(R.string.action_download)
         }
     }
 

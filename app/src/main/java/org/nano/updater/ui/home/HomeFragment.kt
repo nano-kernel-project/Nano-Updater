@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough().apply {
+        enterTransition = MaterialFadeThrough.create().apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
     }

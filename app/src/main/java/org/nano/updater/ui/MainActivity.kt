@@ -131,10 +131,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onNavigationItemClicked(modelItem: NavigationModelItem.NavMenuItem) {
         currentNavigationFragment?.apply {
-            exitTransition = MaterialFadeThrough().apply {
+            exitTransition = MaterialFadeThrough.create().apply {
                 duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
             }
-            reenterTransition = MaterialFadeThrough().apply {
+            reenterTransition = MaterialFadeThrough.create().apply {
                 duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
             }
         }
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             exitTransition = Hold().apply {
                 duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
             }
-            reenterTransition = MaterialFadeThrough().apply {
+            reenterTransition = MaterialFadeThrough.create().apply {
                 duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
             }
         }
