@@ -1,0 +1,131 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7f5563320a175925f2d0d30f3dfe4c05",
+    "entities": [
+      {
+        "tableName": "Update",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kernelChangelog` TEXT NOT NULL, `updaterChangelog` TEXT NOT NULL, `lastChecked` INTEGER NOT NULL, `kernelVersion` TEXT NOT NULL, `kernelLink` TEXT NOT NULL, `kernelChangelogLink` TEXT NOT NULL, `kernelDate` TEXT NOT NULL, `kernelMD5` TEXT NOT NULL, `kernelSize` TEXT NOT NULL, `telegram` TEXT NOT NULL, `xda` TEXT NOT NULL, `updaterVersion` TEXT NOT NULL, `updaterLink` TEXT NOT NULL, `updaterChangelogLink` TEXT NOT NULL, `updaterDate` TEXT NOT NULL, `updaterMD5` TEXT NOT NULL, `updaterSize` TEXT NOT NULL, PRIMARY KEY(`kernelLink`, `updaterLink`))",
+        "fields": [
+          {
+            "fieldPath": "kernelChangelog",
+            "columnName": "kernelChangelog",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updaterChangelog",
+            "columnName": "updaterChangelog",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastChecked",
+            "columnName": "lastChecked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelVersion",
+            "columnName": "kernelVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelLink",
+            "columnName": "kernelLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelChangelogLink",
+            "columnName": "kernelChangelogLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelDate",
+            "columnName": "kernelDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelMD5",
+            "columnName": "kernelMD5",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelSize",
+            "columnName": "kernelSize",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelSupport.telegram",
+            "columnName": "telegram",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kernel.kernelSupport.xda",
+            "columnName": "xda",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterVersion",
+            "columnName": "updaterVersion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterLink",
+            "columnName": "updaterLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterChangelogLink",
+            "columnName": "updaterChangelogLink",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterDate",
+            "columnName": "updaterDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterMD5",
+            "columnName": "updaterMD5",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updater.updaterSize",
+            "columnName": "updaterSize",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "kernelLink",
+            "updaterLink"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7f5563320a175925f2d0d30f3dfe4c05')"
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="preference"
+            type="org.nano.updater.model.AppPreference" />
+
+        <variable
+            name="listener"
+            type="org.nano.updater.ui.settings.AppPreferenceAdapter.AppPreferenceAdapterListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_0_5"
+        android:layout_marginVertical="@dimen/grid_0_25"
+        android:onClick="@{() -> listener.onPreferenceClick(preference)}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_2">
+
+            <TextView
+                android:id="@+id/settings_item_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:text="@{preference.title}"
+                android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+                app:layout_constraintEnd_toStartOf="@+id/settings_item_switch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Display Flash Logs" />
+
+            <TextView
+                android:id="@+id/settings_item_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_0_5"
+                android:text="@{preference.summary}"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/settings_item_title"
+                app:layout_constraintStart_toStartOf="@id/settings_item_title"
+                app:layout_constraintTop_toBottomOf="@id/settings_item_title"
+                tools:text="Show logs when flashing a kernel, useful for debugging" />
+
+            <ImageView
+                android:id="@+id/settings_item_switch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="TODO"
+                android:src="@drawable/avd_toggle_off_on"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:toggle="@{preference.toggle}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

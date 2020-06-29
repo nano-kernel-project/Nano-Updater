@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="org.nano.updater.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.nano.updater.ui.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/bugReportFragment"
+        android:name="org.nano.updater.ui.report.ReportFragment"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="org.nano.updater.ui.about.AboutFragment" />
+    <fragment
+        android:id="@+id/bottomNavDrawerFragment"
+        android:name="org.nano.updater.ui.nav.BottomNavDrawerFragment"
+        android:label="BottomNavDrawerFragment" />
+    <dialog
+        android:id="@+id/reportCollectionFragment"
+        android:name="org.nano.updater.ui.report.ReportCollectionFragment"
+        android:label="ReportCollectionFragment" />
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="org.nano.updater.ui.update.UpdateFragment"
+        android:label="UpdateFragment" >
+        <action
+            android:id="@+id/action_updateFragment_to_flashFragment"
+            app:destination="@id/flashFragment" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashFragment"
+        android:name="org.nano.updater.ui.flash.FlashFragment"
+        android:label="FlashFragment" />
+    <dialog
+        android:id="@+id/supportFragment"
+        android:name="org.nano.updater.ui.home.SupportFragment"
+        android:label="Support" />
+</navigation>

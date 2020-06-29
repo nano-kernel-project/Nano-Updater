@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data />
+
+    <ScrollView
+        android:id="@+id/bugReportScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/grid_2"
+        android:scrollbars="none"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/grid_2"
+            android:paddingTop="@dimen/grid_2"
+            android:paddingBottom="@dimen/bottom_app_bar_height"
+            app:paddingBottomSystemWindowInsets="@{true}"
+            tools:context=".ui.report.ReportFragment">
+
+            <TextView
+                android:id="@+id/bug_report_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/found_a_bug"
+                android:textAppearance="@style/TextAppearance.Nano.Headline4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/bug_report_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/bug_report_desc"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bug_report_title" />
+
+            <TextView
+                android:id="@+id/bug_report_what_we_collect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_2"
+                android:text="@string/what_we_collect"
+                android:textAppearance="@style/TextAppearance.Nano.Headline5"
+                app:layout_constraintEnd_toEndOf="@+id/bug_report_desc"
+                app:layout_constraintStart_toStartOf="@+id/bug_report_desc"
+                app:layout_constraintTop_toBottomOf="@+id/bug_report_desc" />
+
+            <TextView
+                android:id="@+id/bug_report_what_we_collect_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/what_we_collect_desc"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toEndOf="@+id/bug_report_what_we_collect"
+                app:layout_constraintStart_toStartOf="@+id/bug_report_what_we_collect"
+                app:layout_constraintTop_toBottomOf="@+id/bug_report_what_we_collect" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_2"
+                android:text="@string/which_logs_will_you_share"
+                android:textAppearance="@style/TextAppearance.Nano.Headline5"
+                app:layout_constraintEnd_toEndOf="@+id/bug_report_what_we_collect_content"
+                app:layout_constraintStart_toStartOf="@+id/bug_report_what_we_collect_content"
+                app:layout_constraintTop_toBottomOf="@+id/bug_report_what_we_collect_content" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                app:layout_constraintStart_toStartOf="@+id/bug_report_what_we_collect_content"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bug_report_chip_updater"
+                    style="@style/Widget.Nano.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/grid_1"
+                    android:text="@string/card_title_updater"
+                    app:chipIcon="@drawable/ic_system_update" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bug_report_chip_kernel"
+                    style="@style/Widget.Nano.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_title_kernel"
+                    app:chipIcon="@drawable/ic_memory" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_2"
+                android:text="@string/bug_report_thank_message"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

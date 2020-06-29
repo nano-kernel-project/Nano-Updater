@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.nano.updater.ui.update.UpdateViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/flash_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/grid_3"
+        android:transitionName="@string/transition_fab_flash"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/flashContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:fillViewport="true"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:paddingTop="@dimen/grid_3"
+            android:paddingBottom="@dimen/bottom_app_bar_height">
+
+            <TextView
+                android:id="@+id/flash_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_2"
+                android:text="@string/flash_kernel"
+                android:textAppearance="@style/TextAppearance.Nano.Headline4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/flash_log_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/grid_2"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:paddingHorizontal="@dimen/grid_2"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/flash_title"
+                app:layout_constraintTop_toBottomOf="@+id/flash_title"
+                app:showOrHide="@{viewModel.hideViews}"
+                tools:listitem="@layout/item_console" />
+
+            <ImageView
+                android:id="@+id/flash_illustration"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/avd_flash_alpha"
+                android:tint="@color/nano_green_300"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:showOrHide="@{viewModel.hideViews}" />
+
+            <TextView
+                android:id="@+id/flash_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_3"
+                android:layout_marginTop="@dimen/grid_1"
+                android:gravity="center"
+                android:text="@{viewModel.flashEndStatus}"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flash_illustration"
+                app:showOrHide="@{viewModel.hideViews}"
+                tools:text="@string/status_flashing" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/flash_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/grid_3"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+            android:transitionName="@string/transition_fab_flash"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:marginBottomSystemWindowInsets="@{true}" />
+    </com.google.android.material.card.MaterialCardView>
+</layout>

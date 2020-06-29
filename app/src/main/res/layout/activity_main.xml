@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="navMenuItem"
+            type="org.nano.updater.model.NavigationModelItem.NavMenuItem" />
+
+        <variable
+            name="onClickHandler"
+            type="org.nano.updater.util.OnClickEventHandler" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutFullscreen="@{true}"
+        tools:context=".ui.MainActivity">
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
+
+        <fragment
+            android:id="@+id/bottom_nav_drawer"
+            android:name="org.nano.updater.ui.nav.BottomNavDrawerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:contentInsetStart="0dp"
+            app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius">
+
+            <LinearLayout
+                android:id="@+id/bottom_app_bar_content_container"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/min_touch_target_size"
+                android:layout_marginVertical="@dimen/grid_0_5"
+                android:layout_marginStart="@dimen/grid_1"
+                android:clickable="true"
+                android:foreground="@drawable/bottom_app_bar_title_foreground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/grid_0_5">
+
+                <ImageView
+                    android:id="@+id/bottom_app_bar_chevron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="TODO"
+                    app:srcCompat="@drawable/ic_arrow_drop_up" />
+
+                <ImageView
+                    android:id="@+id/bottom_app_bar_logo"
+                    android:layout_width="@dimen/bottom_app_bar_logo_size"
+                    android:layout_height="@dimen/bottom_app_bar_logo_size"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/bottom_app_bar_logo_content_desc"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:tint="@color/nano_green_300"
+                    app:src="@{navMenuItem.icon}"
+                    tools:src="@drawable/ic_home" />
+
+                <TextView
+                    android:id="@+id/bottom_app_bar_title"
+                    app:text="@{navMenuItem.titleRes}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_0_5"
+                    android:textAppearance="@style/TextAppearance.Nano.Subtitle1"
+                    android:textColor="?android:textColorSecondary"
+                    tools:text="@string/action_home" />
+            </LinearLayout>
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:marginBottomSystemWindowInsets="@{true}" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

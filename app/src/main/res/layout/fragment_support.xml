@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="homeViewModel"
+            type="org.nano.updater.ui.home.HomeViewModel" />
+
+        <variable
+            name="onClickEventHandler"
+            type="org.nano.updater.util.OnClickEventHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/grid_2"
+        android:paddingBottom="@dimen/grid_3"
+        tools:context=".ui.home.SupportFragment">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/grid_4"
+            android:layout_height="@dimen/grid_0_5"
+            android:layout_marginTop="@dimen/grid_2"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_minimize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_2"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/card_title_support"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:gravity="center"
+            android:text="@string/bottom_support_desc"
+            android:textAppearance="@style/TextAppearance.Nano.Body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <ImageView
+            android:id="@+id/support_telegram"
+            android:layout_width="@dimen/grid_4"
+            android:layout_height="@dimen/grid_4"
+            android:layout_marginTop="@dimen/grid_3"
+            android:contentDescription="TODO"
+            android:onClick="@{(view) -> onClickEventHandler.onSupportClick(view, homeViewModel.updateData.kernel.kernelSupport.telegram)}"
+            android:src="@drawable/ic_telegram"
+            android:visibility="@{homeViewModel.updateData.kernel.kernelSupport.telegram.empty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/grid_4"
+            android:layout_height="@dimen/grid_4"
+            android:contentDescription="TODO"
+            android:onClick="@{(view) -> onClickEventHandler.onSupportClick(view, homeViewModel.updateData.kernel.kernelSupport.xda)}"
+            android:src="@drawable/ic_xda"
+            android:visibility="@{homeViewModel.updateData.kernel.kernelSupport.xda.empty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/support_telegram"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/support_telegram"
+            app:layout_constraintTop_toTopOf="@+id/support_telegram" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

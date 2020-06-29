@@ -1,0 +1,52 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <path
+                android:name="start"
+                android:fillColor="@color/nano_green_300"
+                android:pathData="M 19 7.8 L 17.19 7.8 C 16.743 7.004 16.121 6.319 15.37 5.8 L 16.3 4.87 C 16.429 4.676 16.486 4.442 16.461 4.21 C 16.436 3.978 16.331 3.762 16.164 3.6 C 15.997 3.437 15.777 3.338 15.545 3.32 C 15.312 3.302 15.081 3.365 14.89 3.5 L 13.42 5 C 12.956 4.877 12.48 4.81 12 4.8 C 11.524 4.81 11.05 4.877 10.59 5 L 9.11 3.5 C 8.966 3.332 8.77 3.216 8.552 3.171 C 8.335 3.126 8.109 3.155 7.91 3.253 C 7.711 3.35 7.55 3.511 7.453 3.71 C 7.355 3.909 7.326 4.135 7.371 4.352 C 7.416 4.57 7.532 4.766 7.7 4.91 L 8.62 5.84 C 7.874 6.362 7.255 7.046 6.81 7.84 L 5 7.84 C 4.735 7.84 4.48 7.945 4.293 8.133 C 4.105 8.32 4 8.575 4 8.84 C 4 9.105 4.105 9.36 4.293 9.547 C 4.48 9.735 4.735 9.84 5 9.84 L 6.09 9.84 C 6.035 10.171 6.005 10.505 6 10.84 L 6 11.84 L 5 11.84 C 4.735 11.84 4.48 11.945 4.293 12.133 C 4.105 12.32 4 12.575 4 12.84 C 4 13.105 4.105 13.36 4.293 13.547 C 4.48 13.735 4.735 13.84 5 13.84 L 6 13.84 L 6 14.84 C 6.005 15.175 6.035 15.509 6.09 15.84 L 5 15.84 C 4.735 15.84 4.48 15.945 4.293 16.133 C 4.105 16.32 4 16.575 4 16.84 C 4 17.105 4.105 17.36 4.293 17.547 C 4.48 17.735 4.735 17.84 5 17.84 L 6.81 17.84 C 7.516 19.057 8.629 19.988 9.952 20.469 C 11.275 20.949 12.725 20.949 14.048 20.469 C 15.371 19.988 16.484 19.057 17.19 17.84 L 19 17.84 C 19.265 17.84 19.52 17.735 19.707 17.547 C 19.895 17.36 20 17.105 20 16.84 C 20 16.575 19.895 16.32 19.707 16.133 C 19.52 15.945 19.265 15.84 19 15.84 L 17.91 15.84 C 17.965 15.509 17.995 15.175 18 14.84 L 18 13.84 L 19 13.84 C 19.265 13.84 19.52 13.735 19.707 13.547 C 19.895 13.36 20 13.105 20 12.84 C 20 12.575 19.895 12.32 19.707 12.133 C 19.52 11.945 19.265 11.84 19 11.84 L 18 11.84 L 18 10.84 C 17.995 10.505 17.965 10.171 17.91 9.84 L 19 9.84 C 19.265 9.84 19.52 9.735 19.707 9.547 C 19.895 9.36 20 9.105 20 8.84 C 20 8.575 19.895 8.32 19.707 8.133 C 19.52 7.945 19.265 7.84 19 7.84 Z"
+                android:strokeWidth="1" />
+            <path
+                android:name="path"
+                android:pathData="M 13 12 L 11 12 C 10.735 12 10.48 11.895 10.293 11.707 C 10.105 11.52 10 11.265 10 11 C 10 10.735 10.105 10.48 10.293 10.293 C 10.48 10.105 10.735 10 11 10 L 13 10 C 13.265 10 13.52 10.105 13.707 10.293 C 13.895 10.48 14 10.735 14 11 C 14 11.265 13.895 11.52 13.707 11.707 C 13.52 11.895 13.265 12 13 12 Z" />
+            <path
+                android:name="path_1"
+                android:fillColor="@color/nano_grey_900"
+                android:pathData="M 13 16 L 11 16 C 10.735 16 10.48 15.895 10.293 15.707 C 10.105 15.52 10 15.265 10 15 C 10 14.735 10.105 14.48 10.293 14.293 C 10.48 14.105 10.735 14 11 14 L 13 14 C 13.265 14 13.52 14.105 13.707 14.293 C 13.895 14.48 14 14.735 14 15 C 14 15.265 13.895 15.52 13.707 15.707 C 13.52 15.895 13.265 16 13 16 Z"
+                android:strokeWidth="1" />
+        </vector>
+    </aapt:attr>
+    <target android:name="path">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1000"
+                android:interpolator="@android:interpolator/linear"
+                android:propertyName="fillColor"
+                android:repeatCount="infinite"
+                android:repeatMode="restart"
+                android:valueFrom="@android:color/transparent"
+                android:valueTo="@color/nano_grey_900"
+                android:valueType="colorType" />
+        </aapt:attr>
+    </target>
+    <target android:name="path_1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1000"
+                android:interpolator="@android:interpolator/linear"
+                android:propertyName="fillColor"
+                android:repeatCount="infinite"
+                android:repeatMode="restart"
+                android:startOffset="100"
+                android:valueFrom="@android:color/transparent"
+                android:valueTo="@color/nano_grey_900"
+                android:valueType="colorType" />
+        </aapt:attr>
+    </target>
+</animated-vector>

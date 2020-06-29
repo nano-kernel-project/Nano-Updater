@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chip style -->
+    <style name="Widget.Nano.Chip" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="android:checkable">true</item>
+        <item name="chipIconTint">@color/color_navigation_drawer_menu_item</item>
+        <item name="android:textAppearance">@style/TextAppearance.Nano.Body2</item>
+        <item name="android:textColor">@color/color_navigation_drawer_menu_item</item>
+        <item name="chipBackgroundColor">@color/color_background_chip_item</item>
+        <item name="chipCornerRadius">@dimen/grid_3</item>
+        <item name="checkedIcon">@null</item>
+        <item name="chipEndPadding">@dimen/grid_2</item>
+        <item name="chipStartPadding">@dimen/grid_2</item>
+        <item name="chipMinHeight">40dp</item>
+    </style>
+
+    <!-- SnackBar Button style-->
+    <style name="Widget.Nano.SnackBar.Button" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Nano.Subtitle2</item>
+    </style>
+</resources>

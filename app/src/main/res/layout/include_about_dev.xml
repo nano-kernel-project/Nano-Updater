@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="developer"
+            type="String" />
+
+        <variable
+            name="developerDescription"
+            type="String" />
+
+        <variable
+            name="paypalLink"
+            type="String" />
+
+        <variable
+            name="telegramLink"
+            type="String" />
+
+        <variable
+            name="githubLink"
+            type="String" />
+
+        <variable
+            name="onClickEventHandler"
+            type="org.nano.updater.util.OnClickEventHandler" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_0_5"
+        android:layout_marginVertical="@dimen/grid_0_25">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/about_dev_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@{developer}"
+                android:textAppearance="@style/TextAppearance.Nano.Subtitle1"
+                android:textColor="@color/nano_green_300"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/about_dev_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{developerDescription}"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/about_dev_name"
+                app:layout_constraintTop_toBottomOf="@+id/about_dev_name" />
+
+            <ImageView
+                android:id="@+id/about_dev_paypal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/grid_1"
+                android:onClick="@{(view) -> onClickEventHandler.onSupportClick(view, paypalLink)}"
+                android:padding="16dp"
+                android:src="@drawable/ic_paypal"
+                android:visibility="@{paypalLink.empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/about_dev_telegram"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/about_dev_desc"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:id="@+id/about_dev_telegram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(view) -> onClickEventHandler.onSupportClick(view, telegramLink)}"
+                android:padding="16dp"
+                android:src="@drawable/ic_telegram"
+                android:visibility="@{telegramLink.empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/about_dev_paypal"
+                app:layout_constraintEnd_toStartOf="@+id/about_dev_github"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/about_dev_paypal"
+                app:layout_constraintTop_toTopOf="@+id/about_dev_paypal"
+                android:contentDescription="TODO" />
+
+            <ImageView
+                android:id="@+id/about_dev_github"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(view) -> onClickEventHandler.onSupportClick(view, githubLink)}"
+                android:padding="16dp"
+                android:src="@drawable/ic_github"
+                android:visibility="@{githubLink.empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/about_dev_telegram"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/about_dev_telegram"
+                app:layout_constraintTop_toTopOf="@+id/about_dev_telegram"
+                android:contentDescription="TODO" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

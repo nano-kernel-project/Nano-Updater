@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="org.nano.updater.ui.home.HomeAdapter.HomeAdapterListener" />
+
+        <variable
+            name="informationCard"
+            type="org.nano.updater.model.HomeModelItem.InformationCard" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_0_5"
+        android:layout_marginVertical="@dimen/grid_0_25"
+        android:onClick="@{() -> listener.onInfoCardClicked(informationCard.position)}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/grid_2"
+            android:paddingVertical="@dimen/grid_3">
+
+            <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:contentDescription="TODO"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:src="@{informationCard.icon}" />
+
+            <TextView
+                android:id="@+id/status_caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:text="@{informationCard.caption}"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toStartOf="@+id/status_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{informationCard.position}"
+                app:statusColor="@{informationCard.updateAvailable}" />
+
+            <TextView
+                android:id="@+id/status_card_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@{informationCard.title}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintEnd_toEndOf="@+id/status_caption"
+                app:layout_constraintStart_toStartOf="@+id/status_caption"
+                app:layout_constraintTop_toBottomOf="@id/status_caption" />
+
+            <TextView
+                android:id="@+id/status_card_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@{informationCard.description}"
+                android:textAppearance="@style/TextAppearance.Nano.Body2"
+                app:layout_constraintEnd_toEndOf="@+id/status_image"
+                app:layout_constraintStart_toStartOf="@+id/status_card_title"
+                app:layout_constraintTop_toBottomOf="@+id/status_card_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">Nano Updater</string>
+
+    <!-- Bottom navigation item names -->
+    <string name="action_home">Home</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_report">Report</string>
+    <string name="action_about">About</string>
+
+    <!-- Home -->
+    <string name="status_updated_desc">Great! you\'re running the latest version of both kernel and updater. Meanwhile, you can check the support links.</string>
+    <string name="status_outdated_desc">Oops! You\'re missing updates. You can click on the specific cards to check details and install the update.</string>
+    <string name="status_unknown_desc">Cannot retrieve data. Try refreshing. Ensure you have a proper network connection.</string>
+    <string name="status_caption_updated">Your status - Updated</string>
+    <string name="status_caption_outdated">Your status - Outdated</string>
+    <string name="status_caption_unknown">Your status - Unknown</string>
+    <string name="cannot_retrieve_data">Cannot retrieve data</string>
+    <string name="unsupported_device">No support for %1$s yet. Stay tuned!</string>
+    <string name="action_retry">Retry</string>
+    <string name="bottom_support_desc">Click on the icon you\'d like to navigate to. We recommend navigating to Telegram (if available) as support will be quick.</string>
+    <!-- Card titles -->
+    <string name="card_title_updater">Updater</string>
+    <string name="card_title_kernel">Kernel</string>
+    <string name="card_title_support">Support</string>
+    <string name="card_title_status">Status</string>
+    <!-- Card content -->
+    <string name="installed_text">Installed</string>
+    <string name="latest_text">Latest</string>
+    <string name="build_text">Build</string>
+    <string name="updated">Updated</string>
+    <string name="outdated">Outdated</string>
+    <string name="unknown">Unknown</string>
+    <string name="last_checked_never">Last checked - Never</string>
+    <string name="last_checked_moments_ago">Last checked - moments ago</string>
+    <string name="last_checked">Last checked - %1$s %2$s ago</string>
+    <string name="days">days</string>
+    <string name="day">day</string>
+    <string name="hours">hrs</string>
+    <string name="hour">hr</string>
+    <string name="minutes">min</string>
+    <string name="seconds">sec</string>
+    <string name="your_device">Your device - %1$s</string>
+    <string name="support_desc">Get help from developers or other users. We support Telegram and XDA at the moment.</string>
+    <string name="updater_version_format">v%1$s</string>
+
+    <!-- Settings -->
+    <string name="app_settings">App settings</string>
+    <string name="display_flash_logs">Display Flash logs</string>
+    <string name="display_flash_logs_summary">Show logs when flashing a kernel, useful for debugging</string>
+    <string name="check_updates_periodically">Check updates periodically</string>
+    <string name="check_updates_periodically_summary">Updater will check updates for every 3 days and notify you when updates are available</string>
+    <string name="reboot_after_install">Reboot after install</string>
+    <string name="reboot_after_install_summary">Updater will reboot your device when flashing is successful</string>
+    <string name="cleanup_update_dir">Clean update directories</string>
+    <string name="cleanup_update_dir_summary">Remove packages/builds downloaded by updater after a successful update</string>
+
+    <!-- Report -->
+    <string name="found_a_bug">Found a bug?</string>
+    <string name="bug_report_desc">No problem! We\'ve got you covered. All you need to do is just click on the send button below.</string>
+    <string name="what_we_collect">What we collect?</string>
+    <string name="what_we_collect_desc">It\'s our responsibility to let you know what updater collects from you, right? Here we go:\n\n•\t\tYour device model\n•\t\tAndroid version you\'re running\n•\t\tLogcat (Updater logs, if chosen)\n•\t\tDMESG (Kernel logs, if chosen)\n\nDon\'t worry, we collect info only for useful debugging that helps developers to stabilize Nano Updater as well as Kernel.</string>
+    <string name="which_logs_will_you_share">Which logs will you share?</string>
+    <string name="bug_report_thank_message">We thank you for your time in helping us shape the project even better.</string>
+    <string name="choose_at_least_one_log_type">Choose at least one log to share</string>
+    <string name="report_status_generating_updater_logs">Generating updater logs</string>
+    <string name="report_status_saving_updater_logs">Saving updater logs</string>
+    <string name="report_status_generating_kernel_logs">Generating kernel logs</string>
+    <string name="report_status_saving_kernel_logs">Saving kernel logs</string>
+    <string name="report_status_sending_updater_logs">Sending updater logs</string>
+    <string name="report_status_sending_kernel_logs">Sending kernel logs</string>
+    <string name="report_status_updater_log_sent_successfully">Updater logs delivered successfully</string>
+    <string name="report_status_kernel_log_sent_successfully">Kernel logs delivered successfully</string>
+    <string name="report_title_grabbing_logs">Grabbing Logs</string>
+    <string name="report_desc">Hang on! We are collecting logs from your device. It\'ll take a few moments. You\'ll be redirected to Bug Report screen after the report is sent.</string>
+    <string name="report_status_text">Status:</string>
+    <string name="all_reports_sent">Logs delivered successfully. Thank you</string>
+    <string name="report_an_error_occurred">Some error occurred. Retry sending</string>
+
+    <!-- About -->
+    <string name="about_title">The Nano Kernel Project.</string>
+    <string name="about_content">Simple yet powerful kernel. Tested thoroughly for stability, performance and battery. Powered by an updater with sophisticated features. Enjoy your stay.</string>
+    <string name="meet_the_developers">Meet The Developers</string>
+    <string name="special_contributions">Special Contributions</string>
+    <string name="dev_username_1" translatable="false">\@Shreejoy_Dash</string>
+    <string name="dev_username_2" translatable="false">\@mscalindt</string>
+    <string name="dev_username_3" translatable="false">\@AxelBlaz3</string>
+    <string name="spl_dev_username_1" translatable="false">\@osm0sis</string>
+    <string name="spl_dev_username_2" translatable="false">\@topjohnwu</string>
+    <string name="dev_desc_1">Founder of the Nano Kernel project. RESTFUL APIs | Maintainer</string>
+    <string name="dev_desc_2">Co-founder of the Nano Kernel project. Shell scripting | Maintainer</string>
+    <string name="dev_desc_3">Developer of the Nano Updater. App Development | Maintainer</string>
+    <string name="spl_contribution_dev_1_desc" translatable="false">Developer of AnyKernel flashing script that can apply any kernel to any ROM, regardless of ramdisk.</string>
+    <string name="spl_contribution_dev_2_desc" translatable="false">Developer of Magisk, a systemless root solution widely used by the android community. Besides, developer of the libsu which is being used by the updater.</string>
+    <string name="dev_1_telegram_link" translatable="false">https://t.me/Shreejoy_Dash</string>
+    <string name="dev_2_telegram_link" translatable="false">https://t.me/mscalindt</string>
+    <string name="dev_3_telegram_link" translatable="false">https://t.me/AxelBlaz3</string>
+    <string name="dev_1_github_link" translatable="false">https://github.com/shreejoy</string>
+    <string name="dev_2_github_link" translatable="false">https://github.com/mscalindt</string>
+    <string name="dev_3_github_link" translatable="false">https://github.com/AxelBlaz3</string>
+    <string name="spl_dev_1_github_link" translatable="false">https://github.com/osm0sis</string>
+    <string name="spl_dev_2_github_link" translatable="false">https://github.com/topjohnwu</string>
+    <string name="dev_3_paypal_link" translatable="false">https://paypal.me/AxelBlaz3</string>
+    <string name="updater_version">Version: %1$s</string>
+    <string name="built_with_material_components">Built with material components.</string>
+
+    <!-- Update -->
+    <string name="action_install">Install</string>
+    <string name="action_download">Download</string>
+    <string name="update_kernel">Kernel Update</string>
+    <string name="update_kernel_desc">A new build of Nano Kernel is available for download. We recommend you to install the update as early as possible.</string>
+    <string name="update_info">Update Information</string>
+    <string name="update_version">Version</string>
+    <string name="update_size">Size</string>
+    <string name="update_md5">MD5</string>
+    <string name="checksum_mismatch">Checksum mismatch</string>
+    <string name="update_what_s_new">What\'s new?</string>
+    <string name="update_app">App Update</string>
+    <string name="update_app_desc">A new updater package is available to download. We recommend you to install the update to improve your overall experience with updater.</string>
+
+    <!-- Notification -->
+    <string name="update_ready">Update is ready to be installed</string>
+    <string name="download_progress">%1$d of %2$d MB</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Flashing -->
+    <string name="action_flash">Flash</string>
+    <string name="action_share">Share</string>
+    <string name="not_enough_permissions">No root access :(</string>
+    <string name="flash_kernel">Flash kernel</string>
+    <string name="flashing_failed_unsupported_device">Flashing failed, unsupported device</string>
+    <string name="flash_init_info">Click the flash button below to start the flashing process.</string>
+    <string name="no_network_connection">No network connection</string>
+    <string name="status_flashing">Hang on! This process will be done in few moments.</string>
+
+    <!-- Transition names -->
+    <string name="transition_kernel_update" translatable="false">Transition_Kernel_Update</string>
+    <string name="transition_app_update" translatable="false">Transition_App_Update</string>
+    <string name="transition_update" translatable="false">Transition_update_%1$s</string>
+    <string name="transition_fab_flash" translatable="false">Transition_Fab_Flash</string>
+</resources>

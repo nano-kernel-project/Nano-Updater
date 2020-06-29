@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nano_grey_900">#121212</color>
+    <color name="nano_green_300">#84c188</color>
+    <color name="nano_green_500">#51A856</color>
+    <color name="nano_green_800">#2E7D32</color>
+    <color name="nano_orange_300">#FFAF49</color>
+    <color name="nano_pink_300">#CF7779</color>
+    <color name="black">#000000</color>
+    <color name="grey_900">#1E1E1E</color>
+    <color name="nano_green_300_alpha_15">#2684C188</color>
+    <color name="nano_blue_grey_900">#202124</color>
+    <color name="nano_black_900_alpha_020">#33000000</color>
+    <color name="nano_black_900_alpha_060">#99000000</color>
+
+    <!-- Platform attributes -->
+    <color name="nav_bar">@color/nano_black_900_alpha_020</color>
+</resources>

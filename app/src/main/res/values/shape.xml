@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearance.Nano.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/nano_small_component_corner_radius</item>
+    </style>
+
+    <style name="ShapeAppearance.Nano.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/nano_medium_component_corner_radius</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Nano.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/nano_large_component_corner_radius</item>
+    </style>
+
+    <dimen name="nano_small_component_corner_radius">24dp</dimen>
+    <dimen name="nano_medium_component_corner_radius">0dp</dimen>
+    <dimen name="nano_large_component_corner_radius">12dp</dimen>
+</resources>

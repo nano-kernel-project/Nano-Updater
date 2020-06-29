@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Typography -->
+    <style name="TextAppearance.Nano.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="TextAppearance.Nano.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/montserrat_bold</item>
+        <item name="android:textColor">@color/nano_green_300</item>
+    </style>
+
+    <style name="TextAppearance.Nano.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="TextAppearance.Nano.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/quicksand_bold</item>
+    </style>
+
+    <style name="TextAppearance.Nano.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="TextAppearance.Nano.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/quicksand_bold</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+</resources>

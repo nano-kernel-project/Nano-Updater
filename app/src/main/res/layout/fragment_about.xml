@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="org.nano.updater.BuildConfig" />
+
+        <variable
+            name="onClickEventHandler"
+            type="org.nano.updater.util.OnClickEventHandler" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/about_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:paddingTopSystemWindowInsets="@{true}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/grid_3"
+            android:paddingBottom="@dimen/bottom_app_bar_height"
+            app:paddingBottomSystemWindowInsets="@{true}">
+
+            <ImageView
+                android:layout_width="144dp"
+                android:layout_height="144dp"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/about_title"
+                android:textAppearance="@style/TextAppearance.Nano.Headline5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:gravity="center"
+                android:text="@string/about_content"
+                android:textAppearance="@style/TextAppearance.Nano.Body2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_2"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:text="@string/meet_the_developers"
+                android:textAppearance="@style/TextAppearance.Nano.Headline6" />
+
+            <include
+                layout="@layout/include_about_dev"
+                app:developer="@{@string/dev_username_1}"
+                app:developerDescription="@{@string/dev_desc_1}"
+                app:githubLink="@{@string/dev_1_github_link}"
+                app:onClickEventHandler="@{onClickEventHandler}"
+                app:paypalLink='@{""}'
+                app:telegramLink="@{@string/dev_1_telegram_link}" />
+
+            <include
+                layout="@layout/include_about_dev"
+                app:developer="@{@string/dev_username_2}"
+                app:developerDescription="@{@string/dev_desc_2}"
+                app:githubLink="@{@string/dev_2_github_link}"
+                app:onClickEventHandler="@{onClickEventHandler}"
+                app:paypalLink='@{""}'
+                app:telegramLink="@{@string/dev_2_telegram_link}" />
+
+            <include
+                layout="@layout/include_about_dev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_0_5"
+                android:layout_marginTop="@dimen/grid_0_25"
+                app:developer="@{@string/dev_username_3}"
+                app:developerDescription="@{@string/dev_desc_3}"
+                app:githubLink="@{@string/dev_3_github_link}"
+                app:onClickEventHandler="@{onClickEventHandler}"
+                app:paypalLink="@{@string/dev_3_paypal_link}"
+                app:telegramLink="@{@string/dev_3_telegram_link}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_2"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:text="@string/special_contributions"
+                android:textAppearance="@style/TextAppearance.Nano.Headline6" />
+
+            <include
+                layout="@layout/include_about_dev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_0_5"
+                android:layout_marginVertical="@dimen/grid_0_25"
+                app:developer="@{@string/spl_dev_username_1}"
+                app:developerDescription="@{@string/spl_contribution_dev_1_desc}"
+                app:githubLink="@{@string/spl_dev_1_github_link}"
+                app:onClickEventHandler="@{onClickEventHandler}"
+                app:paypalLink='@{""}'
+                app:telegramLink='@{""}' />
+
+            <include
+                layout="@layout/include_about_dev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_0_5"
+                android:layout_marginVertical="@dimen/grid_0_25"
+                app:developer="@{@string/spl_dev_username_2}"
+                app:developerDescription="@{@string/spl_contribution_dev_2_desc}"
+                app:githubLink="@{@string/spl_dev_2_github_link}"
+                app:onClickEventHandler="@{onClickEventHandler}"
+                app:paypalLink='@{""}'
+                app:telegramLink='@{""}' />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:layout_marginVertical="@dimen/grid_2"
+                android:text="@{@string/updater_version(BuildConfig.VERSION_NAME)}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_material_components"
+                android:drawablePadding="@dimen/grid_2"
+                android:gravity="center"
+                android:text="@string/built_with_material_components"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+        </LinearLayout>
+    </ScrollView>
+</layout>
