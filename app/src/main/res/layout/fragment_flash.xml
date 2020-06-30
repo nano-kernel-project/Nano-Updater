@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:paddingTop="@dimen/grid_3"
-        android:transitionName="@string/transition_fab_flash"
         app:paddingTopSystemWindowInsets="@{true}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +91,6 @@
             android:layout_marginEnd="@dimen/grid_3"
             android:layout_marginBottom="@dimen/grid_2"
             android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-            android:transitionName="@string/transition_fab_flash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:marginBottomSystemWindowInsets="@{true}" />

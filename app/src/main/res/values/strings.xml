@@ -133,8 +133,5 @@
     <string name="status_flashing">Hang on! This process will be done in few moments.</string>
 
     <!-- Transition names -->
-    <string name="transition_kernel_update" translatable="false">Transition_Kernel_Update</string>
-    <string name="transition_app_update" translatable="false">Transition_App_Update</string>
     <string name="transition_update" translatable="false">Transition_update_%1$s</string>
-    <string name="transition_fab_flash" translatable="false">Transition_Fab_Flash</string>
 </resources>

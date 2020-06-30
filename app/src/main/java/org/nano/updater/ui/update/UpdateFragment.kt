@@ -13,7 +13,6 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.animation.AnimationUtils
@@ -180,8 +179,7 @@ class UpdateFragment : Fragment() {
                         null,
                         NavOptions.Builder().apply {
                             setPopUpTo(R.id.flashFragment, true)
-                        }.build(),
-                        FragmentNavigatorExtras(it to getString(R.string.transition_fab_flash))
+                        }.build()
                     )
                 } else {
                     // Launch package installer for installing update APK
