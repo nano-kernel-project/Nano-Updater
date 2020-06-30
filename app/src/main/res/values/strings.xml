@@ -111,6 +111,7 @@
     <string name="update_info">Update Information</string>
     <string name="update_version">Version</string>
     <string name="update_size">Size</string>
+    <string name="update_size_MB">%1$d MB</string>
     <string name="update_md5">MD5</string>
     <string name="checksum_mismatch">Checksum mismatch</string>
     <string name="update_what_s_new">What\'s new?</string>

@@ -21,7 +21,7 @@ data class Kernel(
     @SerializedName("date") var kernelDate: String,
     @SerializedName("md5") val kernelMD5: String,
     @SerializedName("support") @Embedded val kernelSupport: Support,
-    @SerializedName("size") val kernelSize: String
+    @SerializedName("size") val kernelSize: Long
 )
 
 data class Support(
@@ -35,7 +35,7 @@ data class Updater(
     @SerializedName("changelog") val updaterChangelogLink: String,
     @SerializedName("date") var updaterDate: String,
     @SerializedName("md5") val updaterMD5: String,
-    @SerializedName("size") val updaterSize: String
+    @SerializedName("size") val updaterSize: Long
 )
 
 fun NanoUpdate.asEntityModel(lastChecked: Long): Update {

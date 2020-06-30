@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7f5563320a175925f2d0d30f3dfe4c05",
+    "identityHash": "a66e977c2457534d3fe266110e0cf632",
     "entities": [
       {
         "tableName": "Update",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kernelChangelog` TEXT NOT NULL, `updaterChangelog` TEXT NOT NULL, `lastChecked` INTEGER NOT NULL, `kernelVersion` TEXT NOT NULL, `kernelLink` TEXT NOT NULL, `kernelChangelogLink` TEXT NOT NULL, `kernelDate` TEXT NOT NULL, `kernelMD5` TEXT NOT NULL, `kernelSize` TEXT NOT NULL, `telegram` TEXT NOT NULL, `xda` TEXT NOT NULL, `updaterVersion` TEXT NOT NULL, `updaterLink` TEXT NOT NULL, `updaterChangelogLink` TEXT NOT NULL, `updaterDate` TEXT NOT NULL, `updaterMD5` TEXT NOT NULL, `updaterSize` TEXT NOT NULL, PRIMARY KEY(`kernelLink`, `updaterLink`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kernelChangelog` TEXT NOT NULL, `updaterChangelog` TEXT NOT NULL, `lastChecked` INTEGER NOT NULL, `kernelVersion` TEXT NOT NULL, `kernelLink` TEXT NOT NULL, `kernelChangelogLink` TEXT NOT NULL, `kernelDate` TEXT NOT NULL, `kernelMD5` TEXT NOT NULL, `kernelSize` INTEGER NOT NULL, `telegram` TEXT NOT NULL, `xda` TEXT NOT NULL, `updaterVersion` TEXT NOT NULL, `updaterLink` TEXT NOT NULL, `updaterChangelogLink` TEXT NOT NULL, `updaterDate` TEXT NOT NULL, `updaterMD5` TEXT NOT NULL, `updaterSize` INTEGER NOT NULL, PRIMARY KEY(`kernelLink`, `updaterLink`))",
         "fields": [
           {
             "fieldPath": "kernelChangelog",
@@ -59,7 +59,7 @@
           {
             "fieldPath": "kernel.kernelSize",
             "columnName": "kernelSize",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -107,7 +107,7 @@
           {
             "fieldPath": "updater.updaterSize",
             "columnName": "updaterSize",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -125,7 +125,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7f5563320a175925f2d0d30f3dfe4c05')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a66e977c2457534d3fe266110e0cf632')"
     ]
   }
 }

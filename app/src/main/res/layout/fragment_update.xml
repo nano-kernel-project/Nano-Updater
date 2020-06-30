@@ -103,7 +103,7 @@
                     android:id="@+id/update_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{position == 1 ? kernel.kernelSize : updater.updaterSize}"
+                    android:text="@{@string/update_size_MB((position == 1 ? kernel.kernelSize : updater.updaterSize) / 1000000)}"
                     android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
                     android:textColor="?android:textColorPrimary"
                     app:layout_constraintStart_toStartOf="@+id/update_size_text"
