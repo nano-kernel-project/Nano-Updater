@@ -12,6 +12,7 @@
     <color name="nano_blue_grey_900">#202124</color>
     <color name="nano_black_900_alpha_020">#33000000</color>
     <color name="nano_black_900_alpha_060">#99000000</color>
+    <color name="nano_grey_800">#353535</color>
 
     <!-- Platform attributes -->
     <color name="nav_bar">@color/nano_black_900_alpha_020</color>

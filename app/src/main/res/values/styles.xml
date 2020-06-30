@@ -18,4 +18,11 @@
     <style name="Widget.Nano.SnackBar.Button" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.Nano.Subtitle2</item>
     </style>
+
+    <!-- BottomSheetDialog style-->
+    <style name="Widget.Nano.BottomSheet" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/nano_grey_800</item>
+    </style>
 </resources>

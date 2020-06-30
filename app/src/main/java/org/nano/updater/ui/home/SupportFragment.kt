@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.nano.updater.NanoApplication
+import org.nano.updater.R
 import org.nano.updater.databinding.FragmentSupportBinding
 import org.nano.updater.util.OnClickEventHandler
 import javax.inject.Inject
@@ -28,6 +29,10 @@ class SupportFragment : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         binding = FragmentSupportBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun getTheme(): Int {
+        return R.style.Widget_Nano_BottomSheet
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
