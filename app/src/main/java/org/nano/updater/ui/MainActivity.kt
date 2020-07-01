@@ -130,13 +130,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onNavigationItemClicked(modelItem: NavigationModelItem.NavMenuItem) {
-        currentNavigationFragment?.apply {
-            exitTransition = MaterialFadeThrough.create().apply {
-                duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialFadeThrough.create().apply {
-                duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
-            }
+        currentNavigationFragment?.exitTransition = MaterialFadeThrough.create().apply {
+            duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
 
         // We need ids of only Home, Settings, Report, About screens
