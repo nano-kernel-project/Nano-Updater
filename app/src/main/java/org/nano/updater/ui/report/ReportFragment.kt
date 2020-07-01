@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.transition.MaterialFadeThrough
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
 import org.nano.updater.databinding.FragmentReportBinding
@@ -18,6 +17,7 @@ import org.nano.updater.repository.ReportRepository
 import org.nano.updater.ui.MainActivity
 import org.nano.updater.ui.MainViewModel
 import org.nano.updater.util.SnackBarUtils
+import org.nano.updater.util.createMaterialElevationScale
 import javax.inject.Inject
 
 /**
@@ -56,7 +56,7 @@ class ReportFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this, disableBackAction)
-        enterTransition = MaterialFadeThrough.create().apply {
+        enterTransition = createMaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
     }

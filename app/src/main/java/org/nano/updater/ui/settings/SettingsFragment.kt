@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
-import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.coroutines.launch
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
@@ -18,6 +17,7 @@ import org.nano.updater.databinding.FragmentSettingsBinding
 import org.nano.updater.model.AppPreference
 import org.nano.updater.util.Constants
 import org.nano.updater.util.SharedPrefUtils
+import org.nano.updater.util.createMaterialElevationScale
 import org.nano.updater.worker.UpdateCheckWorker
 import org.nano.updater.worker.WorkerUtils
 import java.util.concurrent.TimeUnit
@@ -78,7 +78,7 @@ class SettingsFragment : Fragment(), AppPreferenceAdapter.AppPreferenceAdapterLi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough.create().apply {
+        enterTransition = createMaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
     }
@@ -94,7 +94,7 @@ class SettingsFragment : Fragment(), AppPreferenceAdapter.AppPreferenceAdapterLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Handler().postDelayed({
             settingsBinding.appPrefRecyclerView.adapter = adapter
-        }, 300)
+        }, resources.getInteger(R.integer.nano_motion_duration_large).toLong())
         adapter.submitList(appSettings)
 
         WorkManager.getInstance(requireContext())

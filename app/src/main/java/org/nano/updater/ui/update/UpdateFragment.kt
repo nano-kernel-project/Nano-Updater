@@ -18,7 +18,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.animation.AnimationUtils
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialFadeThrough
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
 import org.nano.updater.databinding.FragmentUpdateBinding
@@ -32,6 +31,7 @@ import org.nano.updater.util.Constants
 import org.nano.updater.util.FileUtils
 import org.nano.updater.util.FileUtils.getUpdatePackage
 import org.nano.updater.util.SnackBarUtils
+import org.nano.updater.util.createMaterialElevationScale
 import java.io.File
 import javax.inject.Inject
 
@@ -57,7 +57,7 @@ class UpdateFragment : Fragment() {
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
-                exitTransition = MaterialFadeThrough.create().apply {
+                exitTransition = createMaterialElevationScale(false).apply {
                     duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
                 }
                 findNavController().navigateUp()

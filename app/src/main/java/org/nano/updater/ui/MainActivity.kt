@@ -14,8 +14,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialFadeThrough
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
 import org.nano.updater.databinding.ActivityMainBinding
@@ -24,6 +22,7 @@ import org.nano.updater.ui.home.HomeAdapter
 import org.nano.updater.ui.home.HomeFragmentDirections
 import org.nano.updater.ui.home.HomeViewModel
 import org.nano.updater.ui.nav.*
+import org.nano.updater.util.createMaterialElevationScale
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener,
@@ -130,7 +129,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onNavigationItemClicked(modelItem: NavigationModelItem.NavMenuItem) {
-        currentNavigationFragment?.exitTransition = MaterialFadeThrough.create().apply {
+        currentNavigationFragment?.exitTransition = createMaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
 
@@ -147,13 +146,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             cardView to cardView.transitionName
         )
 
-        currentNavigationFragment?.apply {
-            exitTransition = Hold().apply {
-                duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
-            }
-            reenterTransition = MaterialFadeThrough.create().apply {
-                duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
-            }
+        currentNavigationFragment?.exitTransition = createMaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
 
         findNavController(R.id.nav_host_fragment)

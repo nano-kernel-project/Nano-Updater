@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.MaterialFadeThrough
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
 import org.nano.updater.databinding.FragmentAboutBinding
 import org.nano.updater.ui.MainActivity
 import org.nano.updater.util.OnClickEventHandler
+import org.nano.updater.util.createMaterialElevationScale
 
 class AboutFragment : Fragment() {
     private lateinit var aboutBinding: FragmentAboutBinding
@@ -21,7 +21,7 @@ class AboutFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough.create().apply {
+        enterTransition = createMaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
     }

@@ -17,7 +17,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialFadeThrough
 import org.nano.updater.NanoApplication
 import org.nano.updater.R
 import org.nano.updater.databinding.FragmentHomeBinding
@@ -25,6 +24,7 @@ import org.nano.updater.ui.MainActivity
 import org.nano.updater.ui.update.UpdateViewModel
 import org.nano.updater.util.Constants
 import org.nano.updater.util.SnackBarUtils
+import org.nano.updater.util.createMaterialElevationScale
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough.create().apply {
+        enterTransition = createMaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
     }
