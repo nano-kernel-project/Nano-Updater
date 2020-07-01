@@ -137,7 +137,6 @@ class HomeFragment : Fragment() {
         HomeStore.homeItems.observe(viewLifecycleOwner, Observer {
             animator.end()
             homeAdapter.submitList(it?.toMutableList())
-            homeBinding.homeRecyclerView.smoothScrollToPosition(0)
         })
 
         homeBinding.homeRecyclerView.apply {
