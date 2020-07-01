@@ -273,7 +273,7 @@ class UpdateFragment : Fragment() {
             interpolator = AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR
         }
         sharedElementReturnTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.home_recycler_view
+            drawingViewId = R.id.home_root
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
             interpolator = AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR
         }

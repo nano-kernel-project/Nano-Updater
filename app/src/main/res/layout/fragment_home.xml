@@ -5,16 +5,23 @@
 
     <data />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_recycler_view"
+    <FrameLayout
+        android:id="@+id/home_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/grid_0_25"
-        android:paddingBottom="@dimen/bottom_app_bar_height"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:paddingBottomSystemWindowInsets="@{true}"
-        app:paddingTopSystemWindowInsets="@{true}"
-        tools:listitem="@layout/item_view_update" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/grid_0_25"
+            android:paddingBottom="@dimen/bottom_app_bar_height"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:paddingBottomSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}"
+            tools:listitem="@layout/item_view_update" />
+
+    </FrameLayout>
 </layout>
