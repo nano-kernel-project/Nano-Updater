@@ -131,26 +131,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/update_build_date_text" />
 
                 <TextView
-                    android:id="@+id/update_md5_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_2"
-                    android:text="@string/update_md5"
-                    android:textAppearance="@style/TextAppearance.Nano.Body2"
-                    app:layout_constraintStart_toStartOf="@+id/update_size"
-                    app:layout_constraintTop_toBottomOf="@+id/update_size" />
-
-                <TextView
-                    android:id="@+id/update_md5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{position == 1 ? kernel.kernelMD5 : updater.updaterMD5}"
-                    android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                    android:textColor="?android:textColorPrimary"
-                    app:layout_constraintStart_toStartOf="@+id/update_md5_text"
-                    app:layout_constraintTop_toBottomOf="@+id/update_md5_text" />
-
-                <TextView
                     android:id="@+id/whats_new_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -158,7 +138,7 @@
                     android:text="@string/update_what_s_new"
                     android:textAppearance="@style/TextAppearance.Nano.Headline5"
                     app:layout_constraintStart_toStartOf="@+id/update_size"
-                    app:layout_constraintTop_toBottomOf="@+id/update_md5" />
+                    app:layout_constraintTop_toBottomOf="@+id/update_size" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/update_changelog_recycler_view"
@@ -169,7 +149,7 @@
                     android:paddingBottom="@dimen/bottom_app_bar_height"
                     android:scrollbars="none"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@+id/update_md5"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/whats_new_title"
                     app:layout_constraintTop_toBottomOf="@+id/whats_new_title"
                     app:paddingBottomSystemWindowInsets="@{true}"
