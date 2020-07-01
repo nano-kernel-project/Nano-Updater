@@ -151,25 +151,27 @@ class UpdateFragment : Fragment() {
     }
 
     private fun setFabClickListener(
-        updateType: ArrayList<Any>,
+        updateData: NanoUpdate,
         isUpdateVerified: Boolean
     ) {
         binding.updateFab.setOnClickListener {
             if (!isUpdateVerified) {
                 // Force user to download the update
                 val downloadUrl = if (position == 1)
-                    (updateType[0] as Kernel).kernelLink
+                    updateData.kernel.kernelLink
                 else
-                    (updateType[0] as Updater).updaterLink
+                    updateData.updater.updaterLink
                 DownloadTask(
                     requireContext(),
                     homeViewModel,
                     position == 1
                 ).execute(
-                    downloadUrl, updateType[2] as String
+                    downloadUrl,
+                    getUpdatePackageName(if (position == 1) updateData.kernel else updateData.updater)
                 )
             } else {
                 if (position == 1) {
+                    // User clicked the kernel update card
                     // Launch FlashFragment for flashing Kernel
                     exitTransition = Hold().apply {
                         duration =
@@ -183,6 +185,7 @@ class UpdateFragment : Fragment() {
                         }.build()
                     )
                 } else {
+                    // User clicked the app updater card
                     // Launch package installer for installing update APK
                     val intent = Intent(Intent.ACTION_VIEW)
                     val uri = FileProvider.getUriForFile(
@@ -190,7 +193,7 @@ class UpdateFragment : Fragment() {
                         "org.nano.updater.fileprovider",
                         File(
                             requireContext().getExternalFilesDir("updater"),
-                            updateType[2] as String
+                            getUpdatePackageName(if (position == 1) updateData.kernel else updateData.updater)
                         )
                     )
                     intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -202,29 +205,23 @@ class UpdateFragment : Fragment() {
     }
 
     private fun updateFabListener(updateData: NanoUpdate) {
-        val updateTypeAndFileName = getUpdateTypeAndFileName(updateData, position == 1)
-
         // Verify checksum of the update package
         // If matched, let user install the update
         // Otherwise, force user to download the update
         if (FileUtils.verifyChecksum(
                 updateFile = getUpdatePackage(
                     requireContext(),
-                    updateTypeAndFileName[2] as String,
+                    getUpdatePackageName(if (position == 1) updateData.kernel else updateData.updater),
                     position == 1
                 ),
-                referenceChecksum = updateTypeAndFileName[1] as String
+                referenceChecksum = getUpdateMD5Checksum(if (position == 1) updateData.kernel else updateData.updater)
             )
         ) {
-            setFabClickListener(updateType = updateTypeAndFileName, isUpdateVerified = true)
-            binding.updateFab.icon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_save_alt)
-            binding.updateFab.text = getString(R.string.action_install)
+            setFabClickListener(updateData = updateData, isUpdateVerified = true)
+            updateFABTextAndIcon(isUpdateVerified = true)
         } else {
-            setFabClickListener(updateType = updateTypeAndFileName, isUpdateVerified = false)
-            binding.updateFab.icon =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_get_app)
-            binding.updateFab.text = getString(R.string.action_download)
+            setFabClickListener(updateData = updateData, isUpdateVerified = false)
+            updateFABTextAndIcon(isUpdateVerified = false)
         }
     }
 
@@ -234,35 +231,38 @@ class UpdateFragment : Fragment() {
         notificationManager!!.cancel(Constants.NOTIFICATION_ID)
     }
 
-    // Helper method which returns a list holding updateData at index 0 (can be either org.nano.updater.model.Kernel or org.nano.updater.model.Updater),
-    // MD5 checksum at index 1
-    // fileName at index 2
-    private fun getUpdateTypeAndFileName(
-        updateData: NanoUpdate,
-        isKernelUpdate: Boolean
-    ): ArrayList<Any> {
-        return if (isKernelUpdate)
-            ArrayList<Any>().apply {
-                add(updateData.kernel)
-                add(updateData.kernel.kernelMD5)
-                add(
-                    updateData.kernel.kernelLink.substring(
-                        updateData.kernel.kernelLink.lastIndexOf('/') + 1,
-                        updateData.kernel.kernelLink.length
-                    )
-                )
-            }
+    private fun getUpdatePackageName(updateData: Any): String {
+        return if (updateData is Kernel)
+            updateData.kernelLink.substring(
+                updateData.kernelLink.lastIndexOf('/') + 1,
+                updateData.kernelLink.length
+            )
         else
-            ArrayList<Any>().apply {
-                add(updateData.updater)
-                add(updateData.updater.updaterMD5)
-                add(
-                    updateData.updater.updaterLink.substring(
-                        updateData.updater.updaterLink.lastIndexOf('/') + 1,
-                        updateData.updater.updaterLink.length
-                    )
-                )
+            (updateData as Updater).updaterLink.substring(
+                updateData.updaterLink.lastIndexOf('/') + 1,
+                updateData.updaterLink.length
+            )
+    }
+
+    private fun getUpdateMD5Checksum(updateData: Any): String {
+        return if (updateData is Kernel)
+            updateData.kernelMD5
+        else
+            (updateData as Updater).updaterMD5
+    }
+
+    private fun updateFABTextAndIcon(isUpdateVerified: Boolean) {
+        binding.updateFab.apply {
+            if (isUpdateVerified) {
+                icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_save_alt)
+                text = getString(R.string.action_install)
+            } else {
+                icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_get_app)
+                text = getString(R.string.action_download)
             }
+        }
     }
 
     private fun prepareTransitions() {
