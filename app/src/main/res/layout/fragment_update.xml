@@ -18,181 +18,176 @@
             type="Integer" />
     </data>
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/grid_0_5"
-        android:paddingTop="@dimen/grid_1"
+        android:transitionName="@{@string/transition_update(position)}"
         app:paddingTopSystemWindowInsets="@{true}">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/update_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:transitionName="@{@string/transition_update(position)}">
+            android:fillViewport="true">
 
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/update_scroll_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/update_root"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/grid_2"
+                android:paddingTop="@dimen/min_touch_target_size"
+                tools:context=".ui.update.UpdateFragment">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/update_root"
+                <TextView
+                    android:id="@+id/update_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_kernel"
+                    android:textAppearance="@style/TextAppearance.Nano.Headline4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/update_desc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_kernel_desc"
+                    android:textAppearance="@style/TextAppearance.Nano.Body2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/update_title" />
+
+                <TextView
+                    android:id="@+id/update_info_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:text="@string/update_info"
+                    android:textAppearance="@style/TextAppearance.Nano.Headline5"
+                    app:layout_constraintStart_toStartOf="@+id/update_desc"
+                    app:layout_constraintTop_toBottomOf="@+id/update_desc" />
+
+                <TextView
+                    android:id="@+id/update_version_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:text="@string/update_version"
+                    android:textAppearance="@style/TextAppearance.Nano.Body2"
+                    app:layout_constraintStart_toStartOf="@+id/update_info_title"
+                    app:layout_constraintTop_toBottomOf="@+id/update_info_title" />
+
+                <TextView
+                    android:id="@+id/update_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:text="@{position == 1 ? kernel.kernelVersion : updater.updaterVersion}"
+                    android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/update_version_text"
+                    app:layout_constraintTop_toBottomOf="@+id/update_version_text" />
+
+                <TextView
+                    android:id="@+id/update_size_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:text="@string/update_size"
+                    android:textAppearance="@style/TextAppearance.Nano.Body2"
+                    app:layout_constraintStart_toStartOf="@+id/update_version"
+                    app:layout_constraintTop_toBottomOf="@+id/update_version" />
+
+                <TextView
+                    android:id="@+id/update_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/update_size_MB((position == 1 ? kernel.kernelSize : updater.updaterSize) / 1000000)}"
+                    android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/update_size_text"
+                    app:layout_constraintTop_toBottomOf="@+id/update_size_text" />
+
+                <TextView
+                    android:id="@+id/update_build_date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/build_text"
+                    android:textAppearance="@style/TextAppearance.Nano.Body2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/update_version_text"
+                    app:layout_constraintTop_toTopOf="@+id/update_version_text" />
+
+                <TextView
+                    android:id="@+id/update_build_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{position == 1 ? kernel.kernelDate : updater.updaterDate}"
+                    android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/update_build_date_text"
+                    app:layout_constraintTop_toBottomOf="@+id/update_build_date_text" />
+
+                <TextView
+                    android:id="@+id/update_md5_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:text="@string/update_md5"
+                    android:textAppearance="@style/TextAppearance.Nano.Body2"
+                    app:layout_constraintStart_toStartOf="@+id/update_size"
+                    app:layout_constraintTop_toBottomOf="@+id/update_size" />
+
+                <TextView
+                    android:id="@+id/update_md5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{position == 1 ? kernel.kernelMD5 : updater.updaterMD5}"
+                    android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+                    android:textColor="?android:textColorPrimary"
+                    app:layout_constraintStart_toStartOf="@+id/update_md5_text"
+                    app:layout_constraintTop_toBottomOf="@+id/update_md5_text" />
+
+                <TextView
+                    android:id="@+id/whats_new_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:text="@string/update_what_s_new"
+                    android:textAppearance="@style/TextAppearance.Nano.Headline5"
+                    app:layout_constraintStart_toStartOf="@+id/update_size"
+                    app:layout_constraintTop_toBottomOf="@+id/update_md5" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/update_changelog_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/grid_2"
-                    app:paddingBottomSystemWindowInsets="@{true}"
-                    android:paddingTop="@dimen/grid_3"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
                     android:paddingBottom="@dimen/bottom_app_bar_height"
-                    tools:context=".ui.update.UpdateFragment">
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="@+id/update_md5"
+                    app:layout_constraintStart_toStartOf="@+id/whats_new_title"
+                    app:layout_constraintTop_toBottomOf="@+id/whats_new_title"
+                    app:paddingBottomSystemWindowInsets="@{true}"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/item_changelog" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                        android:id="@+id/update_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/update_kernel"
-                        android:textAppearance="@style/TextAppearance.Nano.Headline4"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/update_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_2"
+            android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:marginBottomSystemWindowInsets="@{true}" />
+    </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:id="@+id/update_desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/update_kernel_desc"
-                        android:textAppearance="@style/TextAppearance.Nano.Body2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/update_title" />
-
-                    <TextView
-                        android:id="@+id/update_info_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/grid_2"
-                        android:text="@string/update_info"
-                        android:textAppearance="@style/TextAppearance.Nano.Headline5"
-                        app:layout_constraintStart_toStartOf="@+id/update_desc"
-                        app:layout_constraintTop_toBottomOf="@+id/update_desc" />
-
-                    <TextView
-                        android:id="@+id/update_version_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/grid_1"
-                        android:text="@string/update_version"
-                        android:textAppearance="@style/TextAppearance.Nano.Body2"
-                        app:layout_constraintStart_toStartOf="@+id/update_info_title"
-                        app:layout_constraintTop_toBottomOf="@+id/update_info_title" />
-
-                    <TextView
-                        android:id="@+id/update_version"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/grid_2"
-                        android:text="@{position == 1 ? kernel.kernelVersion : updater.updaterVersion}"
-                        android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                        android:textColor="?android:textColorPrimary"
-                        app:layout_constraintStart_toStartOf="@+id/update_version_text"
-                        app:layout_constraintTop_toBottomOf="@+id/update_version_text" />
-
-                    <TextView
-                        android:id="@+id/update_size_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/grid_2"
-                        android:text="@string/update_size"
-                        android:textAppearance="@style/TextAppearance.Nano.Body2"
-                        app:layout_constraintStart_toStartOf="@+id/update_version"
-                        app:layout_constraintTop_toBottomOf="@+id/update_version" />
-
-                    <TextView
-                        android:id="@+id/update_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{@string/update_size_MB((position == 1 ? kernel.kernelSize : updater.updaterSize) / 1000000)}"
-                        android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                        android:textColor="?android:textColorPrimary"
-                        app:layout_constraintStart_toStartOf="@+id/update_size_text"
-                        app:layout_constraintTop_toBottomOf="@+id/update_size_text" />
-
-                    <TextView
-                        android:id="@+id/update_build_date_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/build_text"
-                        android:textAppearance="@style/TextAppearance.Nano.Body2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/update_version_text"
-                        app:layout_constraintTop_toTopOf="@+id/update_version_text" />
-
-                    <TextView
-                        android:id="@+id/update_build_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{position == 1 ? kernel.kernelDate : updater.updaterDate}"
-                        android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                        android:textColor="?android:textColorPrimary"
-                        app:layout_constraintStart_toStartOf="@+id/update_build_date_text"
-                        app:layout_constraintTop_toBottomOf="@+id/update_build_date_text" />
-
-                    <TextView
-                        android:id="@+id/update_md5_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/grid_2"
-                        android:text="@string/update_md5"
-                        android:textAppearance="@style/TextAppearance.Nano.Body2"
-                        app:layout_constraintStart_toStartOf="@+id/update_size"
-                        app:layout_constraintTop_toBottomOf="@+id/update_size" />
-
-                    <TextView
-                        android:id="@+id/update_md5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{position == 1 ? kernel.kernelMD5 : updater.updaterMD5}"
-                        android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                        android:textColor="?android:textColorPrimary"
-                        app:layout_constraintStart_toStartOf="@+id/update_md5_text"
-                        app:layout_constraintTop_toBottomOf="@+id/update_md5_text" />
-
-                    <TextView
-                        android:id="@+id/whats_new_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/grid_2"
-                        android:text="@string/update_what_s_new"
-                        android:textAppearance="@style/TextAppearance.Nano.Headline5"
-                        app:layout_constraintStart_toStartOf="@+id/update_size"
-                        app:layout_constraintTop_toBottomOf="@+id/update_md5" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/update_changelog_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:overScrollMode="never"
-                        android:scrollbars="none"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="@+id/update_md5"
-                        app:layout_constraintStart_toStartOf="@+id/whats_new_title"
-                        app:layout_constraintTop_toBottomOf="@+id/whats_new_title"
-                        tools:itemCount="20"
-                        tools:listitem="@layout/item_changelog" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
-
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/update_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                app:marginBottomSystemWindowInsets="@{true}"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:layout_marginBottom="@dimen/grid_2"
-                android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
 </layout>
