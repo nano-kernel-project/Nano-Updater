@@ -3,6 +3,7 @@ package org.nano.updater.ui.update
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -270,11 +271,13 @@ class UpdateFragment : Fragment() {
             // the bottom app bar
             drawingViewId = R.id.nav_host_fragment
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
             interpolator = AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR
         }
         sharedElementReturnTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.home_root
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
             interpolator = AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR
         }
     }
