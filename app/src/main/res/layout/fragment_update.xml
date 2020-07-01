@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/grid_2"
                 android:paddingTop="@dimen/min_touch_target_size"
+                android:paddingBottom="@dimen/grid_3"
                 tools:context=".ui.update.UpdateFragment">
 
                 <TextView
@@ -183,7 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="@dimen/grid_2"
-            android:layout_marginBottom="@dimen/grid_2"
+            android:layout_marginBottom="@dimen/grid_3"
             android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
