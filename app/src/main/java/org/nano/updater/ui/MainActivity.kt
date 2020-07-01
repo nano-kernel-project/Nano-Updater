@@ -1,5 +1,7 @@
 package org.nano.updater.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -93,38 +95,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         mainViewModel.setCurrentDestination(findNavController(R.id.nav_host_fragment).currentDestination!!.id)
         when (destination.id) {
             R.id.homeFragment,
-            R.id.bugReportFragment -> {
-                Handler().postDelayed({
-                    binding.fab.show()
-                }, resources.getInteger(R.integer.nano_motion_duration_large).toLong())
-                binding.bottomAppBar.performShow()
+            R.id.bugReportFragment -> setupBottomAppBarForHomeAndReport(destination.id)
 
-                if (destination.id == R.id.homeFragment) {
-                    binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                    binding.fab.setImageResource(R.drawable.ic_sync)
-                    updateTitleAndLogo(R.string.action_home, R.drawable.ic_home)
-                    NavigationModel.setNavigationMenuItemChecked(0)
-                } else {
-                    binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                    binding.fab.setImageResource(R.drawable.ic_send)
-                    updateTitleAndLogo(R.string.action_report, R.drawable.ic_bug_report)
-                    NavigationModel.setNavigationMenuItemChecked(2)
-                }
-            }
+            R.id.aboutFragment,
+            R.id.settingsFragment -> setupBottomAppBarForAboutAndSettings(destination.id)
 
-            R.id.aboutFragment -> {
-                updateTitleAndLogo(R.string.action_about, R.drawable.ic_info)
-                NavigationModel.setNavigationMenuItemChecked(3)
-            }
-            R.id.settingsFragment -> {
-                updateTitleAndLogo(R.string.action_settings, R.drawable.ic_settings)
-                NavigationModel.setNavigationMenuItemChecked(1)
-            }
-
-            else -> {
-                binding.bottomAppBar.performHide()
-                binding.fab.hide()
-            }
+            else -> setupBottomAppBarForUpdateAndFlash()
         }
     }
 
@@ -180,5 +156,66 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun updateTitleAndLogo(@StringRes titleRes: Int, @DrawableRes icon: Int) {
         binding.bottomAppBarTitle.text = getString(titleRes)
         binding.bottomAppBarLogo.setImageResource(icon)
+    }
+
+    private fun setupBottomAppBarForHomeAndReport(destinationId: Int) {
+        binding.bottomAppBar.run {
+            visibility = View.VISIBLE
+            performShow()
+        }
+        Handler().postDelayed({
+            binding.fab.show()
+        }, resources.getInteger(R.integer.nano_motion_duration_large).toLong())
+
+        if (destinationId == R.id.homeFragment) {
+            binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+            binding.fab.setImageResource(R.drawable.ic_sync)
+            updateTitleAndLogo(R.string.action_home, R.drawable.ic_home)
+            NavigationModel.setNavigationMenuItemChecked(0)
+        } else {
+            binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            binding.fab.setImageResource(R.drawable.ic_send)
+            updateTitleAndLogo(R.string.action_report, R.drawable.ic_bug_report)
+            NavigationModel.setNavigationMenuItemChecked(2)
+        }
+    }
+
+    private fun setupBottomAppBarForAboutAndSettings(destinationId: Int) {
+        binding.bottomAppBar.run {
+            visibility = View.VISIBLE
+            performShow()
+        }
+        if (destinationId == R.id.aboutFragment) {
+            updateTitleAndLogo(R.string.action_about, R.drawable.ic_info)
+            NavigationModel.setNavigationMenuItemChecked(3)
+        } else {
+            updateTitleAndLogo(R.string.action_settings, R.drawable.ic_settings)
+            NavigationModel.setNavigationMenuItemChecked(1)
+        }
+    }
+
+    private fun setupBottomAppBarForUpdateAndFlash() {
+        binding.bottomAppBar.performHide()
+
+        // Get a handle on BottomAppBar animation, so as to hide the visibility when it is hidden
+        binding.run {
+            bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
+                var isCanceled = false
+                override fun onAnimationEnd(animation: Animator?) {
+                    if (isCanceled)
+                        return
+
+                    // Hide the BottomAppBar to prevent it from covering the FAB in UpdateFragment and FlashFragment
+                    bottomAppBar.visibility = View.GONE
+                    fab.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    isCanceled = true
+                }
+            })
+        }
+
+        binding.fab.hide()
     }
 }
