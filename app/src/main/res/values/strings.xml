@@ -79,6 +79,8 @@
     <!-- About -->
     <string name="about_title">The Nano Kernel Project.</string>
     <string name="about_content">Simple yet powerful kernel. Tested thoroughly for stability, performance and battery. Powered by an updater with sophisticated features. Enjoy your stay.</string>
+    <string name="github_link" translatable="false">https://github.com/nano-kernel-project</string>
+    <string name="telegram_link" translatable="false">https://t.me/NanoKernel</string>
     <string name="meet_the_developers">Meet The Developers</string>
     <string name="special_contributions">Special Contributions</string>
     <string name="dev_username_1" translatable="false">\@Shreejoy_Dash</string>
