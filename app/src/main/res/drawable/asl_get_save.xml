@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/get"
+        android:drawable="@drawable/ic_get_app"
+        android:state_activated="true" />
+
+    <item
+        android:id="@+id/save"
+        android:drawable="@drawable/ic_save_alt"
+        android:state_activated="false" />
+
+    <transition
+        android:drawable="@drawable/avd_get_save"
+        android:fromId="@id/get"
+        android:toId="@id/save" />
+</animated-selector>

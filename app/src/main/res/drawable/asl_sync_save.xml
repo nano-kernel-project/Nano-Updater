@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sync"
+        android:drawable="@drawable/ic_sync"
+        android:state_activated="false" />
+
+    <item
+        android:id="@+id/save"
+        android:drawable="@drawable/ic_save_alt"
+        android:state_activated="true" />
+
+    <transition
+        android:drawable="@drawable/avd_sync_save"
+        android:fromId="@id/sync"
+        android:toId="@id/save" />
+
+    <transition
+        android:drawable="@drawable/avd_save_sync"
+        android:fromId="@id/save"
+        android:toId="@id/sync" />
+</animated-selector>

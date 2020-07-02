@@ -41,6 +41,9 @@
         <argument
             android:name="position"
             app:argType="integer" />
+        <argument
+            android:name="isUpdateVerified"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/flashFragment"

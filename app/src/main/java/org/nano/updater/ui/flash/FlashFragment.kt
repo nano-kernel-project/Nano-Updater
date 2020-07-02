@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.transition.Slide
 import com.google.android.material.animation.AnimationUtils
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import org.nano.updater.NanoApplication
@@ -22,6 +21,7 @@ import org.nano.updater.R
 import org.nano.updater.databinding.FragmentFlashBinding
 import org.nano.updater.model.NanoUpdate
 import org.nano.updater.service.FlashService
+import org.nano.updater.ui.MainActivity
 import org.nano.updater.ui.home.HomeViewModel
 import org.nano.updater.ui.update.UpdateViewModel
 import org.nano.updater.util.Constants
@@ -189,7 +189,7 @@ class FlashFragment : Fragment() {
         binding.executePendingBindings()
         enterTransition = MaterialContainerTransform().apply {
             startView =
-                requireActivity().findViewById<ExtendedFloatingActionButton>(R.id.update_fab)
+                (requireActivity() as MainActivity).binding.fab
             endView = binding.flashCard
             setPathMotion(MaterialArcMotion())
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()

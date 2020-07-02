@@ -1,7 +1,5 @@
 package org.nano.updater.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -23,6 +21,7 @@ import org.nano.updater.ui.home.HomeAdapter
 import org.nano.updater.ui.home.HomeFragmentDirections
 import org.nano.updater.ui.home.HomeViewModel
 import org.nano.updater.ui.nav.*
+import org.nano.updater.util.FileUtils
 import org.nano.updater.util.createMaterialElevationScale
 import javax.inject.Inject
 
@@ -99,7 +98,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             R.id.aboutFragment,
             R.id.settingsFragment -> setupBottomAppBarForAboutAndSettings(destination.id)
 
-            else -> setupBottomAppBarForUpdateAndFlash()
+            else -> setupBottomAppBarForUpdateAndFlash(destination.id)
         }
     }
 
@@ -121,13 +120,20 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             cardView to cardView.transitionName
         )
 
+        val isUpdateVerified = FileUtils.getIsUpdateVerified(this, homeViewModel, position)
+        if (isUpdateVerified)
+            binding.fab.setImageResource(R.drawable.asl_sync_save)
+        else
+            binding.fab.setImageResource(R.drawable.asl_sync_get)
+
+
         currentNavigationFragment?.exitTransition = createMaterialElevationScale(false).apply {
             duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
         }
 
         findNavController(R.id.nav_host_fragment)
             .navigate(
-                HomeFragmentDirections.actionHomeFragmentToUpdateFragment(position),
+                HomeFragmentDirections.actionHomeFragmentToUpdateFragment(position, isUpdateVerified),
                 extras
             )
     }
@@ -158,6 +164,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     private fun setupBottomAppBarForHomeAndReport(destinationId: Int) {
+        binding.bottomAppBarTitle.visibility = View.VISIBLE
+        binding.fab.setImageState(intArrayOf(-android.R.attr.state_activated), true)
         binding.bottomAppBar.run {
             visibility = View.VISIBLE
             performShow()
@@ -168,7 +176,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         if (destinationId == R.id.homeFragment) {
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-            binding.fab.setImageResource(R.drawable.ic_sync)
+            binding.fab.setImageResource(R.drawable.asl_sync_get)
             updateTitle(R.string.action_home)
             NavigationModel.setNavigationMenuItemChecked(0)
         } else {
@@ -180,6 +188,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     private fun setupBottomAppBarForAboutAndSettings(destinationId: Int) {
+        binding.bottomAppBarTitle.visibility = View.VISIBLE
         binding.bottomAppBar.run {
             visibility = View.VISIBLE
             performShow()
@@ -193,28 +202,18 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    private fun setupBottomAppBarForUpdateAndFlash() {
-        binding.bottomAppBar.performHide()
-
-        // Get a handle on BottomAppBar animation, so as to hide the visibility when it is hidden
-        binding.run {
-            bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
-                var isCanceled = false
-                override fun onAnimationEnd(animation: Animator?) {
-                    if (isCanceled)
-                        return
-
-                    // Hide the BottomAppBar to prevent it from covering the FAB in UpdateFragment and FlashFragment
-                    bottomAppBar.visibility = View.GONE
-                    fab.visibility = View.INVISIBLE
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                    isCanceled = true
-                }
-            })
-        }
-
-        binding.fab.hide()
+    private fun setupBottomAppBarForUpdateAndFlash(destinationId: Int) {
+        binding.bottomAppBarTitle.visibility = View.INVISIBLE
+        if (destinationId == R.id.flashFragment)
+            binding.apply {
+                bottomAppBar.performHide()
+                fab.hide()
+            }
+        else
+            binding.apply {
+                bottomAppBar.performShow()
+                fab.show()
+            }
+        binding.fab.setImageState(intArrayOf(android.R.attr.state_activated), true)
     }
 }

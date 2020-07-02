@@ -42,7 +42,8 @@
             android:layout_gravity="bottom"
             app:contentInsetStart="0dp"
             app:fabCradleMargin="@dimen/bottom_app_bar_fab_cradle_margin"
-            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius">
+            app:fabCradleRoundedCornerRadius="@dimen/bottom_app_bar_fab_cradle_corner_radius"
+            app:hideOnScroll="true">
 
             <LinearLayout
                 android:id="@+id/bottom_app_bar_content_container"
@@ -69,19 +70,19 @@
                     android:layout_width="@dimen/bottom_app_bar_logo_size"
                     android:layout_height="@dimen/bottom_app_bar_logo_size"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/bottom_app_bar_logo_content_desc"
                     android:layout_marginStart="@dimen/grid_1"
+                    android:contentDescription="@string/bottom_app_bar_logo_content_desc"
                     android:src="@drawable/ic_logo" />
 
                 <TextView
                     android:id="@+id/bottom_app_bar_title"
-                    app:text="@{navMenuItem.titleRes}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_1"
                     android:layout_marginEnd="@dimen/grid_0_5"
                     android:textAppearance="@style/TextAppearance.Nano.Subtitle1"
                     android:textColor="?android:textColorSecondary"
+                    app:text="@{navMenuItem.titleRes}"
                     tools:text="@string/action_home" />
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>

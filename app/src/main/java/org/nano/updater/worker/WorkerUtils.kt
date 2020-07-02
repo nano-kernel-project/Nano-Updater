@@ -124,12 +124,14 @@ object WorkerUtils {
             else
                 builder.setProgress((contentLength / 1000000).toInt(), progress, false)
         } else {
+            // TODO("Don't hardcode isUpdateVerified to true")
             builder.setProgress(0, 0, false)
             builder.setContentIntent(
                 NavDeepLinkBuilder(context)
                     .setGraph(R.navigation.nav_graph)
                     .setDestination(R.id.updateFragment)
-                    .setArguments(bundleOf("position" to isKernelUpdate.toInt()))
+                    .setArguments(bundleOf("position" to isKernelUpdate.toInt(),
+                    "isUpdateVerified" to true))
                     .createPendingIntent()
             )
         }

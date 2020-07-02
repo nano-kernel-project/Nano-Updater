@@ -2,6 +2,7 @@ package org.nano.updater.util
 
 import android.content.Context
 import com.topjohnwu.superuser.ShellUtils
+import org.nano.updater.ui.home.HomeViewModel
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -10,6 +11,18 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 object FileUtils {
+
+    fun getIsUpdateVerified(context: Context, homeViewModel: HomeViewModel, position: Int): Boolean {
+        val updateData = homeViewModel.getUpdateData().value!!
+        return verifyChecksum(
+            updateFile = getUpdatePackage(
+                context,
+                homeViewModel.getUpdatePackageName(if (position == 1) updateData.kernel else updateData.updater),
+                position == 1
+            ),
+            referenceChecksum = homeViewModel.getUpdateMD5Checksum(if (position == 1) updateData.kernel else updateData.updater)
+        )
+    }
 
     fun getUpdatePackage(context: Context, fileName: String, isKernelUpdate: Boolean): File {
         val updateType = if (isKernelUpdate)

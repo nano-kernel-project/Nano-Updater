@@ -18,26 +18,30 @@
             type="Integer" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/update_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        android:clipToPadding="false"
+        android:fillViewport="true"
         android:paddingHorizontal="@dimen/grid_0_5"
+        android:paddingTop="@dimen/grid_1"
         android:transitionName="@{@string/transition_update(position)}"
         app:paddingTopSystemWindowInsets="@{true}">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/update_scroll_view"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/update_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/grid_2"
-                android:paddingTop="@dimen/min_touch_target_size"
-                android:paddingBottom="@dimen/grid_3"
+                android:paddingTop="@dimen/grid_3"
+                android:paddingBottom="@dimen/bottom_app_bar_height"
+                app:paddingBottomSystemWindowInsets="@{true}"
                 tools:context=".ui.update.UpdateFragment">
 
                 <TextView
@@ -146,29 +150,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/bottom_app_bar_height"
+                    android:paddingBottom="@dimen/grid_2"
                     android:scrollbars="none"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/whats_new_title"
                     app:layout_constraintTop_toBottomOf="@+id/whats_new_title"
-                    app:paddingBottomSystemWindowInsets="@{true}"
-                    tools:itemCount="20"
                     tools:listitem="@layout/item_changelog" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/update_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="@dimen/grid_2"
-            android:layout_marginBottom="@dimen/grid_3"
-            android:textAppearance="@style/TextAppearance.Nano.Subtitle2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:marginBottomSystemWindowInsets="@{true}" />
-    </com.google.android.material.card.MaterialCardView>
-
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

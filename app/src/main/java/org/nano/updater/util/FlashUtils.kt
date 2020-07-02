@@ -18,7 +18,9 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FlashUtils @Inject constructor(context: Context) {
     private var isUnsupportedDevice = false
 
