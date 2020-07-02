@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -153,9 +152,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }, resources.getInteger(R.integer.nano_motion_duration_small).toLong())
     }
 
-    private fun updateTitleAndLogo(@StringRes titleRes: Int, @DrawableRes icon: Int) {
-        binding.bottomAppBarTitle.text = getString(titleRes)
-        binding.bottomAppBarLogo.setImageResource(icon)
+    private fun updateTitle(@StringRes titleRes: Int) {
+        if (getString(titleRes) != binding.bottomAppBarTitle.text)
+            binding.bottomAppBarTitle.text = getString(titleRes)
     }
 
     private fun setupBottomAppBarForHomeAndReport(destinationId: Int) {
@@ -170,12 +169,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         if (destinationId == R.id.homeFragment) {
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
             binding.fab.setImageResource(R.drawable.ic_sync)
-            updateTitleAndLogo(R.string.action_home, R.drawable.ic_home)
+            updateTitle(R.string.action_home)
             NavigationModel.setNavigationMenuItemChecked(0)
         } else {
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             binding.fab.setImageResource(R.drawable.ic_send)
-            updateTitleAndLogo(R.string.action_report, R.drawable.ic_bug_report)
+            updateTitle(R.string.action_report)
             NavigationModel.setNavigationMenuItemChecked(2)
         }
     }
@@ -186,10 +185,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             performShow()
         }
         if (destinationId == R.id.aboutFragment) {
-            updateTitleAndLogo(R.string.action_about, R.drawable.ic_info)
+            updateTitle(R.string.action_about)
             NavigationModel.setNavigationMenuItemChecked(3)
         } else {
-            updateTitleAndLogo(R.string.action_settings, R.drawable.ic_settings)
+            updateTitle(R.string.action_settings)
             NavigationModel.setNavigationMenuItemChecked(1)
         }
     }

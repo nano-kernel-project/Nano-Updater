@@ -71,9 +71,7 @@
                     android:layout_gravity="center_vertical"
                     android:contentDescription="@string/bottom_app_bar_logo_content_desc"
                     android:layout_marginStart="@dimen/grid_1"
-                    android:tint="@color/nano_green_300"
-                    app:src="@{navMenuItem.icon}"
-                    tools:src="@drawable/ic_home" />
+                    android:src="@drawable/ic_logo" />
 
                 <TextView
                     android:id="@+id/bottom_app_bar_title"
