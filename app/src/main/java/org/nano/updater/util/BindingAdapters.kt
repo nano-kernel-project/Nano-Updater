@@ -13,13 +13,12 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.nano.updater.R
 import org.nano.updater.ui.MainActivity
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 @BindingAdapter("android:drawableStart")
-fun setDrawableStart(textView: TextView, resource: Int) {
-    textView.setCompoundDrawablesWithIntrinsicBounds(resource, 0, 0, 0)
+fun setDrawableStart(textView: TextView, @DrawableRes oldIcon: Int, @DrawableRes newIcon: Int) {
+    if ((oldIcon == newIcon) || newIcon == 0)
+        return
+    textView.setCompoundDrawablesWithIntrinsicBounds(newIcon, 0, 0, 0)
 }
 
 @BindingAdapter("src")
