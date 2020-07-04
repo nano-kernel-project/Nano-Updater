@@ -205,6 +205,11 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun setupBottomAppBarForUpdateAndFlash(destinationId: Int) {
         binding.bottomAppBarTitle.visibility = View.INVISIBLE
         binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+
+        // Set BottomAppBar title and checked item to Home
+        updateTitle(R.string.action_home)
+        NavigationModel.setNavigationMenuItemChecked(0)
+
         if (destinationId == R.id.flashFragment)
             binding.apply {
                 bottomAppBar.performHide()
