@@ -204,6 +204,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private fun setupBottomAppBarForUpdateAndFlash(destinationId: Int) {
         binding.bottomAppBarTitle.visibility = View.INVISIBLE
+        binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
         if (destinationId == R.id.flashFragment)
             binding.apply {
                 bottomAppBar.performHide()
