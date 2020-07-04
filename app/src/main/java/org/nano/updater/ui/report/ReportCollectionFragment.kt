@@ -30,6 +30,7 @@ class ReportCollectionFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         reportViewModel.getIsLogReported().observe(viewLifecycleOwner, Observer {
+            if (it != null)
                 dismiss()
         })
 
