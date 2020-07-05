@@ -29,28 +29,28 @@
             <set>
                 <objectAnimator
                     android:propertyName="scaleX"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="scaleY"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="0"
                     android:valueTo="1"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pivotX"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="12"
                     android:valueTo="12"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pivotY"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="12"
                     android:valueTo="12"
                     android:valueType="floatType"
@@ -63,28 +63,28 @@
             <set>
                 <objectAnimator
                     android:propertyName="scaleX"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="1"
                     android:valueTo="0"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="scaleY"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="1"
                     android:valueTo="0"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pivotX"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="12"
                     android:valueTo="12"
                     android:valueType="floatType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pivotY"
-                    android:duration="200"
+                    android:duration="500"
                     android:valueFrom="12"
                     android:valueTo="12"
                     android:valueType="floatType"
