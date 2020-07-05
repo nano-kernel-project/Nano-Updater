@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,7 +27,6 @@ import org.nano.updater.ui.MainActivity
 import org.nano.updater.ui.home.HomeViewModel
 import org.nano.updater.util.Constants
 import org.nano.updater.util.FileUtils
-import org.nano.updater.util.createMaterialElevationScale
 import java.io.File
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -50,20 +48,8 @@ class UpdateFragment : Fragment() {
 
     private val adapter by lazy { ChangelogAdapter() }
 
-    private val onBackPressedCallback by lazy {
-        object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                exitTransition = createMaterialElevationScale(false).apply {
-                    duration = resources.getInteger(R.integer.nano_motion_duration_large).toLong()
-                }
-                findNavController().navigateUp()
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         isUpdateVerified = args.isUpdateVerified
         postponeEnterTransition()
         prepareTransitions()
@@ -83,7 +69,6 @@ class UpdateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onBackPressedCallback.isEnabled = true
 
         // Get a reference to ActivityBinding
         val activityBinding = (requireActivity() as MainActivity).binding
