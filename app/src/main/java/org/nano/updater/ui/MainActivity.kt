@@ -165,7 +165,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private fun setupBottomAppBarForHomeAndReport(destinationId: Int) {
         binding.bottomAppBarTitle.visibility = View.VISIBLE
-        binding.fab.setImageState(intArrayOf(-android.R.attr.state_activated), true)
         binding.bottomAppBar.run {
             visibility = View.VISIBLE
             performShow()
@@ -185,6 +184,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             updateTitle(R.string.action_report)
             NavigationModel.setNavigationMenuItemChecked(2)
         }
+        binding.fab.setImageState(intArrayOf(-android.R.attr.state_activated), true)
     }
 
     private fun setupBottomAppBarForAboutAndSettings(destinationId: Int) {
