@@ -23,9 +23,6 @@ import org.nano.updater.util.Converters
 import org.nano.updater.util.TimeUtils
 import java.net.HttpURLConnection
 import java.text.NumberFormat
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -78,10 +75,7 @@ class UpdateRepository @Inject constructor(
         val localData = loadRoomData()
         if (localData != null && localData.asDomainModel() != null && !forceRefresh) {
             val updateData = localData.asDomainModel()!!
-            val lastCheckedString = timeUtils.formatLastCheckedString(
-                LocalDateTime.now(ZoneId.systemDefault()).toInstant(ZoneOffset.UTC)
-                    .toEpochMilli() - localData.lastChecked
-            )
+            val lastCheckedString = timeUtils.formatLastCheckedString(localData.lastChecked)
             homeViewModel.setUpdateData(updateData)
             checkUpdates(updateData, lastCheckedString, currentKernelBuild, currentKernelVersion)
             return@withContext
@@ -125,7 +119,7 @@ class UpdateRepository @Inject constructor(
 
         // Calculate last checked
         val lastCheckedForUpdate =
-            LocalDateTime.now(ZoneId.systemDefault()).toInstant(ZoneOffset.UTC).toEpochMilli()
+            System.currentTimeMillis()
 
         // Compare versions and notify update if available
         checkUpdates(

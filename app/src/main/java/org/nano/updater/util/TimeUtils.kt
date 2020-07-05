@@ -1,11 +1,11 @@
 package org.nano.updater.util
 
 import android.content.Context
+import android.text.format.DateUtils
 import org.nano.updater.R
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +13,8 @@ import javax.inject.Singleton
 class TimeUtils @Inject constructor(private val context: Context) {
 
     fun formatLastCheckedString(milliSeconds: Long): String {
-        // In case user never checked for update, return R.string.last_checked_never
+        return context.getString(R.string.last_checked_formatted, DateUtils.getRelativeTimeSpanString(milliSeconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString())
+        /*// In case user never checked for update, return R.string.last_checked_never
         if (milliSeconds == -1L)
             return context.getString(R.string.last_checked_never)
 
@@ -60,7 +61,7 @@ class TimeUtils @Inject constructor(private val context: Context) {
                     hours.toString(),
                     context.getString(R.string.days)
                 )
-        }
+        }*/
     }
 
     fun formatDate(dateTime: String?): String {
