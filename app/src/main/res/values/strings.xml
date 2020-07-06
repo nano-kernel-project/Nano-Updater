@@ -33,16 +33,8 @@
     <string name="last_checked_formatted">Last checked - %1$s</string>
     <string name="last_checked_never">Last checked - Never</string>
     <string name="last_checked_moments_ago">Last checked - moments ago</string>
-    <string name="last_checked">Last checked - %1$s %2$s ago</string>
-    <string name="days">days</string>
-    <string name="day">day</string>
-    <string name="hours">hrs</string>
-    <string name="hour">hr</string>
-    <string name="minutes">min</string>
-    <string name="seconds">sec</string>
     <string name="your_device">Your device - %1$s</string>
     <string name="support_desc">Get help from developers or other users. We support Telegram and XDA at the moment.</string>
-    <string name="updater_version_format">v%1$s</string>
 
     <!-- Settings -->
     <string name="app_settings">App settings</string>

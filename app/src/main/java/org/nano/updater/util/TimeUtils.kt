@@ -12,57 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class TimeUtils @Inject constructor(private val context: Context) {
 
-    fun formatLastCheckedString(milliSeconds: Long): String {
-        return context.getString(R.string.last_checked_formatted, DateUtils.getRelativeTimeSpanString(milliSeconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString())
-        /*// In case user never checked for update, return R.string.last_checked_never
-        if (milliSeconds == -1L)
-            return context.getString(R.string.last_checked_never)
-
-        if (milliSeconds == 0L)
-            return context.getString(
-                R.string.last_checked_moments_ago
-            )
-
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds)
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24
-
-        when {
-            seconds < 60 -> return context.getString(
-                R.string.last_checked,
-                seconds.toString(),
-                context.getString(R.string.seconds)
-            )
-            minutes < 60 -> return context.getString(
-                R.string.last_checked,
-                minutes.toString(),
-                context.getString(R.string.minutes)
-            )
-            hours < 24 -> return if (hours == 1L) context.getString(
-                R.string.last_checked,
-                hours.toString(),
-                context.getString(R.string.hour)
-            )
-            else
-                context.getString(
-                    R.string.last_checked,
-                    hours.toString(),
-                    context.getString(R.string.hours)
-                )
-            else -> return if (days == 1L) context.getString(
-                R.string.last_checked,
-                days.toString(),
-                context.getString(R.string.day)
-            )
-            else
-                context.getString(
-                    R.string.last_checked,
-                    hours.toString(),
-                    context.getString(R.string.days)
-                )
-        }*/
-    }
+    fun formatLastCheckedString(milliSeconds: Long): String = context.getString(R.string.last_checked_formatted, DateUtils.getRelativeTimeSpanString(milliSeconds, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString())
 
     fun formatDate(dateTime: String?): String {
         return try {
